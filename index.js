@@ -302,7 +302,6 @@ client.on('message',  message => {
                         message.author.send("Sorry! **There was an error doing that!** Try again.\nIf you were doing it to a admin, that was sadly disabled.").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
                     }
                     
-                    
                 }
 
             } else {
