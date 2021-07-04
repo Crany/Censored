@@ -472,7 +472,15 @@ client.on('message',  message => {
                 message.delete({timeout: 1})
                 message.reply("Sorry. you don't have the required permission to comeplete that action.")
             }
-            
+        
+        } else if (command == "warn") {
+        
+        if (message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(StaffRole) || message.member.roles.cache.has(ModsRoles)) {
+            not_done_yet(message, command);
+        } else {
+            message.channel.send("You don't meet the requirements to do that action!")
+        }
+
         } else if (command == "a") {
 
             message.channel.send("This isn't a real command, fool.")
