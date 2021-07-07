@@ -466,7 +466,7 @@ client.on('message',  message => {
                             discord_terminal(`<@${message.author.id}> just left the **${tdata.config.name} event!`, 1, message)
                         }
                     } else if (tdata.on == false) {
-                        authorsend("You can't join any event since there aren't any currently on.")
+                        authorsend("You can't join any event since there aren't any currently on.", message)
                     }
                     
                 }
@@ -521,7 +521,7 @@ function discord_terminal(write, mode, message) {
  * @param {Discord} message 
  */
 
-function authorsend(send, message) {message.author.send(send).catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>!`))} 
+function authorsend(send, message) {message.author.send(send).catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null))} 
 
 function not_done_yet(message, command) {
     let random = Math.floor(Math.random() * 4);
