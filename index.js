@@ -159,7 +159,8 @@ client.on('message',  message => {
     
     if (!message.content.startsWith(prefix) || message.author.bot) {
         if (message.mentions.members.first() == "849338389882470471") {
-            message.reply("Yes? You called for me.");
+            message.reply("Yes? You called for me.")
+            return;
         } else if (message.mentions.members.first().roles.cache.has(AdminRole) || message.mentions.members.first().roles.cache.has(ModsRoles) || message.mentions.members.first().roles.cache.has(AdminPerm)) {
             message.delete({timeout: 1})
             message.channel.send(`Hey <@${message.author.id}>! That role would like you to not mention them!`)
@@ -220,8 +221,6 @@ client.on('message',  message => {
                 message.author.send("\"" + message.content + "\" is an unknown role! Please check you spelt it right!")
                 discord_terminal("Couldn't find **\"" + message.content + "\"** in **Role Reciever!**\nThe request was by **" + message.author.tag + ".**");
             }
-
-            //message.delete({timeout: 1});
         }
     }
 
