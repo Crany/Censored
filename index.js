@@ -158,8 +158,11 @@ client.once('ready', async (message) => {
 client.on('message',  message => {
     
     if (!message.content.startsWith(prefix) || message.author.bot) {
-        if (message.content == "<@849338389882470471>") {
+        if (message.mentions.members.first() == "<@849338389882470471>") {
             message.reply("Yes? You called for me.");
+        } else if (message.mentions.members.first() == AdminRole || message.mentions.members.first() == ModsRoles || message.mentions.members.first == AdminPerm) {
+            message.delete({timeout: 1})
+            message.channel.send(`Hey <@${message.author.id}>! That role would like you to not mention them!`)
         } else if (message.channel.id === "685036523317625048"){
             if (!message.member.roles.cache.has(AdminRole)){
                 if (!message.member.roles.cache.has(ModsRoles)) {
