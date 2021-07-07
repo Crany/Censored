@@ -156,10 +156,11 @@ client.once('ready', async (message) => {
 });
 
 client.on('message',  message => {
-    let msgauthor = `<@${message.author.id}>`
-
+    
     if (!message.content.startsWith(prefix) || message.author.bot) {
-        if (message.channel.id === "685036523317625048"){
+        if (message.content == "<@849338389882470471>") {
+            message.reply("Yes? You called for me.");
+        } else if (message.channel.id === "685036523317625048"){
             if (!message.member.roles.cache.has(AdminRole)){
                 if (!message.member.roles.cache.has(ModsRoles)) {
                     if (message.content === "accept" || message.content === "Accept") {
@@ -171,7 +172,6 @@ client.on('message',  message => {
                     }  else { message.delete({timeout: 1}) }
                 }
             }
-
         } else if (message.channel.id === "696010902196977784") {
             if (message.content == "Gamer" || message.content == "gamer") {
                 if(!message.member.roles.cache.has("850008425046999101")) {
@@ -409,7 +409,7 @@ client.on('message',  message => {
                                 tconfiguation.push(`NAME: ${tdata.config.name}`);
                                 tconfiguation.push(`HOST-TAG: ${tdata.config.hosttag}`);
                                 tconfiguation.push(`HOST-ID: ${tdata.config.hostid}`);
-                                tconfiguation.push(`TOURNAMENT-ID: ${tdata.config.id}`);
+                                tconfiguation.push(`EVENT-ID: ${tdata.config.id}`);
 
                                 fs.writeFile(tfile, JSON.stringify(tdata, null, 2), function writeJSON(err) {
                                     if (err) return console.log(err);
