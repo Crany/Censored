@@ -459,11 +459,11 @@ client.on('message',  message => {
                         if (!message.member.roles.cache.has("857529243667005480")) {
                             message.member.roles.add("857529243667005480")
                             authorsend(`You have just joined the **${tdata.config.name}** event!`, message)
-                            discord_terminal(`<@${message.author.id}> just joined the **${tdata.config.name} event!`)
+                            discord_terminal(`<@${message.author.id}> just joined the **${tdata.config.name} event!`, 1, message)
                         } else if (message.member.roles.cache.has("857529243667005480")) {
                             message.member.roles.remove("857529243667005480")
                             authorsend(`You have just left the **${tdata.config.name}** event!`)
-                            discord_terminal(`<@${message.author.id}> just left the **${tdata.config.name} event!`, message)
+                            discord_terminal(`<@${message.author.id}> just left the **${tdata.config.name} event!`, 1, message)
                         }
                     } else if (tdata.on == false) {
                         authorsend("You can't join any event since there aren't any currently on.")
