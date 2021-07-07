@@ -454,8 +454,21 @@ client.on('message',  message => {
                     } else {
                         message.reply(`You can't do that since you didn't start the tournament or have <@${ModsRoles} or higher.`)
                     }
-                } else if (mod[0] == "join") {
-
+                } else if (mod[0] == "p" || mod[0] == "participate") {
+                    if (tdata.on == true) {
+                        if (!message.member.roles.cache.has("857529243667005480")) {
+                            message.member.roles.add("857529243667005480")
+                            authorsend(`You have just joined the **${tdata.config.name}** event!`, message)
+                            discord_terminal(`<@${message.author.id}> just joined the **${tdata.config.name} event!`)
+                        } else if (message.member.roles.cache.has("857529243667005480")) {
+                            message.member.roles.remove("857529243667005480")
+                            authorsend(`You have just left the **${tdata.config.name}** event!`)
+                            discord_terminal(`<@${message.author.id}> just left the **${tdata.config.name} event!`, message)
+                        }
+                    } else if (tdata.on == false) {
+                        authorsend("You can't join any event since there aren't any currently on.")
+                    }
+                    
                 }
             }
         } else if (command == "invite") {
@@ -473,14 +486,6 @@ client.on('message',  message => {
                 message.reply("Sorry. you don't have the required permission to comeplete that action.")
             }
         
-        } else if (command == "warn") {
-        
-        if (message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(StaffRole) || message.member.roles.cache.has(ModsRoles)) {
-            not_done_yet(message, command);
-        } else {
-            message.channel.send("You don't meet the requirements to do that action!")
-        }
-
         } else if (command == "a") {
 
             message.channel.send("This isn't a real command, fool.")
