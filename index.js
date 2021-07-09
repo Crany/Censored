@@ -158,7 +158,7 @@ client.once('ready', async (message) => {
 
 client.on('message',  message => {
     
-    if (!message.content.startsWith(prefix) || !message.author.bot) {
+    if (!message.content.startsWith(prefix) || message.author.bot) {
         if (message.channel.id === "685036523317625048"){
             if (!message.member.roles.cache.has(AdminRole) || !message.member.roles.cache.has(AdminPerm)) {
                 if (message.content === "accept" || message.content === "Accept") {
@@ -168,6 +168,7 @@ client.on('message',  message => {
                         message.delete({timeout: 1})
                         client.channels.cache.get("697426937047678997").send(`Please welcome <@${message.author.id}> to the server!`);
                         discord_terminal("**" + message.author.tag + "** has just entered the Server!");
+                        return;
                     } else message.delete({timeout: 1})
                 } else message.delete({timeout: 1});
             }
@@ -468,6 +469,12 @@ client.on('message',  message => {
                     
                 }
             }
+        } else if (command == "update") {
+
+            //if ()
+
+            console.log(args)
+
         } else if (command == "invite") {
 
             message.channel.send("Here's the link for the server! https://discord.gg/EudUY68.")
@@ -553,6 +560,23 @@ function createID (mode) {
         default:
             return "Unidentified Value: Could not create ID due to unkown \"case\""
     }
+}
+
+/**
+ * 
+ * @param {String} role 
+ * @param {Discord} message 
+ * @param {String} member 
+ */
+
+function getRoleNick(role, message, member) {
+
+    if (member == null) {
+        if (message.member.roles.cache.has(AdminRole)) {
+            message
+        }
+    }
+
 }
 
 // i keep getting this
