@@ -30,6 +30,7 @@ const StaffRole = "680180666549141588";
 const ModsRoles = "856834038815916052";
 const AdminPerm = "860431100337324062";
 const compeople = "680397965285654551";
+const AdancedRole = "696001274423803994";
 
 const guildID = '680154842316275834';
 
@@ -471,9 +472,35 @@ client.on('message',  message => {
             }
         } else if (command == "update") {
 
-            //if ()
+            if (args[0] == null) {
+                message.reply("Please add the modifier to what you'd want to update.")
+            } else if (args[1] == "nick") {
+                if (message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(ModsRoles) || message.member.roles.cache.has(StaffRole)) {
+                    let member = message.mentions.members.first()
 
-            console.log(args)
+                    if (member == null) {
+                        if (message.member.roles.cache.has(AdminRole)) {
+                            message.member.setNickname("[Admin] " + message.member.user.username)
+                        } else if (message.member.roles.cache.has(ModsRoles)) {
+                            message.member.setNickname("[Mod] " + message.member.user.username)
+                        } else if (message.member.roles.cache.has(StaffRole)) {
+                            message.member.setNickname("[Staff] " + message.member.user.username)
+                        } else if (message.member.roles.cache.has(AdancedRole)) {
+                            message.member.setNickname("[Advanced] " + message.member.user.username)
+                        }
+                    } else if (member != null) {
+                        if (member.roles.cache.has(AdminRole)) {
+                            member.setNickname("[Admin] " + member.user.username)
+                        } else if (member.roles.cache.has(ModsRoles)) {
+                            member.setNickname("[Mod] " + member.user.username)
+                        } else if (member.roles.cache.has(StaffRole)) {
+                            member.setNickname("[Staff] " + member.user.username)
+                        } else if (member.roles.cache.has(AdancedRole)) {
+                            member.setNickname("[Advanced] " + member.user.username)
+                        }
+                    }
+                }
+            }
 
         } else if (command == "invite") {
 
@@ -578,8 +605,6 @@ function getRoleNick(role, message, member) {
     }
 
 }
-
-// i keep getting this
 
 /**
  * 
