@@ -500,6 +500,8 @@ client.on('message',  message => {
                         }
                     }
                 }
+            } else {
+                message.reply("sorry but that isn't one of the the applicable modifiers.")
             }
 
         } else if (command == "invite") {
