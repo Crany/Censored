@@ -474,7 +474,7 @@ client.on('message',  message => {
 
             if (args[0] == null) {
                 message.reply("Please add the modifier to what you'd want to update.")
-            } else if (args[1] == "nick") {
+            } else if (args[0] == "nick" || args[0] == "nickname") {
                 if (message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(ModsRoles) || message.member.roles.cache.has(StaffRole)) {
                     let member = message.mentions.members.first()
 
