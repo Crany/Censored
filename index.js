@@ -480,7 +480,7 @@ client.on('message',  message => {
 
                     if (member == null) {
                         if (message.member.roles.cache.has(AdminRole)) {
-                            message.member.setNickname("[Admin] " + message.member.user.username)
+                            message.reply("sorry, I'm not allowed to comeplete this action.");
                         } else if (message.member.roles.cache.has(ModsRoles)) {
                             message.member.setNickname("[Mod] " + message.member.user.username)
                         } else if (message.member.roles.cache.has(StaffRole)) {
@@ -490,7 +490,7 @@ client.on('message',  message => {
                         }
                     } else if (member != null) {
                         if (member.roles.cache.has(AdminRole)) {
-                            member.setNickname("[Admin] " + member.user.username)
+                            message.reply("sorry, I'm not allowed to comeplete this action.")
                         } else if (member.roles.cache.has(ModsRoles)) {
                             member.setNickname("[Mod] " + member.user.username)
                         } else if (member.roles.cache.has(StaffRole)) {
