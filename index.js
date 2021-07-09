@@ -165,7 +165,7 @@ client.on('message',  message => {
                 message.delete({timeout: 1})
                 client.channels.cache.get("697426937047678997").send(`Please welcome <@${message.author.id}> to the server!`);
                 discord_terminal("**" + message.author.tag + "** has just entered the Server!");
-            }
+            } else message.delete({timeout: 1})
         } else if (message.channel.id === "696010902196977784") {
             if (message.content == "Gamer" || message.content == "gamer") {
                 if(!message.member.roles.cache.has("850008425046999101")) {
