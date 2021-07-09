@@ -164,7 +164,7 @@ client.on('message',  message => {
             if (!message.member.roles.cache.has(AdminRole) || !message.member.roles.cache.has(AdminPerm)) {
                 if (message.content === "accept" || message.content === "Accept") {
                     if (!message.member.roles.cache.has(compeople)) {
-                        message.author.send("Welcome to **Nymo's Community**, " + message.author.username + "**!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message));
+                        message.author.send("Welcome to **Nymo's Community**, " + message.author.username + "!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message));
                         message.member.roles.add("680397965285654551");
                         message.delete({timeout: 1})
                         client.channels.cache.get("697426937047678997").send(`Please welcome <@${message.author.id}> to the server!`);
