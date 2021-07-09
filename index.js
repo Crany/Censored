@@ -159,16 +159,12 @@ client.on('message',  message => {
     
     if (!message.content.startsWith(prefix) || !message.author.bot) {
         if (message.channel.id === "685036523317625048"){
-            if (!message.member.roles.cache.has(AdminRole)){
-                if (!message.member.roles.cache.has(ModsRoles)) {
-                    if (message.content === "accept" || message.content === "Accept") {
-                        message.author.send("Welcome to **Nymo's Community**, " + message.author.username + "**!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
-                        message.member.roles.add("680397965285654551");
-                        message.delete({timeout: 1})
-                        client.channels.cache.get("697426937047678997").send(`Please welcome <@${message.author.id}> to the server!`);
-                        discord_terminal("**" + message.author.tag + "** has just entered the Server!");
-                    }  else { message.delete({timeout: 1}) }
-                }
+            if (message.content === "accept" || message.content === "Accept") {
+                message.author.send("Welcome to **Nymo's Community**, " + message.author.username + "**!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
+                message.member.roles.add("680397965285654551");
+                message.delete({timeout: 1})
+                client.channels.cache.get("697426937047678997").send(`Please welcome <@${message.author.id}> to the server!`);
+                discord_terminal("**" + message.author.tag + "** has just entered the Server!");
             }
         } else if (message.channel.id === "696010902196977784") {
             if (message.content == "Gamer" || message.content == "gamer") {
