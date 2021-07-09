@@ -23,12 +23,13 @@ const { description } = require('./commands/ping');
 // Variable Declaration //
 const ConfigData = require('./config.json');
 
-const prefix = "!";
+const prefix = ConfigData.PREFIX;
 
 const AdminRole = "680397530676068365";
 const StaffRole = "680180666549141588";
 const ModsRoles = "856834038815916052";
 const AdminPerm = "860431100337324062";
+const compeople = "680397965285654551";
 
 const guildID = '680154842316275834';
 
@@ -161,11 +162,13 @@ client.on('message',  message => {
         if (message.channel.id === "685036523317625048"){
             if (!message.member.roles.cache.has(AdminRole) || !message.member.roles.cache.has(AdminPerm)) {
                 if (message.content === "accept" || message.content === "Accept") {
-                    message.author.send("Welcome to **Nymo's Community**, " + message.author.username + "**!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
-                    message.member.roles.add("680397965285654551");
-                    message.delete({timeout: 1})
-                    client.channels.cache.get("697426937047678997").send(`Please welcome <@${message.author.id}> to the server!`);
-                    discord_terminal("**" + message.author.tag + "** has just entered the Server!");
+                    if (!message.member.roles.cache.has(compeople)) {
+                        message.author.send("Welcome to **Nymo's Community**, " + message.author.username + "**!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
+                        message.member.roles.add("680397965285654551");
+                        message.delete({timeout: 1})
+                        client.channels.cache.get("697426937047678997").send(`Please welcome <@${message.author.id}> to the server!`);
+                        discord_terminal("**" + message.author.tag + "** has just entered the Server!");
+                    } else message.delete({timeout: 1})
                 } else message.delete({timeout: 1});
             }
         } else if (message.channel.id === "696010902196977784") {
