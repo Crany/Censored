@@ -162,7 +162,7 @@ client.on('ready', () => {
     client.user.setPresence({
         status: 'dnd',
         activity: {
-            name: "Nymo's Cavern | #general",
+            name: "- Nymo's Cavern | #general",
             type: 'WATCHING',
             url: 'https://www.twitch.tv/monstercat'
         }
