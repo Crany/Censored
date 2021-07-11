@@ -579,6 +579,8 @@ client.on('message',  message => {
             discord_terminal("<@" + message.author.id + "> tried an unkown command: \"" + message.content + "\"", 1, message)
             message.reply("Speak of a real command, fool.")
         }
+    } else if (message.channel.type === 'dm') {
+        message.channel.send("You can't dm me!")
     }
 });
 
