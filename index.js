@@ -158,15 +158,6 @@ client.once('ready', async (message) => {
     })
 });
 
-client.on('ready', () => {
-    client.user.setPresence({
-        status : 'dnd',
-        activity: {
-            name: "Nymo's Discord"
-        }
-    });
-})
-
 client.on('message',  message => {
     if (!message.content.startsWith(prefix)) {
         if (message.author.bot) {
