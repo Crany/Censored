@@ -172,6 +172,8 @@ client.on('message',  message => {
             return;
         } else if (message.channel.type === 'dm') {
             message.channel.send("Sorry! You can't message me on DM's do to some reason I can't provide.")
+        } else if (message.mentions.members.first() === client.user.id) {
+            message.channel.send("Did somebody call for me?")
         } else if (message.channel.id === "685036523317625048"){
             if (!message.member.roles.cache.has(AdminRole) || !message.member.roles.cache.has(AdminPerm)) {
                 if (message.content === "accept" || message.content === "Accept") {
