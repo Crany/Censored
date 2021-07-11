@@ -538,6 +538,40 @@ client.on('message',  message => {
         } else if (command == "a") {
 
             message.channel.send("This isn't a real command, fool.")
+        
+        } else if (command == "kick") {
+
+            if (message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(StaffRole) || message.member.roles.cache.has(ModsRoles)) {
+                let member = message.mentions.members.first()
+                const newargs = args.shift()
+
+                if (newargs == "") {
+                    newargs = "Unspecified - Reason was not provided.";
+                }
+
+                if (member == null) {
+                    message.channel.send(`Please specify the person you'd like to kick, <@${message.author.id}>`)
+                    return
+                } else if (member.id == message.author.id) {
+                    message.channel.send(`You can't kick yourself, <@${message.author.id}>.`)
+                    return
+                } else if (member.roles.cache.has(AdminRole) || member.roles.cache.has(StaffRole) || member.roles.cache.has(ModsRoles)) {
+                    message.channel.send("You can't kick these people since they have staff or higher.")
+                    return
+                } else if (member.user.bot) {
+                    message.channel.send("No. I don't think i will. :angry:")
+                    return
+                } else {
+                    member.send(
+                        `**You have been kicked by ${message.author.tag}.**\n` +
+                        `*Reason:* ${newargs}\n` +
+                        `**If you think this may have been accidental or for and incorrect reason, rejoin the server and DM Crany#6596 or a staff/mod member.**`
+                    )
+                    member.kick(newargs)
+                }
+            }
+
+            
 
         } else if (message.content.startsWith(prefix)) {
             discord_terminal("<@" + message.author.id + "> tried an unkown command: \"" + message.content + "\"", 1, message)
