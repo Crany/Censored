@@ -161,7 +161,7 @@ client.on('ready', () => {
     client.user.setPresence({
         status : 'dnd',
         activity: {
-            name: "Visual Studio Code | Javascript"
+            name: "Nymo's Cavern Discord Server"
         }
     });
 })
