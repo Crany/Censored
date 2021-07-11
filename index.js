@@ -31,6 +31,7 @@ const ModsRoles = "856834038815916052";
 const AdminPerm = "860431100337324062";
 const compeople = "680397965285654551";
 const AdancedRole = "696001274423803994";
+const punishChannel = "857336677461655562";
 
 const guildID = '680154842316275834';
 
@@ -327,7 +328,6 @@ client.on('message',  message => {
         } else if (command == "r" || command == "report") {
         
             let member = message.mentions.members.first();
-            const reportChannel = "857336677461655562";
 
             let date = new Date();
 
@@ -350,7 +350,7 @@ client.on('message',  message => {
                             {name: "REASON", value: reason},
                             {name: "LAST MESSAGE", value: "null (Could not locate last message.)"}
                         )
-                        client.channels.cache.get(reportChannel).send(reportEmbed)
+                        client.channels.cache.get(punishChannel).send(reportEmbed)
 
                         try {
                             const reportfileName = './data/json/reporteddata.json'
@@ -567,7 +567,13 @@ client.on('message',  message => {
                         `*Reason:* ${newargs}\n` +
                         `**If you think this may have been accidental or for and incorrect reason, rejoin the server and DM Crany#6596 or a staff/mod member.**`
                     )
-                    member.kick(newargs)
+                    member.kick()
+                    message.reply(`${member.user.tag} was kicked.`)
+                    let kickembed = new Discord.MessageEmbed()
+                    .setTitle("Sombody was kicked.")
+                    .addFields({name:"Kicked Member: ", value: member.user.tag}, {name: "Reason", value: newargs})
+
+                    client.channels.cache.get(punishChannel).send(kickembed)
                 }
             }
 
