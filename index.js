@@ -157,6 +157,15 @@ client.once('ready', async (message) => {
     })
 });
 
+client.on('ready', () => {
+    client.user.setPresence({
+        status : 'online',
+        activity: {
+            name: "The game of life"
+        }
+    });
+})
+
 client.on('message',  message => {
     
     if (!message.content.startsWith(prefix) || message.author.bot) {
