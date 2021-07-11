@@ -179,7 +179,7 @@ client.on('message', (message) => {
                 return;
             }
         } else if (message.channel.type === 'dm') {
-            message.channel.send("Sorry! You can't message me on DM's do to some reason I can't provide.")
+            message.channel.send("Sorry! You can't DM me!")
         } else if (message.mentions.members.first() === client.user.id) {
             message.channel.send("Did somebody call for me?")
         } else if (message.channel.id === "685036523317625048"){
@@ -585,8 +585,8 @@ client.on('message', (message) => {
             discord_terminal("<@" + message.author.id + "> tried an unkown command: \"" + message.content + "\"", 1, message)
             message.reply("Speak of a real command, fool.")
         }
-    } else if (message.channel.type === 'dm') {
-        message.channel.send("You can't dm me!")
+    } else if (message.channel.type === 'dm' && message.content.startsWith(prefix)) {
+        message.channel.send("Sorry! You can't DM me!")
     } else if (message.content.startsWith(prefix) && message.channel.id == "685036523317625048" || message.channel.id == "696010902196977784") {
         message.delete({timeout: 1});
     }
