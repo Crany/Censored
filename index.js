@@ -168,7 +168,7 @@ client.on('ready', () => {
 
 client.on('message',  message => {
     
-    if (!message.content.startsWith(prefix) || message.author.bot) {
+    if (!message.content.startsWith(prefix) || !message.author.bot) {
         if (message.channel.type === 'dm') {
             message.channel.send("Sorry! You can't message me on DM's do to some reason I can't provide.")
         } else if (message.channel.id === "685036523317625048"){
