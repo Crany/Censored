@@ -23,7 +23,7 @@ const { description } = require('./commands/ping');
 // Variable Declaration //
 const ConfigData = require('./config.json');
 
-const prefix = ConfigData.PREFIX;
+const prefix = "!";
 
 const AdminRole = "680397530676068365";
 const StaffRole = "680180666549141588";
@@ -158,12 +158,12 @@ client.once('ready', async (message) => {
     })
 });
 
-client.on('message',  message => {
+client.on('message', (message) => {
     if (!message.content.startsWith(prefix)) {
         if (message.author.bot) {
             if (message.channel.id === "685036523317625048" || message.channel.id === "696010902196977784") {
                 message.delete({timeout: 1})
-                returnl
+                return;
             } else {
                 return;
             }
@@ -232,23 +232,23 @@ client.on('message',  message => {
                 discord_terminal("Couldn't find **\"" + message.content + "\"** in **Role Reciever!**\nThe request was by **" + message.author.tag + ".**");
             }
         }
-    } else return;
+    }
 
-    const args = message.content.slice(prefix.length).split(/ +/);
+    const args = message.content.slice(prefix.length).trim().split(" ");
     const command = args.shift().toLowerCase();
+
+    console.log(`${message.author.tag} said "${message.content}"`)
 
     let splitCommand = message.content.split(" ");
 
-    if (message.channel.id != "685036523317625048" || message.channel.id != "696010902196977784" || !message.channel.type === 'dm' && message.content.startsWith(prefix)) {
-        if (command === 'ping') {
+    if (message.channel.id != "685036523317625048" && message.channel.id != "696010902196977784" && message.channel.type != 'dm' && message.content.startsWith(prefix)) {
+        if (command == 'ping') {
                 try {
             client.commands.get('ping').execute(message, args); 
             } catch (error) {
                 console.error(error);
                 console.log("There was a error sending the command")
             }
-        } else if (command == 'kick') {
-            client.commands.get('kick').execute(message, args);
         } else if (command == 'abt' || command == 'about'){
             not_done_yet(message, command);
         } else if (command == 'role') {
@@ -570,9 +570,6 @@ client.on('message',  message => {
                     client.channels.cache.get(punishChannel).send(kickembed)
                 }
             }
-
-            
-
         } else if (message.content.startsWith(prefix)) {
             discord_terminal("<@" + message.author.id + "> tried an unkown command: \"" + message.content + "\"", 1, message)
             message.reply("Speak of a real command, fool.")
