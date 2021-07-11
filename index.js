@@ -161,7 +161,7 @@ client.on('ready', () => {
     client.user.setPresence({
         status : 'dnd',
         activity: {
-            name: "Nymo's Cavern Discord Server"
+            name: "Nymo's Discord"
         }
     });
 })

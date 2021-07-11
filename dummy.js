@@ -18,7 +18,7 @@ client.once('ready', () => {
     console.log('Lusion is online!');
 });
 
-client.on('message', message =>{
+client.on('message', (message) =>{
     if(!message.content.startsWith(prefix) || message.author.bot) return;
 
     const args = message.content.slice(prefix.length).split(/ +/) 
