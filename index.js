@@ -159,9 +159,9 @@ client.once('ready', async (message) => {
 
 client.on('ready', () => {
     client.user.setPresence({
-        status : 'online',
+        status : 'dnd',
         activity: {
-            name: "The game of life"
+            name: "Visual Studio Code | Javascript"
         }
     });
 })
