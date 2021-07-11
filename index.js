@@ -170,7 +170,12 @@ client.on('ready', () => {
 client.on('message',  message => {
     if (!message.content.startsWith(prefix)) {
         if (message.author.bot) {
-            return;
+            if (message.channel.id === "685036523317625048" || message.channel.id === "696010902196977784") {
+                message.delete({timeout: 1})
+                returnl
+            } else {
+                return;
+            }
         } else if (message.channel.type === 'dm') {
             message.channel.send("Sorry! You can't message me on DM's do to some reason I can't provide.")
         } else if (message.mentions.members.first() === client.user.id) {
