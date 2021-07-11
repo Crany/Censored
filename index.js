@@ -167,8 +167,10 @@ client.on('ready', () => {
 })
 
 client.on('message',  message => {
-    if (!message.content.startsWith(prefix) || !message.author.bot) {
-        if (message.channel.type === 'dm') {
+    if (!message.content.startsWith(prefix)) {
+        if (message.author.bot) {
+            return;
+        } else if (message.channel.type === 'dm') {
             message.channel.send("Sorry! You can't message me on DM's do to some reason I can't provide.")
         } else if (message.channel.id === "685036523317625048"){
             if (!message.member.roles.cache.has(AdminRole) || !message.member.roles.cache.has(AdminPerm)) {
