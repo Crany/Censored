@@ -169,7 +169,9 @@ client.on('ready', () => {
 client.on('message',  message => {
     
     if (!message.content.startsWith(prefix) || message.author.bot) {
-        if (message.channel.id === "685036523317625048"){
+        if (message.channel.type === 'dm') {
+            message.channel.send("Sorry! You can't message me on DM's do to some reason I can't provide.")
+        } else if (message.channel.id === "685036523317625048"){
             if (!message.member.roles.cache.has(AdminRole) || !message.member.roles.cache.has(AdminPerm)) {
                 if (message.content === "accept" || message.content === "Accept") {
                     if (!message.member.roles.cache.has(compeople)) {
@@ -182,6 +184,8 @@ client.on('message',  message => {
                     } else message.delete({timeout: 1})
                 } else message.delete({timeout: 1});
             }
+        } else if (message.mentions.members.first() == client.user.id) {
+            message.reply("Did you call for me?");
         } else if (message.channel.id === "696010902196977784") {
             if (message.content == "Gamer" || message.content == "gamer") {
                 if(!message.member.roles.cache.has("850008425046999101")) {
@@ -235,7 +239,7 @@ client.on('message',  message => {
 
     let splitCommand = message.content.split(" ");
 
-    if (message.channel.id != "685036523317625048" || message.channel.id != "696010902196977784" && message.content.startsWith(prefix)) {
+    if (message.channel.id != "685036523317625048" || message.channel.id != "696010902196977784" || !message.channel.type === 'dm' && message.content.startsWith(prefix)) {
         if (message.content.startsWith(prefix) && message.channel.id == "685036523317625048" || message.channel.id == "696010902196977784") {
             message.delete({timeout: 1});
         } else if (command === 'ping') {
