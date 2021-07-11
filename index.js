@@ -240,9 +240,7 @@ client.on('message',  message => {
     let splitCommand = message.content.split(" ");
 
     if (message.channel.id != "685036523317625048" || message.channel.id != "696010902196977784" || !message.channel.type === 'dm' && message.content.startsWith(prefix)) {
-        if (message.content.startsWith(prefix) && message.channel.id == "685036523317625048" || message.channel.id == "696010902196977784") {
-            message.delete({timeout: 1});
-        } else if (command === 'ping') {
+        if (command === 'ping') {
                 try {
             client.commands.get('ping').execute(message, args); 
             } catch (error) {
@@ -581,6 +579,8 @@ client.on('message',  message => {
         }
     } else if (message.channel.type === 'dm') {
         message.channel.send("You can't dm me!")
+    } else if (message.content.startsWith(prefix) && message.channel.id == "685036523317625048" || message.channel.id == "696010902196977784") {
+        message.delete({timeout: 1});
     }
 });
 
