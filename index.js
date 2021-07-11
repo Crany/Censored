@@ -158,6 +158,17 @@ client.once('ready', async (message) => {
     })
 });
 
+client.on('ready', () => {
+    client.user.setPresence({
+        status: 'dnd',
+        activity: {
+            name: "Nymo's Cavern | #general",
+            type: 'WATCHING',
+            url: 'https://www.twitch.tv/monstercat'
+        }
+    })
+});
+
 client.on('message', (message) => {
     if (!message.content.startsWith(prefix)) {
         if (message.author.bot) {
