@@ -378,9 +378,10 @@ client.on('message', (message) => {
                         .setTitle(`${member.user.tag} was reported.`)
                         .setFooter(`Report ID: ${reportID} • Reported By: ${message.author.tag}`)
                         .addFields(
-                            {name: "REASON", value: reason},
-                            {name: "LAST MESSAGE", value: "null (Could not locate last message.)"}
+                            {name: "REASON", value: reason, inline: true},
+                            {name: "LAST MESSAGE", value: "null (Could not locate last message.)", inline: true}
                         )
+                        .addField
                         client.channels.cache.get(punishChannel).send(reportEmbed)
 
                         try {
