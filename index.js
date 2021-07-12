@@ -608,7 +608,7 @@ client.on('message', (message) => {
                         .addField("MODERATOR/STAFF: ", `<@${message.author.id}>`, true)
                         .setColor("FF2500")
                         .setTitle(`${member.user.tag} was kicked`)
-                        .setFooter(`${time()} ${day()} UTC Time Zone`)
+                        .setFooter(`${time()} ${day()} • UTC Time Zone`)
 
                         client.channels.cache.get(punishChannel).send(kickembed)
                     } catch (err) {
