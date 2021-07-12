@@ -596,7 +596,7 @@ client.on('message', (message) => {
                     try {
                         member.send(
                             `**You have been kicked by ${message.author.tag}.**\n` +
-                            `*Reason:* ${newargs}\n` +
+                            `*Reason:* ${args.join(" ")}\n` +
                             `**If you think this may have been accidental or for and incorrect reason, rejoin the server and DM Crany#6596 or a staff/mod member.**`
                         ).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
                         //member.kick()
