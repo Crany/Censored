@@ -604,7 +604,6 @@ client.on('message', (message) => {
                         //member.kick()
                         message.reply(`${member.user.tag} was kicked.`)
                         let kickembed = new Discord.MessageEmbed()
-                        .setTitle("Sombody was kicked.")
                         .addField("`Kicked Member:` ", member.user.tag, true)
                         .addField("`Reason`", sentenceargs, true)
                         .setColor("FF2500")
