@@ -285,28 +285,41 @@ client.on('message', (message) => {
                 } else {
                     try {
                         if (member != null && role != null) {
-                            if(role.id == "680397530676068365" || role.id == "856834038815916052" || role.id == "860431100337324062" || member.roles.cache.has("680397530676068365")) { 
-                                message.author.send(`Sorry! I can't do that! The **${role.name.toUpperCase()}** role has to be given manually.`)
-                            } else if (role.id != "680397530676068365" || role.id != "856834038815916052" || member.roles.cache.has("680397530676068365")) {
-                                if (member.id == message.author.id) {
-                                    if (!member.roles.cache.has(role.id)) {
-                                        member.roles.add(role.id)
-                                        discord_terminal(`${member} just gave themselfs the <@&${role.id}> role!`, 1, message, null)
-                                    } else if (member.roles.cache.has(role.id)) {
-                                        member.roles.remove(role.id)
-                                        discord_terminal(`${member} just removed their <@&${role.id}> role!`, 1, message, null)
+                            if (role.id == AdminPerm || role.id == AdminRole || member.roles.cache.has(AdminRole) || member.roles.cache.has(AdminPerm)) { 
+                                authorsend(`Sorry! I can't do that! The **${role.name.toUpperCase()}** role has to be given manually.`, message)
+                            } else {
+                                if (role.id == ModsRoles) {
+                                    if (message.member.roles.cache.has(ModsRoles)) {
+                                        if (member.roles.cache.has(ModsRoles)) {
+                                            authorsend("Sorry! I can't do that! If you think they are abusing their role, report it to and admin.")
+                                        } else if (!member.roles.cache.has(ModsRoles)) {
+                                            member.roles.add(ModsRoles);
+                                        }
+                                    } else {
+                                        authorsend("Sorry! You have to be a Moderator or higher to have this role!")
                                     }
-                                } else if (member.id != message.author.id) {
-                                    if (!member.roles.cache.has(role.id)) {
-                                        member.roles.add(role.id)
-                                        discord_terminal(`<@${message.author.id}> just gave ${member} the <@&${role.id}> role!`, 1, message, null)
-                                        member.send(message.author.tag + " just gave you the " + role.name + " role!").catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
-                                    } else if (member.roles.cache.has(role.id)) {
-                                        member.roles.remove(role.id)
-                                        discord_terminal(`<@${message.author.id}> just removed ${member}'s <@&${role.id}> role!`, 1, message, null)
-                                        member.send(message.author.tag + " just removed your " + role.name + " role!").catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
+                                } else {
+                                    if (member.id == message.author.id) {
+                                        if (!member.roles.cache.has(role.id)) {
+                                            member.roles.add(role.id)
+                                            discord_terminal(`${member} just gave themselfs the <@&${role.id}> role!`, 1, message, null)
+                                        } else if (member.roles.cache.has(role.id)) {
+                                            member.roles.remove(role.id)
+                                            discord_terminal(`${member} just removed their <@&${role.id}> role!`, 1, message, null)
+                                        }
+                                    } else if (member.id != message.author.id) {
+                                        if (!member.roles.cache.has(role.id)) {
+                                            member.roles.add(role.id)
+                                            discord_terminal(`<@${message.author.id}> just gave ${member} the <@&${role.id}> role!`, 1, message, null)
+                                            member.send(message.author.tag + " just gave you the " + role.name + " role!").catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
+                                        } else if (member.roles.cache.has(role.id)) {
+                                            member.roles.remove(role.id)
+                                            discord_terminal(`<@${message.author.id}> just removed ${member}'s <@&${role.id}> role!`, 1, message, null)
+                                            member.send(message.author.tag + " just removed your " + role.name + " role!").catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
+                                        }
                                     }
                                 }
+                                
                                 if (role.id == "680180666549141588") {
                                     if (!member.roles.cache.has("680180666549141588")) member.setNickname("[Staff] " + member.user.username)
                                     else if (member.roles.cache.has("680180666549141588")) member.setNickname("[Advanced] " + member.user.username);
