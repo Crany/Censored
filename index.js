@@ -572,7 +572,7 @@ client.on('message', (message) => {
         
         } else if (command == "kick") {
             const newargs = args.shift()
-            console.log(newargs);
+            console.log(args);
 
             if (message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(StaffRole) || message.member.roles.cache.has(ModsRoles)) {
                 let member = message.mentions.members.first()
