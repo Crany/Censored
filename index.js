@@ -295,11 +295,14 @@ client.on('message', (message) => {
                                         } else if (!member.roles.cache.has(AdminRole || AdminPerm)) {
                                             if (!member.roles.cache.has(ModsRoles)) {
                                                 member.roles.add(ModsRoles);
+                                                member.send(`${message.author.tag} just gave you the **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
                                             } else if (member.roles.cache.has(ModsRoles)) {
                                                 member.roles.remove(ModsRoles)
+                                                member.send(`${message.author.tag} just removed your **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
                                             }
                                         } else if (!member.roles.cache.has(ModsRoles)) {
                                             member.roles.add(ModsRoles);
+                                            member.send(`${message.author.tag} just gave you the **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
                                         }
                                     } else {
                                         authorsend("Sorry! You have to be a Moderator or higher to have this role!", message)
