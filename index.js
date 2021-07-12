@@ -381,7 +381,6 @@ client.on('message', (message) => {
                             {name: "REASON", value: reason, inline: true},
                             {name: "LAST MESSAGE", value: "null (Could not locate last message.)", inline: true}
                         )
-                        .addField
                         client.channels.cache.get(punishChannel).send(reportEmbed)
 
                         try {
