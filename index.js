@@ -338,8 +338,9 @@ client.on('message', (message) => {
                             message.delete({timeout: 1})
                             message.author.send("Please specify both the **TAG** and the **ROLE** you'd like to asign/remove from the person.").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null))
                         }
-                    } catch {
+                    } catch (err) {
                         message.author.send("Sorry! **There was an error doing that!** Try again.\nIf you were doing it to a admin, that was sadly disabled.").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
+                        console.log(err)
                     }
                     
                 }
