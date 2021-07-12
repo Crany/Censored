@@ -160,11 +160,11 @@ client.once('ready', async (message) => {
 
 client.on('ready', () => {
     client.user.setPresence({
-        status: 'idle',
+        status: 'online',
         activity: {
-            name: "- Nymo's Cavern | #general",
-            type: 'WATCHING',
-            url: 'https://www.twitch.tv/monstercat'
+            name: "!help | Nymo's Cavern",
+            type: 'LISTENING',
+
         }
     })
 });
