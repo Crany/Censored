@@ -624,7 +624,7 @@ client.on('message', async (message) => {
         } else if (command == 'botstats') {
             let msg = await message.channel.send("Getting response time... `Pinging`")
             var ping = Math.round(client.ws.ping)
-            msg.edit(`My ping is: \`${ping}\``)
+            msg.edit(`My ping is: \`${ping}ms\``)
         } else if (message.content.startsWith(prefix)) {
             discord_terminal("<@" + message.author.id + "> tried an unkown command: \"" + message.content + "\"", 1, message)
             message.reply("Speak of a real command, fool.")
