@@ -605,9 +605,10 @@ client.on('message', (message) => {
                         message.reply(`${member.user.tag} was kicked.`)
                         let kickembed = new Discord.MessageEmbed()
                         .setTitle("Sombody was kicked.")
-                        .addFields({name:"Kicked Member: ", value: member.user.tag}, {name: "Reason", value: sentenceargs})
+                        .addField({name:"`Kicked Member:` ", value: member.user.tag})
+                        .addField({name: "`Reason`", value: sentenceargs})
                         .setColor("FF2500")
-                        .setFooter("footer")
+                        .setAuthor("Somebody was kicked.", member.user.avatarURL())
 
                         client.channels.cache.get(punishChannel).send(kickembed)
                     } catch (err) {
