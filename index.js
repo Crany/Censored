@@ -303,8 +303,6 @@ client.on('message', (message) => {
                                                 discord_terminal(`<@${message.author.id}> just gave ${member} the <@&${ModsRoles}> role!`)
                                                 member.send(`${message.author.tag} just removed your **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
                                             }
-
-                                            return
                                         } else if (!member.roles.cache.has(ModsRoles)) {
                                             member.roles.add(ModsRoles);
                                             member.send(`${message.author.tag} just gave you the **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
