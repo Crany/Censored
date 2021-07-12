@@ -601,7 +601,7 @@ client.on('message', (message) => {
                             `*Reason:* ${sentenceargs}\n` +
                             `**If you think this may have been accidental or for and incorrect reason, rejoin the server and DM Crany#6596 or a staff/mod member.**`
                         ).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
-                        //member.kick()
+                        member.kick()
                         message.reply(`${member.user.tag} was kicked.`)
                         let kickembed = new Discord.MessageEmbed()
                         .addField("REASON", sentenceargs, true)
