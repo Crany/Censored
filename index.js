@@ -576,8 +576,8 @@ client.on('message', (message) => {
             if (message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(StaffRole) || message.member.roles.cache.has(ModsRoles)) {
                 let member = message.mentions.members.first()
 
-                if (newargs == "") {
-                    newargs = "Unspecified - Reason was not provided.";
+                if (args.join(" ") == "") {
+                    args.join(" ") = "Unspecified - Reason was not provided.";
                 }
 
                 if (member == null) {
