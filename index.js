@@ -326,12 +326,15 @@ client.on('message', (message) => {
                                     }
                                 }
                                 
-                                if (role.id == "680180666549141588") {
-                                    if (!member.roles.cache.has("680180666549141588")) member.setNickname("[Staff] " + member.user.username)
-                                    else if (member.roles.cache.has("680180666549141588")) member.setNickname("[Advanced] " + member.user.username);
-                                } else if (role == "696001274423803994") {
-                                    if (!member.roles.cache.has("696001274423803994")) member.setNickname("[Advanced] " + member.user.username)
-                                    else if (member.roles.cache.has("696001274423803994")) member.setNickname(member.user.username);
+                                if (role.id == ModsRoles) {
+                                    if (!member.roles.cache.has(ModsRoles)) member.setNickname("[Mod] " + member.user.username)
+                                    else if (member.roles.cache.has(ModsRoles)) member.setNickname("[Staff] " + member.user.username);
+                                } else if (role.id == StaffRole) {
+                                    if (!member.roles.cache.has(StaffRole)) member.setNickname("[Staff] " + member.user.username)
+                                    else if (member.roles.cache.has(StaffRole)) member.setNickname("[Advanced] " + member.user.username);
+                                } else if (role.id == AdancedRole) {
+                                    if (!member.roles.cache.has(AdancedRole)) member.setNickname("[Advanced] " + member.user.username)
+                                    else if (member.roles.cache.has(AdancedRole)) member.setNickname(member.user.username);
                                 }
                             }
                         } else if (member == null || role == null) {
