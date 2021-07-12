@@ -291,7 +291,7 @@ client.on('message', (message) => {
                                 if (role.id == ModsRoles) {
                                     if (message.member.roles.cache.has(ModsRoles || AdminPerm || AdminRole)) {
                                         if (member.roles.cache.has(ModsRoles)) {
-                                            authorsend("Sorry! I can't do that! If you think they are abusing their role, report it to and admin.")
+                                            authorsend("Sorry! I can't do that! If you think they are abusing their role, report it to and admin.", message)
                                         } else if (!member.roles.cache.has(AdminRole || AdminPerm)) {
                                             if (!member.roles.cache.has(ModsRoles)) {
                                                 member.roles.add(ModsRoles);
@@ -302,7 +302,7 @@ client.on('message', (message) => {
                                             member.roles.add(ModsRoles);
                                         }
                                     } else {
-                                        authorsend("Sorry! You have to be a Moderator or higher to have this role!")
+                                        authorsend("Sorry! You have to be a Moderator or higher to have this role!", message)
                                     }
                                 } else {
                                     if (member.id == message.author.id) {
