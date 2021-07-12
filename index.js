@@ -23,7 +23,7 @@ const { description } = require('./commands/ping');
 // Variable Declaration //
 const ConfigData = require('./config.json');
 
-const prefix = "!";
+const prefix = ConfigData.PREFIX;
 
 const AdminRole = "680397530676068365";
 const StaffRole = "680180666549141588";
