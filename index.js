@@ -290,7 +290,7 @@ client.on('message', (message) => {
                             } else {
                                 if (role.id == ModsRoles) {
                                     if (message.member.roles.cache.has(ModsRoles || AdminPerm || AdminRole)) {
-                                        if (member.roles.cache.has(ModsRoles)) {
+                                        if (member.roles.cache.has(ModsRoles && !AdminPerm && !AdminRole)) {
                                             authorsend("Sorry! I can't do that! If you think they are abusing their role, report it to and admin.", message)
                                         } else if (!member.roles.cache.has(AdminRole || AdminPerm)) {
                                             if (!member.roles.cache.has(ModsRoles)) {
