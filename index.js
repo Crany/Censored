@@ -289,9 +289,15 @@ client.on('message', (message) => {
                                 authorsend(`Sorry! I can't do that! The **${role.name.toUpperCase()}** role has to be given manually.`, message)
                             } else {
                                 if (role.id == ModsRoles) {
-                                    if (message.member.roles.cache.has(ModsRoles)) {
+                                    if (message.member.roles.cache.has(ModsRoles || AdminPerm || AdminRole)) {
                                         if (member.roles.cache.has(ModsRoles)) {
                                             authorsend("Sorry! I can't do that! If you think they are abusing their role, report it to and admin.")
+                                        } else if (!member.roles.cache.has(AdminRole || AdminPerm)) {
+                                            if (!member.roles.cache.has(ModsRoles)) {
+                                                member.roles.add(ModsRoles);
+                                            } else if (member.roles.cache.has(ModsRoles)) {
+                                                member.roles.remove(ModsRoles)
+                                            }
                                         } else if (!member.roles.cache.has(ModsRoles)) {
                                             member.roles.add(ModsRoles);
                                         }
