@@ -169,7 +169,7 @@ client.on('ready', () => {
     })
 });
 
-client.on('message', (message) => {
+client.on('message', async (message) => {
     if (!message.content.startsWith(prefix)) {
         if (message.author.bot) {
             if (message.channel.id === "685036523317625048" || message.channel.id === "696010902196977784") {
@@ -622,9 +622,9 @@ client.on('message', (message) => {
                 }
             }
         } else if (command == 'botstats') {
-            message.channel.send("Getting response time... `Pinging`")
+            let msg = await message.channel.send("Getting response time... `Pinging`")
             var ping = message.createdTimestamp - message.createdTimestamp;
-            message.edit(`My ping is: \`${ping}\``)
+            msg.edit(`My ping is: \`${ping}\``)
         } else if (message.content.startsWith(prefix)) {
             discord_terminal("<@" + message.author.id + "> tried an unkown command: \"" + message.content + "\"", 1, message)
             message.reply("Speak of a real command, fool.")
