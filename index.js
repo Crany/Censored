@@ -164,7 +164,6 @@ client.on('ready', () => {
         activity: {
             name: "!help | Nymo's Cavern",
             type: 'LISTENING',
-
         }
     })
 });
