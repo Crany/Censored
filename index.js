@@ -623,7 +623,7 @@ client.on('message', async (message) => {
             }
         } else if (command == 'botstats') {
             let msg = await message.channel.send("Getting response time... `Pinging`")
-            var ping = message.createdTimestamp - message.createdTimestamp;
+            var ping = Math.round(client.ws.ping)
             msg.edit(`My ping is: \`${ping}\``)
         } else if (message.content.startsWith(prefix)) {
             discord_terminal("<@" + message.author.id + "> tried an unkown command: \"" + message.content + "\"", 1, message)
