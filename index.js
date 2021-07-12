@@ -290,8 +290,9 @@ client.on('message', (message) => {
                             } else {
                                 if (role.id == ModsRoles) {
                                     if (message.member.roles.cache.has(ModsRoles || AdminPerm || AdminRole)) {
-                                        if (member.roles.cache.has(ModsRoles && (!AdminPerm || !AdminRole))) {
+                                        if (member.roles.cache.has(ModsRoles && !AdminPerm || !AdminRole)) {
                                             authorsend("Sorry! I can't do that! If you think they are abusing their role, report it to and admin.", message)
+                                            return
                                         } else if (message.member.roles.cache.has(AdminRole || AdminPerm)) {
                                             if (!member.roles.cache.has(ModsRoles)) {
                                                 member.roles.add(ModsRoles);
@@ -302,6 +303,8 @@ client.on('message', (message) => {
                                                 discord_terminal(`<@${message.author.id}> just gave ${member} the <@&${ModsRoles}> role!`)
                                                 member.send(`${message.author.tag} just removed your **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
                                             }
+
+                                            return
                                         } else if (!member.roles.cache.has(ModsRoles)) {
                                             member.roles.add(ModsRoles);
                                             member.send(`${message.author.tag} just gave you the **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
