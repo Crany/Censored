@@ -605,10 +605,10 @@ client.on('message', (message) => {
                         message.reply(`${member.user.tag} was kicked.`)
                         let kickembed = new Discord.MessageEmbed()
                         .addField("`Reason`", sentenceargs, true)
+                        .addField("`Moderator/Staff: ", `<@${message.author.id}>`, true)
                         .setColor("FF2500")
                         .setTitle(`${member.user.tag} was kicked`)
                         .setFooter(`${time()} ${day()} UTC Time Zone`)
-
 
                         client.channels.cache.get(punishChannel).send(kickembed)
                     } catch (err) {
