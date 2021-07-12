@@ -604,10 +604,11 @@ client.on('message', (message) => {
                         //member.kick()
                         message.reply(`${member.user.tag} was kicked.`)
                         let kickembed = new Discord.MessageEmbed()
-                        .addField("`Kicked Member:` ", member.user.tag, true)
                         .addField("`Reason`", sentenceargs, true)
                         .setColor("FF2500")
-                        .setAuthor("Somebody was kicked.", member.user.avatarURL())
+                        .setTitle(`${member.user.tag} was kicked`)
+                        .setFooter(`${time()} ${day()} UTC Time Zone`)
+
 
                         client.channels.cache.get(punishChannel).send(kickembed)
                     } catch (err) {
@@ -670,6 +671,38 @@ function not_done_yet(message, command) {
     }
 
     message.channel.send("That's just another way of us saying that we haven't finished this command yet.")
+}
+
+function time() {
+    var clock = new Date();
+    var hour = clock.getHours();
+    var min = clock.getMinutes();
+    
+    if (hour < 10) {
+        hour = "0" + hour;
+    }
+    else {
+        hour = hour;
+    }
+
+    if (min < 10) {
+        min = "0" + min;
+    }
+    else {
+        min = min;
+    }
+
+    return hour + ":" + min;
+}
+
+function day() {
+    var clock = new Date();
+    var day = clock.getDate()
+    var month = clock.getMonth()
+    var year = clock.getFullYear()
+
+    return `${day}/${month}/${year}`
+
 }
 
 /**
