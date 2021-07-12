@@ -571,12 +571,10 @@ client.on('message', (message) => {
             message.channel.send("This isn't a real command, fool.")
         
         } else if (command == "kick") {
-            const newargs = args.shift()
-            console.log(args);
+            
 
             if (message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(StaffRole) || message.member.roles.cache.has(ModsRoles)) {
                 let member = message.mentions.members.first()
-                const newargs = args.shift()
 
                 if (newargs == "") {
                     newargs = "Unspecified - Reason was not provided.";
@@ -601,11 +599,13 @@ client.on('message', (message) => {
                             `*Reason:* ${newargs}\n` +
                             `**If you think this may have been accidental or for and incorrect reason, rejoin the server and DM Crany#6596 or a staff/mod member.**`
                         ).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
-                        member.kick()
+                        //member.kick()
                         message.reply(`${member.user.tag} was kicked.`)
                         let kickembed = new Discord.MessageEmbed()
                         .setTitle("Sombody was kicked.")
-                        .addFields({name:"Kicked Member: ", value: member.user.tag}, {name: "Reason", value: args})
+                        .addFields({name:"Kicked Member: ", value: member.user.tag}, {name: "Reason", value: args.join(" ")})
+                        .setColor("FF2500")
+                        .setAuthor("author")
 
                         client.channels.cache.get(punishChannel).send(kickembed)
                     } catch (err) {
