@@ -202,44 +202,44 @@ client.on('message', (message) => {
                 if(!message.member.roles.cache.has("850008425046999101")) {
                     message.member.roles.add("850008425046999101")
                     message.author.send("You have been given the **Gamer** role!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
-                    discord_terminal("Just gave **" + message.author.tag + "** the Gamer role.", 1)
+                    discord_terminal("Just gave <@" + message.author.id + "> the Gamer role.", 1)
                 } else if (message.member.roles.cache.has("850008425046999101")) {
                     message.member.roles.remove("850008425046999101");
                     message.author.send("The **Gamer** role has been removed!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
-                    discord_terminal("Just removed **" + message.author.tag + "'s** Gamer role.", 1)
+                    discord_terminal("Just removed <@" + message.author.id + ">'s Gamer role.", 1)
                 }
             } else if (message.content == "Helper" || message.content == "helper") {
                 if(!message.member.roles.cache.has("850029942539419708")) {
                     message.member.roles.add("850029942539419708")
                     message.author.send("Why did you chose the **Helper** role?").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
-                    discord_terminal("Just gave **" + message.author.tag + "** the Helper role.", 1)
+                    discord_terminal("Just gave <@" + message.author.id + "> the Helper role.", 1)
                 } else if (message.member.roles.cache.has("850029942539419708")) {
                     message.member.roles.remove("850029942539419708");
                     message.author.send("Thank god you removed your **Helper** role.", 1).catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
-                    discord_terminal("Just removed **" + message.author.tag + "'s** Helper role.")
+                    discord_terminal("Just removed <@" + message.author.id + ">'sHelper role.")
                 }
             } else if (message.content == "Artist" || message.content == "artist") {
                 if(!message.member.roles.cache.has("850032711908720670")) {
                     message.member.roles.add("850032711908720670")
                     message.author.send("You have been given the **Artist** role!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
-                    discord_terminal("Just gave **" + message.author.tag + "** the Artist role.")
+                    discord_terminal("Just gave <@" + message.author.id + "> the Artist role.")
                 } else if (message.member.roles.cache.has("850032711908720670")) {
                     message.member.roles.remove("850032711908720670");
                     message.author.send("The **Artist** role has been removed!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
-                    discord_terminal("Just removed **" + message.author.tag + "'s** Artist role.")
+                    discord_terminal("Just removed <@" + message.author.id + ">'s Artist role.")
                 }
             } else if (message.content == "Programmer" || message.content == "programmer") {
                 if(!message.member.roles.cache.has("850033986481946724")) {
                     message.member.roles.add("850033986481946724")
                     message.author.send("You have been given the **Programmer** role!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
-                    discord_terminal("Just gave **" + message.author.tag + "** the Programmer role.")
+                    discord_terminal("Just gave <@" + message.author.id + "> the Programmer role.")
                 } else if (message.member.roles.cache.has("850033986481946724")) {
                     message.member.roles.remove("850033986481946724");
                     message.author.send("The **Programmer** role has been removed!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
-                    discord_terminal("Just removed **" + message.author.tag + "'s** Programmer role.")
+                    discord_terminal("Just removed <@" + message.author.id + ">'s Programmer role.")
                 }
             } else {
-                message.author.send("\"" + message.content + "\" is an unknown role! Please check you spelt it right!")
+                message.author.send("\"" + message.content + "\" is an unknown role! Please check you spelt it right!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
                 discord_terminal("Couldn't find **\"" + message.content + "\"** in **Role Reciever!**\nThe request was by **" + message.author.tag + ".**");
             }
         }
