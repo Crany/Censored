@@ -160,7 +160,7 @@ client.once('ready', async (message) => {
 
 client.on('ready', () => {
     client.user.setPresence({
-        status: 'dnd',
+        status: 'idle',
         activity: {
             name: "- Nymo's Cavern | #general",
             type: 'WATCHING',
