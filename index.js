@@ -593,18 +593,24 @@ client.on('message', (message) => {
                     message.channel.send("No. I don't think i will. :angry:")
                     return
                 } else {
-                    member.send(
-                        `**You have been kicked by ${message.author.tag}.**\n` +
-                        `*Reason:* ${newargs}\n` +
-                        `**If you think this may have been accidental or for and incorrect reason, rejoin the server and DM Crany#6596 or a staff/mod member.**`
-                    )
-                    member.kick()
-                    message.reply(`${member.user.tag} was kicked.`)
-                    let kickembed = new Discord.MessageEmbed()
-                    .setTitle("Sombody was kicked.")
-                    .addFields({name:"Kicked Member: ", value: member.user.tag}, {name: "Reason", value: newargs})
+                    try {
+                        member.send(
+                            `**You have been kicked by ${message.author.tag}.**\n` +
+                            `*Reason:* ${newargs}\n` +
+                            `**If you think this may have been accidental or for and incorrect reason, rejoin the server and DM Crany#6596 or a staff/mod member.**`
+                        )
+                        member.kick()
+                        message.reply(`${member.user.tag} was kicked.`)
+                        let kickembed = new Discord.MessageEmbed()
+                        .setTitle("Sombody was kicked.")
+                        .addFields({name:"Kicked Member: ", value: member.user.tag}, {name: "Reason", value: newargs})
 
-                    client.channels.cache.get(punishChannel).send(kickembed)
+                        client.channels.cache.get(punishChannel).send(kickembed)
+                    } catch (err) {
+                        message.reply("There was an error! This was up to the dev team so don't worry :D")
+                        console.log(err);
+                    }
+                    
                 }
             }
         } else if (message.content.startsWith(prefix)) {
