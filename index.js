@@ -572,7 +572,7 @@ client.on('message', (message) => {
         
         } else if (command == "kick") {
 
-            let sentenceargs = args.splice(0).join(" ")
+            let sentenceargs = args.splice(1).join(" ")
             
 
             if (message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(StaffRole) || message.member.roles.cache.has(ModsRoles)) {
