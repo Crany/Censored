@@ -571,13 +571,15 @@ client.on('message', (message) => {
             message.channel.send("This isn't a real command, fool.")
         
         } else if (command == "kick") {
+
+            let sentenceargs = args.splice(0).join(" ")
             
 
             if (message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(StaffRole) || message.member.roles.cache.has(ModsRoles)) {
                 let member = message.mentions.members.first()
 
-                if (args.join(" ") == "") {
-                    args.join(" ") = "Unspecified - Reason was not provided.";
+                if (sentenceargs == "") {
+                    sentenceargs = "Unspecified - Reason was not provided.";
                 }
 
                 if (member == null) {
@@ -596,16 +598,16 @@ client.on('message', (message) => {
                     try {
                         member.send(
                             `**You have been kicked by ${message.author.tag}.**\n` +
-                            `*Reason:* ${args.join(" ")}\n` +
+                            `*Reason:* ${sentenceargs}\n` +
                             `**If you think this may have been accidental or for and incorrect reason, rejoin the server and DM Crany#6596 or a staff/mod member.**`
                         ).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
                         //member.kick()
                         message.reply(`${member.user.tag} was kicked.`)
                         let kickembed = new Discord.MessageEmbed()
                         .setTitle("Sombody was kicked.")
-                        .addFields({name:"Kicked Member: ", value: member.user.tag}, {name: "Reason", value: args.join(" ")})
+                        .addFields({name:"Kicked Member: ", value: member.user.tag}, {name: "Reason", value: sentenceargs})
                         .setColor("FF2500")
-                        .setAuthor("author")
+                        .setFooter("footer")
 
                         client.channels.cache.get(punishChannel).send(kickembed)
                     } catch (err) {
