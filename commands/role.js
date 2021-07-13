@@ -11,8 +11,8 @@ const punishChannel = "857336677461655562";
 
 function authorsend(send, message) {message.author.send(send).catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`))} 
 
-function discord_terminal(write) {
-    client.channels.cache.get("863851605891743754").send(write)
+async function discord_terminal (write) {
+    await client.channels.cache.get("863851605891743754").send(write)
 }
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
         if (message.member.roles.cache.has(AdminRole || AdminPerm ||ModsRoles || StaffRole)){
             let role   = message.mentions.roles.first()
             let member = message.mentions.members.first();
-            
+
             try {
                 if (member != null && role != null) {
                     if (role.id == AdminPerm || role.id == AdminRole || member.roles.cache.has(AdminRole) || member.roles.cache.has(AdminPerm)) { 
