@@ -529,7 +529,7 @@ client.on('message', async (message) => {
 
                     if (member == null) {
                         if (message.member.roles.cache.has(AdminRole)) {
-                            message.reply("sorry, I'm not allowed to comeplete this action.");
+                            message.reply("Sorry, I'm not allowed to comeplete this action.");
                         } else if (message.member.roles.cache.has(ModsRoles)) {
                             message.member.setNickname("[Mod] " + message.member.user.username)
                         } else if (message.member.roles.cache.has(StaffRole)) {
@@ -539,7 +539,7 @@ client.on('message', async (message) => {
                         }
                     } else if (member != null) {
                         if (member.roles.cache.has(AdminRole)) {
-                            message.reply("sorry, I'm not allowed to comeplete this action.")
+                            message.reply("Sorry, I'm not allowed to comeplete this action.")
                         } else if (member.roles.cache.has(ModsRoles)) {
                             member.setNickname("[Mod] " + member.user.username)
                         } else if (member.roles.cache.has(StaffRole)) {
