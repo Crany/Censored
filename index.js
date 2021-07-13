@@ -513,6 +513,8 @@ client.on('message', async (message) => {
                             message.member.setNickname("[Staff] " + message.member.user.username)
                         } else if (message.member.roles.cache.has(AdancedRole)) {
                             message.member.setNickname("[Advanced] " + message.member.user.username)
+                        } else {
+                            message.member.setNickname(message.member.user.username)
                         }
                     } else if (member != null) {
                         if (member.roles.cache.has(AdminRole)) {
@@ -523,6 +525,8 @@ client.on('message', async (message) => {
                             member.setNickname("[Staff] " + member.user.username)
                         } else if (member.roles.cache.has(AdancedRole)) {
                             member.setNickname("[Advanced] " + member.user.username)
+                        } else {
+                            member.setNickname(message.member.user.username)
                         }
                     }
                 }
@@ -597,11 +601,9 @@ client.on('message', async (message) => {
             } else {
                 message.channel.send(`Sorry but you don't have the required permissions to do that ${message.author}!`)
             }
-        } else if (command == 'botstats') {
-            let msg = await message.channel.send("Getting response time... `Pinging`")
-            var ping = Math.round(client.ws.ping)
-            msg.edit(`My ping is: \`${ping}ms\``)
-        } else if (message.content.startsWith(prefix)) {
+        } else if (command == '') {
+            
+        } else {
             discord_terminal("<@" + message.author.id + "> tried an unkown command: \"" + message.content + "\"", 1, message)
             message.reply("Speak of a real command, fool.")
         }
