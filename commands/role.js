@@ -1,6 +1,27 @@
 const Discord = require('discord.js');
 const client  = new Discord.Client();
 
+const AdminRole = "680397530676068365";
+const StaffRole = "680180666549141588";
+const ModsRoles = "856834038815916052";
+const AdminPerm = "860431100337324062";
+const compeople = "680397965285654551";
+const AdancedRole = "696001274423803994";
+const punishChannel = "857336677461655562";
+
+function authorsend(send, message) {message.author.send(send).catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null))} 
+
+function discord_terminal(write, mode, message) {
+    switch (mode) {
+        case 1:
+            client.channels.cache.get("863851605891743754").send(write)
+            break;
+        case 2:
+            client.channels.cache.get("863851605891743754").send(message.author.tag + " did the command " + write)
+            break;
+    }
+}
+
 module.exports = {
     name: 'role',
     description: 'this role command gives and takes away roles from people',
