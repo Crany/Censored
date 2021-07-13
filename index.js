@@ -255,7 +255,7 @@ client.on('message', async (message) => {
         if (command == 'ping') {
             let msg = await message.channel.send("Pong!");
             var ping = Math.round(client.ws.ping)
-            msg.edit(`Pong \`${ping}\``)
+            msg.edit(`Pong \`${ping}\`ms`)
         } else if (command == 'abt' || command == 'about'){
             not_done_yet(message, command);
         } else if (command == 'role') {
