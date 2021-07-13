@@ -9,16 +9,16 @@ const compeople = "680397965285654551";
 const AdancedRole = "696001274423803994";
 const punishChannel = "857336677461655562";
 
-function authorsend(send, message) {message.author.send(send).catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null))} 
+function authorsend(send, message) {message.author.send(send).catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`))} 
 
-function discord_terminal(write, mode, message) {
+function discord_terminal(write) {
     client.channels.cache.get("863851605891743754").send(write)
 }
 
 module.exports = {
     name: 'role',
     description: 'this role command gives and takes away roles from people',
-    async execute (message, args) {
+    async execute (message, _args) {
         if (message.member.roles.cache.has("680397530676068365") || message.member.roles.cache.has("680180666549141588")){
             let role   = message.mentions.roles.first()
             let member = message.mentions.members.first();
@@ -54,19 +54,19 @@ module.exports = {
                             if (member.id == message.author.id) {
                                 if (!member.roles.cache.has(role.id)) {
                                     member.roles.add(role.id)
-                                    discord_terminal(`${member} just gave themselfs the <@&${role.id}> role!`, 1, message, null)
+                                    discord_terminal(`${member} just gave themselfs the <@&${role.id}> role!`)
                                 } else if (member.roles.cache.has(role.id)) {
                                     member.roles.remove(role.id)
-                                    discord_terminal(`${member} just removed their <@&${role.id}> role!`, 1, message, null)
+                                    discord_terminal(`${member} just removed their <@&${role.id}> role!`)
                                 }
                             } else if (member.id != message.author.id) {
                                 if (!member.roles.cache.has(role.id)) {
                                     member.roles.add(role.id)
-                                    discord_terminal(`<@${message.author.id}> just gave ${member} the <@&${role.id}> role!`, 1, message, null)
+                                    discord_terminal(`<@${message.author.id}> just gave ${member} the <@&${role.id}> role!`)
                                     member.send(message.author.tag + " just gave you the " + role.name + " role!").catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
                                 } else if (member.roles.cache.has(role.id)) {
                                     member.roles.remove(role.id)
-                                    discord_terminal(`<@${message.author.id}> just removed ${member}'s <@&${role.id}> role!`, 1, message, null)
+                                    discord_terminal(`<@${message.author.id}> just removed ${member}'s <@&${role.id}> role!`)
                                     member.send(message.author.tag + " just removed your " + role.name + " role!").catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
                                 }
                             }
@@ -85,15 +85,15 @@ module.exports = {
                     }
                 } else if (member == null || role == null) {
                     message.delete({timeout: 1})
-                    message.author.send("Please specify both the **TAG** and the **ROLE** you'd like to asign/remove from the person.").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null))
+                    message.author.send("Please specify both the **TAG** and the **ROLE** you'd like to asign/remove from the person.").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`))
                 }
             } catch (err) {
-                message.author.send("Sorry! **There was an error doing that!** Try again.\nIf you were doing it to a admin, that was sadly disabled.").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
+                message.author.send("Sorry! **There was an error doing that!** Try again.\nIf you were doing it to a admin, that was sadly disabled.").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`));
                 console.log(err)
             }
 
         } else {
-            message.author.send("Sorry but you don't meet the requirements to do that action!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
+            message.author.send("Sorry but you don't meet the requirements to do that action!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`));
             discord_terminal("<@" +  message.author.id + "> tried to give somebody a role but didn't meet the requirements.");
         }
     }
