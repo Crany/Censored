@@ -514,7 +514,7 @@ client.on('message', async (message) => {
                         } else if (message.member.roles.cache.has(AdancedRole)) {
                             message.member.setNickname("[Advanced] " + message.member.user.username)
                         } else {
-                            message.member.setNickname(message.member.user.username)
+                            message.member.setNickname(member.user.username)
                         }
                     } else if (member != null) {
                         if (member.roles.cache.has(AdminRole)) {
@@ -526,7 +526,7 @@ client.on('message', async (message) => {
                         } else if (member.roles.cache.has(AdancedRole)) {
                             member.setNickname("[Advanced] " + member.user.username)
                         } else {
-                            member.setNickname(message.member.user.username)
+                            member.setNickname(member.user.username)
                         }
                     }
                 }
