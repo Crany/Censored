@@ -55,19 +55,19 @@ module.exports = {
                             if (member.id == message.author.id) {
                                 if (!member.roles.cache.has(role.id)) {
                                     member.roles.add(role.id)
-                                    discord_terminal(`${member} just gave themselfs the <@&${role.id}> role!`)
+                                    client.channels.cache.get("863851605891743754").send(`${member} just gave themselfs the <@&${role.id}> role!`)
                                 } else if (member.roles.cache.has(role.id)) {
                                     member.roles.remove(role.id)
-                                    discord_terminal(`${member} just removed their <@&${role.id}> role!`)
+                                    client.channels.cache.get("863851605891743754").send(`${member} just removed their <@&${role.id}> role!`)
                                 }
                             } else if (member.id != message.author.id) {
                                 if (!member.roles.cache.has(role.id)) {
                                     member.roles.add(role.id)
-                                    discord_terminal(`<@${message.author.id}> just gave ${member} the <@&${role.id}> role!`)
+                                    client.channels.cache.get("863851605891743754").send(`<@${message.author.id}> just gave ${member} the <@&${role.id}> role!`)
                                     member.send(message.author.tag + " just gave you the " + role.name + " role!").catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
                                 } else if (member.roles.cache.has(role.id)) {
                                     member.roles.remove(role.id)
-                                    discord_terminal(`<@${message.author.id}> just removed ${member}'s <@&${role.id}> role!`)
+                                    client.channels.cache.get("863851605891743754").send(`<@${message.author.id}> just removed ${member}'s <@&${role.id}> role!`)
                                     member.send(message.author.tag + " just removed your " + role.name + " role!").catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
                                 }
                             }
