@@ -618,7 +618,7 @@ client.on('message', async (message) => {
                     }
                 }
             } else {
-                message.channel.send(`Sorry but you don't have the required permisions to do that ${message.author}!`)
+                message.channel.send(`Sorry but you don't have the required permissions to do that ${message.author}!`)
             }
         } else if (command == 'botstats') {
             let msg = await message.channel.send("Getting response time... `Pinging`")
