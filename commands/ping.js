@@ -1,5 +1,5 @@
-const discord = require('discord.js')
-const client = discord.Client
+const Discord = require('discord.js');
+const client  = new Discord.Client();
 
 module.exports = {
     name: 'ping',
