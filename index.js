@@ -415,7 +415,7 @@ client.on('message', async (message) => {
                 message.reply("Please specify the person you'd like to report.")
             }
 
-        } else if (command == "tournament" || command == "t") {
+        } else if (command == "event" || command == "e") {
 
             let tname;
             let tterminalembed;
@@ -575,12 +575,11 @@ client.on('message', async (message) => {
         } else if (command == "kick") {
 
             let sentenceargs = args.splice(1).join(" ")
-            
 
-            if (message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(StaffRole) || message.member.roles.cache.has(ModsRoles)) {
+            if (message.member.roles.cache.has(AdminPerm || AdminRole || StaffRole || ModsRoles)) {
                 let member = message.mentions.members.first()
 
-                if (sentenceargs == "") {
+                if (sentenceargs == null) {
                     sentenceargs = "Unspecified - Reason was not provided.";
                 }
 
@@ -590,7 +589,7 @@ client.on('message', async (message) => {
                 } else if (member.id == message.author.id) {
                     message.channel.send(`You can't kick yourself, <@${message.author.id}>.`)
                     return
-                } else if (member.roles.cache.has(AdminRole) || member.roles.cache.has(StaffRole) || member.roles.cache.has(ModsRoles)) {
+                } else if (member.roles.cache.has(AdminPerm || AdminRole || StaffRole || ModsRoles)) {
                     message.channel.send("You can't kick these people since they have staff or higher.")
                     return
                 } else if (member.user.bot) {
@@ -617,8 +616,9 @@ client.on('message', async (message) => {
                         message.reply("There was an error! This was up to the dev team so don't worry :D")
                         console.log(err);
                     }
-                    
                 }
+            } else {
+                message.channel.send(`Sorry but you don't have the required permisions to do that ${message.author}!`)
             }
         } else if (command == 'botstats') {
             let msg = await message.channel.send("Getting response time... `Pinging`")
