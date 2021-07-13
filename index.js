@@ -296,15 +296,15 @@ client.on('message', async (message) => {
                                             if (!member.roles.cache.has(ModsRoles)) {
                                                 member.roles.add(ModsRoles);
                                                 discord_terminal(`<@${message.author.id}> just gave ${member} the <@&${ModsRoles}> role!`)
-                                                member.send(`${message.author.tag} just gave you the **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
+                                                member.send(`${message.author.tag} just gave you the **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
                                             } else if (member.roles.cache.has(ModsRoles)) {
                                                 member.roles.remove(ModsRoles)
                                                 discord_terminal(`<@${message.author.id}> just gave ${member} the <@&${ModsRoles}> role!`)
-                                                member.send(`${message.author.tag} just removed your **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
+                                                member.send(`${message.author.tag} just removed your **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}.`, 1, message))
                                             }
                                         } else if (!member.roles.cache.has(ModsRoles)) {
                                             member.roles.add(ModsRoles);
-                                            member.send(`${message.author.tag} just gave you the **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
+                                            member.send(`${message.author.tag} just gave you the **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
                                         }
                                     } else {
                                         authorsend("Sorry! You have to be a Moderator or higher to have this role!", message)
@@ -322,11 +322,11 @@ client.on('message', async (message) => {
                                         if (!member.roles.cache.has(role.id)) {
                                             member.roles.add(role.id)
                                             discord_terminal(`<@${message.author.id}> just gave ${member} the <@&${role.id}> role!`, 1, message, null)
-                                            member.send(message.author.tag + " just gave you the " + role.name + " role!").catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
+                                            member.send(message.author.tag + " just gave you the " + role.name + " role!").catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
                                         } else if (member.roles.cache.has(role.id)) {
                                             member.roles.remove(role.id)
                                             discord_terminal(`<@${message.author.id}> just removed ${member}'s <@&${role.id}> role!`, 1, message, null)
-                                            member.send(message.author.tag + " just removed your " + role.name + " role!").catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
+                                            member.send(message.author.tag + " just removed your " + role.name + " role!").catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
                                         }
                                     }
                                 }
@@ -602,7 +602,7 @@ client.on('message', async (message) => {
                             `**You have been kicked by ${message.author.tag}.**\n` +
                             `*Reason:* ${sentenceargs}\n` +
                             `**If you think this may have been accidental or for and incorrect reason, rejoin the server and DM Crany#6596 or a staff/mod member.**`
-                        ).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}>.`, 1, message))
+                        ).catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
                         member.kick()
                         message.reply(`${member.user.tag} was kicked.`)
                         let kickembed = new Discord.MessageEmbed()
