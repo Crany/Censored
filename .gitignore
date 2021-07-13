@@ -1,3 +1,4 @@
 node_modules
 heroku.bat
-./dummy.js
+test.js
+example.js
