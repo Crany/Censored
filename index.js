@@ -653,7 +653,14 @@ client.on('message', async (message) => {
  */
 
 function discord_terminal(write, mode, message) {
-    return;
+    switch (mode) {
+        case 1:
+            client.channels.cache.get("863851605891743754").send(write)
+            break;
+        case 2:
+            client.channels.cache.get("863851605891743754").send(message.author.tag + " did the command " + write)
+            break;
+    }
 }
 
 /**
