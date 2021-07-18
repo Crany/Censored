@@ -505,6 +505,7 @@ client.on('message', async (message) => {
                     let member = message.mentions.members.first()
 
                     let newargs = args.slice(1).join(" ");
+                    console.log(newargs)
 
                     if (newargs != (null || "")) {
                         if (member == "") {
