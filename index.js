@@ -484,11 +484,9 @@ client.on('message', async (message) => {
                         if (!message.member.roles.cache.has("857529243667005480")) {
                             message.member.roles.add("857529243667005480")
                             authorsend(`You have just joined the **${tdata.config.name}** event!`, message)
-                            discord_terminal(`<@${message.author.id}> just joined the **${tdata.config.name} event!`, 1, message)
                         } else if (message.member.roles.cache.has("857529243667005480")) {
                             message.member.roles.remove("857529243667005480")
                             authorsend(`You have just left the **${tdata.config.name}** event!`)
-                            discord_terminal(`<@${message.author.id}> just left the **${tdata.config.name} event!`, 1, message)
                         }
                     } else if (tdata.on == false) {
                         authorsend("You can't join any event since there aren't any currently on.", message)
@@ -655,14 +653,7 @@ client.on('message', async (message) => {
  */
 
 function discord_terminal(write, mode, message) {
-    switch (mode) {
-        case 1:
-            client.channels.cache.get("863851605891743754").send(write)
-            break;
-        case 2:
-            client.channels.cache.get("863851605891743754").send(message.author.tag + " did the command " + write)
-            break;
-    }
+    return;
 }
 
 /**
