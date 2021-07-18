@@ -504,10 +504,10 @@ client.on('message', async (message) => {
                 if (message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(ModsRoles) || message.member.roles.cache.has(StaffRole)) {
                     let member = message.mentions.members.first()
 
-                    let newargs = args.slice(1).join(" ");
+                    let newargs = args.slice(2).join(" ");
                     console.log(newargs)
 
-                    if (newargs != (null || "")) {
+                    if (newargs == "") {
                         if (member == "") {
                             if (message.member.roles.cache.has(AdminRole)) {
                                 message.reply("Sorry, I'm not allowed to comeplete this action.");
@@ -533,7 +533,7 @@ client.on('message', async (message) => {
                                 member.setNickname(member.user.username)
                             }
                         }
-                    } else if (newargs != (null || "")) {
+                    } else if (newargs != "") {
                         if (member == "") {
                             if (message.member.roles.cache.has(AdminRole)) {
                                 message.reply("Sorry, I'm not allowed to comeplete this action.");
