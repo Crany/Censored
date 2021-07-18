@@ -504,31 +504,63 @@ client.on('message', async (message) => {
                 if (message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(ModsRoles) || message.member.roles.cache.has(StaffRole)) {
                     let member = message.mentions.members.first()
 
-                    if (member == null) {
-                        if (message.member.roles.cache.has(AdminRole)) {
-                            message.reply("Sorry, I'm not allowed to comeplete this action.");
-                        } else if (message.member.roles.cache.has(ModsRoles)) {
-                            message.member.setNickname("[Mod] " + message.member.user.username)
-                        } else if (message.member.roles.cache.has(StaffRole)) {
-                            message.member.setNickname("[Staff] " + message.member.user.username)
-                        } else if (message.member.roles.cache.has(AdancedRole)) {
-                            message.member.setNickname("[Advanced] " + message.member.user.username)
-                        } else {
-                            message.member.setNickname(member.user.username)
+                    let newargs = args.slice(1).join(" ");
+
+                    if (newargs != (null || "")) {
+                        if (member == "") {
+                            if (message.member.roles.cache.has(AdminRole)) {
+                                message.reply("Sorry, I'm not allowed to comeplete this action.");
+                            } else if (message.member.roles.cache.has(ModsRoles)) {
+                                message.member.setNickname("[Mod] " + message.member.user.username)
+                            } else if (message.member.roles.cache.has(StaffRole)) {
+                                message.member.setNickname("[Staff] " + message.member.user.username)
+                            } else if (message.member.roles.cache.has(AdancedRole)) {
+                                message.member.setNickname("[Advanced] " + message.member.user.username)
+                            } else {
+                                message.member.setNickname(member.user.username)
+                            }
+                        } else if (member != null) {
+                            if (member.roles.cache.has(AdminRole)) {
+                                message.reply("Sorry, I'm not allowed to comeplete this action.")
+                            } else if (member.roles.cache.has(ModsRoles)) {
+                                member.setNickname("[Mod] " + member.user.username)
+                            } else if (member.roles.cache.has(StaffRole)) {
+                                member.setNickname("[Staff] " + member.user.username)
+                            } else if (member.roles.cache.has(AdancedRole)) {
+                                member.setNickname("[Advanced] " + member.user.username)
+                            } else {
+                                member.setNickname(member.user.username)
+                            }
                         }
-                    } else if (member != null) {
-                        if (member.roles.cache.has(AdminRole)) {
-                            message.reply("Sorry, I'm not allowed to comeplete this action.")
-                        } else if (member.roles.cache.has(ModsRoles)) {
-                            member.setNickname("[Mod] " + member.user.username)
-                        } else if (member.roles.cache.has(StaffRole)) {
-                            member.setNickname("[Staff] " + member.user.username)
-                        } else if (member.roles.cache.has(AdancedRole)) {
-                            member.setNickname("[Advanced] " + member.user.username)
-                        } else {
-                            member.setNickname(member.user.username)
+                    } else if (newargs != (null || "")) {
+                        if (member == "") {
+                            if (message.member.roles.cache.has(AdminRole)) {
+                                message.reply("Sorry, I'm not allowed to comeplete this action.");
+                            } else if (message.member.roles.cache.has(ModsRoles)) {
+                                message.member.setNickname("[Mod] " + newargs)
+                            } else if (message.member.roles.cache.has(StaffRole)) {
+                                message.member.setNickname("[Staff] " + newargs)
+                            } else if (message.member.roles.cache.has(AdancedRole)) {
+                                message.member.setNickname("[Advanced] " + newargs)
+                            } else {
+                                message.member.setNickname(newargs)
+                            }
+                        } else if (member != null) {
+                            if (member.roles.cache.has(AdminRole)) {
+                                message.reply("Sorry, I'm not allowed to comeplete this action.")
+                            } else if (member.roles.cache.has(ModsRoles)) {
+                                member.setNickname("[Mod] " + newargs)
+                            } else if (member.roles.cache.has(StaffRole)) {
+                                member.setNickname("[Staff] " + newargs)
+                            } else if (member.roles.cache.has(AdancedRole)) {
+                                member.setNickname("[Advanced] " + newargs)
+                            } else {
+                                member.setNickname(newargs)
+                            }
                         }
                     }
+
+                    
                 }
             } else {
                 message.reply("sorry but that isn't one of the the applicable modifiers.")
