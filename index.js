@@ -355,10 +355,10 @@ client.on('message', async (message) => {
                         let reportEmbed = new Discord.MessageEmbed()
                         .setColor("47a9a8")
                         .setTitle(`${member.user.tag} was reported.`)
-                        .setFooter(`Report ID: ${reportID} • Reported By: ${message.author.tag}`)
+                        .setFooter(`${Time()} ${Day()} • UTC Time Zone`)
                         .addFields(
                             {name: "REASON", value: reason, inline: true},
-                            {name: "LAST MESSAGE", value: "null (Could not locate last message.)", inline: true}
+                            {name: "MEMBER", value: message.author, inline: true}
                         )
                         client.channels.cache.get(punishChannel).send(reportEmbed)
 
@@ -627,7 +627,7 @@ client.on('message', async (message) => {
                         .addField("MODERATOR/STAFF: ", `<@${message.author.id}>`, true)
                         .setColor("FF2500")
                         .setTitle(`${member.user.tag} was kicked`)
-                        .setFooter(`${time()} ${day()} • UTC Time Zone`)
+                        .setFooter(`${Time()} ${Day()} • UTC Time Zone`)
 
                         client.channels.cache.get(punishChannel).send(kickembed)
                     } catch (err) {
@@ -695,7 +695,7 @@ function not_done_yet(message, command) {
     message.channel.send("That's just another way of us saying that we haven't finished this command yet.")
 }
 
-function time() {
+function Time() {
     var clock = new Date();
     var hour = clock.getHours();
     var min = clock.getMinutes();
@@ -717,7 +717,7 @@ function time() {
     return hour + ":" + min;
 }
 
-function day() {
+function Day() {
     var clock = new Date();
     var day = clock.getDate()
     var month = clock.getMonth()
@@ -725,6 +725,10 @@ function day() {
 
     return `${day}/${month}/${year}`
 
+}
+
+function Time_Day() {
+    return `${Time()} ${Day()}`
 }
 
 /**
