@@ -531,7 +531,7 @@ client.on('message', async (message) => {
                                 member.setNickname(member.user.username)
                             }
                         }
-                    } else if (newargs != null) {
+                    } else if (newargs != "") {
                         if (member == null) {
                             if (message.member.roles.cache.has(AdminRole)) {
                                 message.reply("Sorry, I'm not allowed to comeplete this action.");
