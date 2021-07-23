@@ -502,10 +502,13 @@ client.on('message', async (message) => {
                 if (message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(ModsRoles) || message.member.roles.cache.has(StaffRole)) {
                     let member = message.mentions.members.first()
 
-                    let newargs = args.slice(2).join(" ");
+                    let newargs;
                     console.log(newargs)
 
                     if (newargs == "") {
+
+                        newargs = args.slice(2).join(" ");
+
                         if (member == "") {
                             if (message.member.roles.cache.has(AdminRole)) {
                                 message.reply("Sorry, I'm not allowed to comeplete this action.");
@@ -532,6 +535,9 @@ client.on('message', async (message) => {
                             }
                         }
                     } else if (newargs != "") {
+
+                        newargs = args.slice(1).join(" ");
+
                         if (member == null) {
                             if (message.member.roles.cache.has(AdminRole)) {
                                 message.reply("Sorry, I'm not allowed to comeplete this action.");
