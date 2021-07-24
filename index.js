@@ -166,8 +166,6 @@ client.on('ready', () => {
             type: 'LISTENING',
         }
     })
-
-    client.user.setUsername(`[${prefix}] Censored`);
 });
 
 client.on('message', async (message) => {
