@@ -502,14 +502,11 @@ client.on('message', async (message) => {
                 if (message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(ModsRoles) || message.member.roles.cache.has(StaffRole)) {
                     let member = message.mentions.members.first()
 
-                    let newargs;
-                    console.log(newargs)
+                    let newargs = args.slice(2).join(" ");
 
-                    if (newargs == "") {
-
-                        newargs = args.slice(2).join(" ");
-
-                        if (member == "") {
+                    if (newargs == (null || "")) {
+                        console.log(member.user.username)
+                        if (member == null) {
                             if (message.member.roles.cache.has(AdminRole)) {
                                 message.reply("Sorry, I'm not allowed to comeplete this action.");
                             } else if (message.member.roles.cache.has(ModsRoles)) {
@@ -531,12 +528,10 @@ client.on('message', async (message) => {
                             } else if (member.roles.cache.has(AdancedRole)) {
                                 member.setNickname("[Advanced] " + member.user.username)
                             } else {
-                                member.setNickname(member.user.username)
+                                member.setNickname(member.user.tag)
                             }
                         }
                     } else if (newargs != "") {
-
-                        newargs = args.slice(1).join(" ");
 
                         if (member == null) {
                             if (message.member.roles.cache.has(AdminRole)) {
