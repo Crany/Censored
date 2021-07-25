@@ -508,7 +508,7 @@ client.on('message', async (message) => {
                         console.log(member.user.username)
                         if (member == null) {
                             if (message.member.roles.cache.has(AdminRole)) {
-                                message.reply("Sorry, I'm not allowed to comeplete this action.");
+                                message.reply("Sorry, I'm not allowed to complete this action.");
                             } else if (message.member.roles.cache.has(ModsRoles)) {
                                 message.member.setNickname("[Mod] " + message.member.user.username)
                             } else if (message.member.roles.cache.has(StaffRole)) {
@@ -520,7 +520,7 @@ client.on('message', async (message) => {
                             }
                         } else if (member != null) {
                             if (member.roles.cache.has(AdminRole)) {
-                                message.reply("Sorry, I'm not allowed to comeplete this action.")
+                                message.reply("Sorry, I'm not allowed to complete this action.")
                             } else if (member.roles.cache.has(ModsRoles)) {
                                 member.setNickname("[Mod] " + member.user.username)
                             } else if (member.roles.cache.has(StaffRole)) {
@@ -535,7 +535,7 @@ client.on('message', async (message) => {
 
                         if (member == null) {
                             if (message.member.roles.cache.has(AdminRole)) {
-                                message.reply("Sorry, I'm not allowed to comeplete this action.");
+                                message.reply("Sorry, I'm not allowed to complete this action.");
                             } else if (message.member.roles.cache.has(ModsRoles)) {
                                 message.member.setNickname("[Mod] " + newargs)
                             } else if (message.member.roles.cache.has(StaffRole)) {
@@ -547,7 +547,7 @@ client.on('message', async (message) => {
                             }
                         } else if (member != null) {
                             if (member.roles.cache.has(AdminRole)) {
-                                message.reply("Sorry, I'm not allowed to comeplete this action.")
+                                message.reply("Sorry, I'm not allowed to complete this action.")
                             } else if (member.roles.cache.has(ModsRoles)) {
                                 member.setNickname("[Mod] " + newargs)
                             } else if (member.roles.cache.has(StaffRole)) {
@@ -578,7 +578,7 @@ client.on('message', async (message) => {
                 process.exit(1);
             } else {
                 message.delete({timeout: 1})
-                message.reply("Sorry. you don't have the required permission to comeplete that action.")
+                message.reply("Sorry. you don't have the required permission to complete that action.")
             }
         
         } else if (command == "a") {
