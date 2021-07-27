@@ -7,7 +7,6 @@
 // People from stackoverflow
 
 // FF5733
-// FF3C00
 
 // Discord Declaration //
 const Discord = require('discord.js');
@@ -15,9 +14,7 @@ const client  = new Discord.Client();
 
 // Other Declarations //
 const fs = require('fs');
-const { send, report, config } = require('process');
-const { Interface } = require('readline');
-const { description } = require('./commands/example');
+const os = require('os');
 
 
 // Variable Declaration //
@@ -650,8 +647,21 @@ client.on('message', async (message) => {
         } else if (command == 'botconfig') {
             let msg = await message.channel.send("Getting `Ping Speed`...");
             var ping = Math.round(client.ws.ping)
-            msg.edit("`Getting `Installed NPM Packages`...")
-            let NPMpackages = ["Discord.js", ]
+            msg.edit("Getting `Installed NPM Packages`...")
+            let NPMpackages = ["Discord.js", "Discord.js-Buttons", "os", "fs"];
+            msg.delete()
+
+            message.channel.send(
+                new Discord.MessageEmbed()
+                .setTitle("Bot Stats")
+                .addField("Developer(s):", "```Crany#6596```", false)
+                .addFields(
+                    {name: "Ping Speed:", value: "```" + ping + "ms```", inline: true},
+                    {name: "RAM Usage (Rounded):", value: "```" + Math.round(process.memoryUsage().heapUsed / 1024 / 1024) + " MB```", inline: true}
+                )
+                .addField("NPM Packages:", "```" + NPMpackages.join(", ") + "```", false)
+                .setColor("FF3C00")
+            )
             
         } else {
             discord_terminal("<@" + message.author.id + "> tried an unkown command: \"" + message.content + "\"", 1, message)
