@@ -264,69 +264,76 @@ client.on('message', async (message) => {
                 let member = message.mentions.members.first();
 
                 try {
-                    if (member != null && role != null) {
-                        if (role.id == AdminPerm || role.id == AdminRole || member.roles.cache.has(AdminRole) || member.roles.cache.has(AdminPerm)) { 
-                            authorsend(`Sorry! I can't do that! The **${role.name.toUpperCase()}** role has to be given manually.`, message)
-                        } else {
-                            if (role.id == ModsRoles) {
-                                if (message.member.roles.cache.has(ModsRoles || AdminPerm || AdminRole)) {
-                                    if (member.roles.cache.has(ModsRoles && !AdminPerm || !AdminRole)) {
-                                        authorsend("Sorry! I can't do that! If you think they are abusing their role, report it to and admin.", message)
-                                        return
-                                    } else if (message.member.roles.cache.has(AdminRole || AdminPerm)) {
-                                        if (!member.roles.cache.has(ModsRoles)) {
+
+                    if (member != member.user.bot) {
+                        if (member != null && role != null) {
+                            if (role.id == AdminPerm || role.id == AdminRole || member.roles.cache.has(AdminRole) || member.roles.cache.has(AdminPerm)) { 
+                                authorsend(`Sorry! I can't do that! The **${role.name.toUpperCase()}** role has to be given manually.`, message)
+                            } else {
+                                if (role.id == ModsRoles) {
+                                    if (message.member.roles.cache.has(ModsRoles || AdminPerm || AdminRole)) {
+                                        if (member.roles.cache.has(ModsRoles && !AdminPerm || !AdminRole)) {
+                                            authorsend("Sorry! I can't do that! If you think they are abusing their role, report it to and admin.", message)
+                                            return
+                                        } else if (message.member.roles.cache.has(AdminRole || AdminPerm)) {
+                                            if (!member.roles.cache.has(ModsRoles)) {
+                                                member.roles.add(ModsRoles);
+                                                discord_terminal(`<@${message.author.id}> just gave ${member} the <@&${ModsRoles}> role!`)
+                                                member.send(`${message.author.tag} just gave you the **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
+                                            } else if (member.roles.cache.has(ModsRoles)) {
+                                                member.roles.remove(ModsRoles)
+                                                discord_terminal(`<@${message.author.id}> just gave ${member} the <@&${ModsRoles}> role!`)
+                                                member.send(`${message.author.tag} just removed your **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}.`, 1, message))
+                                            }
+                                        } else if (!member.roles.cache.has(ModsRoles)) {
                                             member.roles.add(ModsRoles);
-                                            discord_terminal(`<@${message.author.id}> just gave ${member} the <@&${ModsRoles}> role!`)
                                             member.send(`${message.author.tag} just gave you the **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
-                                        } else if (member.roles.cache.has(ModsRoles)) {
-                                            member.roles.remove(ModsRoles)
-                                            discord_terminal(`<@${message.author.id}> just gave ${member} the <@&${ModsRoles}> role!`)
-                                            member.send(`${message.author.tag} just removed your **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to <@${member}.`, 1, message))
                                         }
-                                    } else if (!member.roles.cache.has(ModsRoles)) {
-                                        member.roles.add(ModsRoles);
-                                        member.send(`${message.author.tag} just gave you the **MODERATORS** Role!`).catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
+                                    } else {
+                                        authorsend("Sorry! You have to be a Moderator or higher to have this role!", message)
                                     }
                                 } else {
-                                    authorsend("Sorry! You have to be a Moderator or higher to have this role!", message)
-                                }
-                            } else {
-                                if (member.id == message.author.id) {
-                                    if (!member.roles.cache.has(role.id)) {
-                                        member.roles.add(role.id)
-                                        discord_terminal(`${member} just gave themselfs the <@&${role.id}> role!`, 1, message, null)
-                                    } else if (member.roles.cache.has(role.id)) {
-                                        member.roles.remove(role.id)
-                                        discord_terminal(`${member} just removed their <@&${role.id}> role!`, 1, message, null)
-                                    }
-                                } else if (member.id != message.author.id) {
-                                    if (!member.roles.cache.has(role.id)) {
-                                        member.roles.add(role.id)
-                                        discord_terminal(`<@${message.author.id}> just gave ${member} the <@&${role.id}> role!`, 1, message, null)
-                                        member.send(message.author.tag + " just gave you the " + role.name + " role!").catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
-                                    } else if (member.roles.cache.has(role.id)) {
-                                        member.roles.remove(role.id)
-                                        discord_terminal(`<@${message.author.id}> just removed ${member}'s <@&${role.id}> role!`, 1, message, null)
-                                        member.send(message.author.tag + " just removed your " + role.name + " role!").catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
+                                    if (member.id == message.author.id) {
+                                        if (!member.roles.cache.has(role.id)) {
+                                            member.roles.add(role.id)
+                                            discord_terminal(`${member} just gave themselfs the <@&${role.id}> role!`, 1, message, null)
+                                        } else if (member.roles.cache.has(role.id)) {
+                                            member.roles.remove(role.id)
+                                            discord_terminal(`${member} just removed their <@&${role.id}> role!`, 1, message, null)
+                                        }
+                                    } else if (member.id != message.author.id) {
+                                        if (!member.roles.cache.has(role.id)) {
+                                            member.roles.add(role.id)
+                                            discord_terminal(`<@${message.author.id}> just gave ${member} the <@&${role.id}> role!`, 1, message, null)
+                                            member.send(message.author.tag + " just gave you the " + role.name + " role!").catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
+                                        } else if (member.roles.cache.has(role.id)) {
+                                            member.roles.remove(role.id)
+                                            discord_terminal(`<@${message.author.id}> just removed ${member}'s <@&${role.id}> role!`, 1, message, null)
+                                            member.send(message.author.tag + " just removed your " + role.name + " role!").catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
+                                        }
                                     }
                                 }
+                                
+                                if (role.id == ModsRoles) {
+                                    if (!member.roles.cache.has(ModsRoles)) member.setNickname("[Mod] " + member.user.username)
+                                    else if (member.roles.cache.has(ModsRoles)) member.setNickname("[Staff] " + member.user.username);
+                                } else if (role.id == StaffRole) {
+                                    if (!member.roles.cache.has(StaffRole)) member.setNickname("[Staff] " + member.user.username)
+                                    else if (member.roles.cache.has(StaffRole)) member.setNickname("[Advanced] " + member.user.username);
+                                } else if (role.id == AdancedRole) {
+                                    if (!member.roles.cache.has(AdancedRole)) member.setNickname("[Advanced] " + member.user.username)
+                                    else if (member.roles.cache.has(AdancedRole)) member.setNickname(member.user.username);
+                                }
                             }
-                            
-                            if (role.id == ModsRoles) {
-                                if (!member.roles.cache.has(ModsRoles)) member.setNickname("[Mod] " + member.user.username)
-                                else if (member.roles.cache.has(ModsRoles)) member.setNickname("[Staff] " + member.user.username);
-                            } else if (role.id == StaffRole) {
-                                if (!member.roles.cache.has(StaffRole)) member.setNickname("[Staff] " + member.user.username)
-                                else if (member.roles.cache.has(StaffRole)) member.setNickname("[Advanced] " + member.user.username);
-                            } else if (role.id == AdancedRole) {
-                                if (!member.roles.cache.has(AdancedRole)) member.setNickname("[Advanced] " + member.user.username)
-                                else if (member.roles.cache.has(AdancedRole)) member.setNickname(member.user.username);
-                            }
+                        } else if (member == null || role == null) {
+                            message.delete({timeout: 1})
+                            message.author.send("Please specify both the **TAG** and the **ROLE** you'd like to asign/remove from the person.").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null))
                         }
-                    } else if (member == null || role == null) {
-                        message.delete({timeout: 1})
-                        message.author.send("Please specify both the **TAG** and the **ROLE** you'd like to asign/remove from the person.").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null))
+                    } else {
+                        message.channel.send(`Sorry ${message.author}, you can't do that since they're a bot!`)
                     }
+
+                    
                 } catch (err) {
                     message.author.send("Sorry! **There was an error doing that!** Try again.\nIf you were doing it to a admin, that was sadly disabled.").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
                     console.log(err)
@@ -504,7 +511,7 @@ client.on('message', async (message) => {
 
                     let newargs = args.slice(2).join(" ");
 
-                    if (member == member.user.bot) {
+                    if (member != member.user.bot) {
                         if (newargs == (null || "")) {
                             console.log(member.user.username)
                             if (member == null) {
@@ -560,6 +567,8 @@ client.on('message', async (message) => {
                                 }
                             }
                         }
+                    } else {
+                        message.channel.send(`Sorry ${message.author}, you can't do that since they're a bot!`)
                     }
 
                     
