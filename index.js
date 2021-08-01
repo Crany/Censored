@@ -159,7 +159,7 @@ client.on('ready', () => {
     client.user.setPresence({
         status: 'online',
         activity: {
-            name: "!help | Nymo's Cavern",
+            name: "!!help | Nymo's Cavern",
             type: 'LISTENING',
         }
     })
