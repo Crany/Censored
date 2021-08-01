@@ -165,6 +165,22 @@ client.on('ready', () => {
     })
 });
 
+client.on('guildMemberUpdate', async (oldUser, newUser) => {
+    console.log("Something happend!")
+
+    let hadBoosterRole = oldUser.roles.cache.find(role => role.id === '856885463096098857');
+    let hasBoosterRole = newUser.roles.cache.find(role => role.id === '856885463096098857');
+
+    if (!hadBoosterRole && hasBoosterRole) {
+        discord_terminal("Sombody boosted the server!")
+        client.channels.cache.get("697426937047678997").send(`Thank you SOOO much <@${newUser.id}> for boosting the server!`);
+    } 
+});
+
+client.on('guildMemberUpdate', () => {
+    console.log("Something");
+})
+
 client.on('message', async (message) => {
     if (!message.content.startsWith(prefix)) {
         if (message.author.bot) {
