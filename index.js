@@ -652,11 +652,11 @@ client.on('message', async (message) => {
                     try {
                         member.send(
                             `**You have been kicked by ${message.author.tag}.**\n` +
-                            `*Reason:* ${sentenceargs}\n` +
+                            `*Reason:* ${sentenceargs}\n\n` +
                             `**If you think this may have been accidental or for and incorrect reason, rejoin the server and DM Crany#6596 or a staff/mod member.**`
                         ).catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
                         member.setNickname("[Kicked] " + member.user.username);
-                        member.kick()
+                        member.kick(sentenceargs)
                         message.reply(`${member.user.tag} was kicked.`)
                         let kickembed = new Discord.MessageEmbed()
                         .addField("REASON", sentenceargs, true)
