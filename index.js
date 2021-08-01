@@ -213,6 +213,9 @@ client.on('message', async (message) => {
                         let memberCountFile = require('./data/json/members.json')
 
                         memberCountFile.list.push(message.author.id)
+
+                        console.log(memberCountFile.list);
+
                         JSONwrite(memberCountFilename)
                         return;
                     } else message.delete({timeout: 1})
