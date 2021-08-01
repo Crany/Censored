@@ -26,7 +26,7 @@ const AdminRole = "680397530676068365";
 const StaffRole = "680180666549141588";
 const ModsRoles = "856834038815916052";
 const AdminPerm = "860431100337324062";
-const defaultmembers = "680397965285654551";
+const DefaultMembers = "680397965285654551";
 const AdancedRole = "696001274423803994";
 const punishChannel = "857336677461655562";
 
@@ -177,8 +177,13 @@ client.on('guildMemberUpdate', async (oldMember, newMember) => {
     } 
 });
 
-client.on('guildMemberUpdate', () => {
-    console.log("Something");
+client.on('guildMemberAdd', (member) => {
+    let memberCountFilename = './data/json/members.json';
+    let memberCountFile = require('./data/json/members.json');
+
+    if (member.id in memberCountFile.list) member.roles.add(DefaultMembers).catch();
+
+    JSONwrite(memberCountFilename);
 })
 
 client.on('message', async (message) => {
@@ -197,12 +202,18 @@ client.on('message', async (message) => {
         } else if (message.channel.id === "685036523317625048"){
             if (!message.member.roles.cache.has(AdminRole || AdminPerm || ModsRoles)) {
                 if (message.content === "accept" || message.content === "Accept") {
-                    if (!message.member.roles.cache.has(defaultmembers)) {
+                    if (!message.member.roles.cache.has(DefaultMembers)) {
                         message.author.send("Welcome to **Nymo's Community**, " + message.author.username + "!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message));
                         message.member.roles.add("680397965285654551");
                         message.delete({timeout: 1})
                         client.channels.cache.get("697426937047678997").send(`Please welcome <@${message.author.id}> to the server!`);
                         discord_terminal("<@" + message.author.id + "> has just entered the Server!", 1);
+
+                        let memberCountFilename = './data/json/members.json'
+                        let memberCountFile = require('./data/json/members.json')
+
+                        memberCountFile.list.push(message.author.id)
+                        JSONwrite(memberCountFilename)
                         return;
                     } else message.delete({timeout: 1})
                 } else message.delete({timeout: 1});
