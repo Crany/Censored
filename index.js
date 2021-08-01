@@ -165,15 +165,15 @@ client.on('ready', () => {
     })
 });
 
-client.on('guildMemberUpdate', async (oldUser, newUser) => {
+client.on('guildMemberUpdate', async (oldMember, newMember) => {
     console.log("Something happend!")
 
-    let hadBoosterRole = oldUser.roles.cache.find(role => role.id === '856885463096098857');
-    let hasBoosterRole = newUser.roles.cache.find(role => role.id === '856885463096098857');
+    let hadBoosterRole = oldMember.roles.cache.find(role => role.id === '856885463096098857');
+    let hasBoosterRole = newMember.roles.cache.find(role => role.id === '856885463096098857');
 
     if (!hadBoosterRole && hasBoosterRole) {
         discord_terminal("Sombody boosted the server!")
-        client.channels.cache.get("697426937047678997").send(`Thank you SOOO much <@${newUser.id}> for boosting the server!`);
+        client.channels.cache.get("697426937047678997").send(`Thank you SOOO much <@${newMember.id}> for boosting the server!`);
     } 
 });
 
