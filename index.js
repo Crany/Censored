@@ -26,7 +26,7 @@ const AdminRole = "680397530676068365";
 const StaffRole = "680180666549141588";
 const ModsRoles = "856834038815916052";
 const AdminPerm = "860431100337324062";
-const compeople = "680397965285654551";
+const defaultmembers = "680397965285654551";
 const AdancedRole = "696001274423803994";
 const punishChannel = "857336677461655562";
 
@@ -179,9 +179,9 @@ client.on('message', async (message) => {
         } else if (message.mentions.members.first() === client.user.id) {
             message.channel.send("Did somebody call for me?")
         } else if (message.channel.id === "685036523317625048"){
-            if (!message.member.roles.cache.has(AdminRole) || !message.member.roles.cache.has(AdminPerm)) {
+            if (!message.member.roles.cache.has(AdminRole || AdminPerm || ModsRoles)) {
                 if (message.content === "accept" || message.content === "Accept") {
-                    if (!message.member.roles.cache.has(compeople)) {
+                    if (!message.member.roles.cache.has(defaultmembers)) {
                         message.author.send("Welcome to **Nymo's Community**, " + message.author.username + "!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message));
                         message.member.roles.add("680397965285654551");
                         message.delete({timeout: 1})
