@@ -693,8 +693,10 @@ client.on('message', async (message) => {
                 .setColor("FF3C00")
             )
             
-        } else {
-            discord_terminal("<@" + message.author.id + "> tried an unkown command: \"" + message.content + "\"", 1, message)
+        } else if (command == 'admin') {
+            message.channel.send("Try harder.")
+        } 
+        else {
             message.reply("Speak of a real command, fool.")
         }
     } else if (message.channel.type === 'dm' && message.content.startsWith(prefix)) {
