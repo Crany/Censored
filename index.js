@@ -203,7 +203,7 @@ client.on('message', async (message) => {
             if (!message.member.roles.cache.has(AdminRole || AdminPerm || ModsRoles)) {
                 if (message.content === "accept" || message.content === "Accept") {
                     if (!message.member.roles.cache.has(DefaultMembers)) {
-                        message.author.send("Welcome to **Nymo's Community**, " + message.author.username + "!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message));
+                        authorsend("Welcome to **Nymo's Community**, " + message.author.username + "!", message);
                         message.member.roles.add("680397965285654551");
                         message.delete({timeout: 1})
                         client.channels.cache.get("697426937047678997").send(`Please welcome <@${message.author.id}> to the server!`);
@@ -222,7 +222,7 @@ client.on('message', async (message) => {
                 } else message.delete({timeout: 1});
             }
         } else if (message.mentions.members.first() == client.user.id) {
-            message.reply("Did you call for me?");
+            message.channel.send("Did you call for me?");
         } else if (message.channel.id === "696010902196977784") {
             if (message.content == "Gamer" || message.content == "gamer") {
                 if(!message.member.roles.cache.has("850008425046999101")) {
@@ -418,10 +418,10 @@ client.on('message', async (message) => {
                         message.channel.send("What did us bots do now??")
                     }
                 } else {
-                    message.reply("You can't report yourself! Surprising?")
+                    message.channel.send("You can't report yourself! Surprising?")
                 }
             } else {
-                message.reply("Please specify the person you'd like to report.")
+                message.channel.send("Please specify the person you'd like to report.")
             }
 
         } else if (command == "event" || command == "e") {
@@ -445,7 +445,7 @@ client.on('message', async (message) => {
             let mod = message.content.split(" ").slice(1)
             
             if (mod[0] == null) {
-                message.reply("please enter in a modfier.")
+                message.channel.send("please enter in a modfier.")
             } else {
                 if (mod[0] == "start") {
                     if (message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(ModsRoles) || message.member.roles.cache.has(StaffRole)) {
@@ -506,10 +506,10 @@ client.on('message', async (message) => {
 
                             discord_terminal(tembed, 1, message)
                         } else {
-                            message.reply("There is currently no tournament already on.");
+                            message.channel.send("There is currently no tournament already on.");
                         }
                     } else {
-                        message.reply(`You can't do that since you didn't start the tournament or have <@${ModsRoles} or higher.`)
+                        message.channel.send(`You can't do that since you didn't start the tournament or have <@${ModsRoles} or higher.`)
                     }
                 } else if (mod[0] == "p" || mod[0] == "participate") {
                     if (tdata.on == true) {
@@ -529,7 +529,7 @@ client.on('message', async (message) => {
         } else if (command == "update") {
 
             if (args[0] == null) {
-                message.reply("Please add the modifier to what you'd want to update.")
+                message.channel.send("Please add the modifier to what you'd want to update.")
             } else if (args[0] == "nick" || args[0] == "nickname") {
                 if (message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(ModsRoles) || message.member.roles.cache.has(StaffRole)) {
                     let member = message.mentions.members.first()
@@ -543,7 +543,7 @@ client.on('message', async (message) => {
                             console.log(member.user.username)
                             if (member == null) {
                                 if (message.member.roles.cache.has(AdminRole)) {
-                                    message.reply("Sorry, I'm not allowed to complete this action.");
+                                    message.channel.send("Sorry, I'm not allowed to complete this action.");
                                 } else if (message.member.roles.cache.has(ModsRoles)) {
                                     message.member.setNickname("[Mod] " + message.member.user.username)
                                 } else if (message.member.roles.cache.has(StaffRole)) {
@@ -555,7 +555,7 @@ client.on('message', async (message) => {
                                 }
                             } else if (member != null) {
                                 if (member.roles.cache.has(AdminRole)) {
-                                    message.reply("Sorry, I'm not allowed to complete this action.")
+                                    message.channel.send("Sorry, I'm not allowed to complete this action.")
                                 } else if (member.roles.cache.has(ModsRoles)) {
                                     member.setNickname("[Mod] " + member.user.username)
                                 } else if (member.roles.cache.has(StaffRole)) {
@@ -570,7 +570,7 @@ client.on('message', async (message) => {
 
                             if (member == null) {
                                 if (message.member.roles.cache.has(AdminRole)) {
-                                    message.reply("Sorry, I'm not allowed to complete this action.");
+                                    message.channel.send("Sorry, I'm not allowed to complete this action.");
                                 } else if (message.member.roles.cache.has(ModsRoles)) {
                                     message.member.setNickname("[Mod] " + newargs)
                                 } else if (message.member.roles.cache.has(StaffRole)) {
@@ -582,7 +582,7 @@ client.on('message', async (message) => {
                                 }
                             } else if (member != null) {
                                 if (member.roles.cache.has(AdminRole)) {
-                                    message.reply("Sorry, I'm not allowed to complete this action.")
+                                    message.channel.send("Sorry, I'm not allowed to complete this action.")
                                 } else if (member.roles.cache.has(ModsRoles)) {
                                     member.setNickname("[Mod] " + newargs)
                                 } else if (member.roles.cache.has(StaffRole)) {
@@ -597,13 +597,9 @@ client.on('message', async (message) => {
                     } else {
                         message.channel.send(`Sorry ${message.author}, you can't do that since they're a bot!`)
                     }
-
-                    
-
-                    
                 }
             } else {
-                message.reply("sorry but that isn't one of the the applicable modifiers.")
+                message.channel.send("Sorry but that isn't one of the the applicable modifiers.")
             }
 
         } else if (command == "invite") {
@@ -612,13 +608,13 @@ client.on('message', async (message) => {
         
         } else if (command == "off") {
             if (message.member.roles.cache.has("680397530676068365")) {
-                message.reply("Turing off the bot.");
+                message.channel.send("Turing off the bot.");
                 console.log(`Bot was turned off by: ${message.author.tag}`)
                 discord_terminal(`I was just turned off by ${message.author.tag}`, 1, message)
                 process.exit(1);
             } else {
                 message.delete({timeout: 1})
-                message.reply("Sorry. you don't have the required permission to complete that action.")
+                message.channel.send("Sorry. you don't have the required permission to complete that action.")
             }
         
         } else if (command == "a") {
@@ -657,7 +653,7 @@ client.on('message', async (message) => {
                         ).catch(() => discord_terminal(`Error: Could not send a DM to ${member}.`, 1, message))
                         member.setNickname("[Kicked] " + member.user.username);
                         member.kick(sentenceargs)
-                        message.reply(`${member.user.tag} was kicked.`)
+                        message.channel.send(`${member.user.tag} was kicked.`)
                         let kickembed = new Discord.MessageEmbed()
                         .addField("REASON", sentenceargs, true)
                         .addField("MODERATOR/STAFF: ", `<@${message.author.id}>`, true)
@@ -667,7 +663,7 @@ client.on('message', async (message) => {
 
                         client.channels.cache.get(punishChannel).send(kickembed)
                     } catch (err) {
-                        message.reply("There was an error! This was up to the dev team so don't worry :D")
+                        message.channel.send("There was an error! This was up to the dev team so don't worry :D")
                         console.log(err);
                     }
                 }
@@ -695,9 +691,11 @@ client.on('message', async (message) => {
             
         } else if (command == 'admin') {
             message.channel.send("Try harder.")
-        } 
-        else {
-            message.reply("Speak of a real command, fool.")
+        } else if (command == 'help') {
+            authorsend("This is still in development", message);
+            message.channel.send("You have recieved mail!") 
+        } else {
+            message.channel.send("Speak of a real command, fool.")
         }
     } else if (message.channel.type === 'dm' && message.content.startsWith(prefix)) {
         message.channel.send("Sorry! You can't DM me!")
