@@ -692,8 +692,6 @@ client.on('message', async (message) => {
         } else if (command == 'admin') {
             message.channel.send("Try harder.")
         } else if (command == 'help') {
-            authorsend("This is still in development", message);
-
             let helpEmbed = new Discord.MessageEmbed()
             .setTitle("Bot Help Panel")
             .addField(
@@ -711,6 +709,8 @@ client.on('message', async (message) => {
                 "Help      | This command.```\n\n" +
                 "These were ordered in the order they are in the code."
             )
+
+            authorsend(helpEmbed, message);
 
             message.channel.send("You have recieved mail!") 
         }
