@@ -1,0 +1,35 @@
+ping
+
+about/abt
+
+role
+ - role
+ - mentioned username
+
+report/r
+ - mentioned username
+
+event/e
+ - start
+   - name
+ - end
+ - participate/p
+
+update
+ - nick (updates nickname to username)
+   - new nickname (optional)
+
+invite
+
+a
+
+kick
+ - mentioned username
+   - reason (optional)
+
+botconfig
+ - get config for bot
+
+admin
+
+help

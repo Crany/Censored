@@ -693,9 +693,26 @@ client.on('message', async (message) => {
             message.channel.send("Try harder.")
         } else if (command == 'help') {
             authorsend("This is still in development", message);
+
+            let helpEmbed = new Discord.MessageEmbed()
+            .setTitle("Bot Help Panel")
+            .addField(
+                "`Commands:`",
+                "```\n" +
+                "Ping      | Basic Ping Command.\n" +
+                "Role      | Giving Role, must have staff or higher.\n" +
+                "Report    | Reporting a member.\n" +
+                "Event     | Must have Content Creator or higher, creates an event you can participate\n" +
+                "Update    | (Still in dev) Can updates a user's username, for now.\n" +
+                "Invite    | Gives you the invite link for the server.\n" + 
+                "a         | This is not a real command, fool.\n" +
+                "Kick      | Kicks a member. Must have staff or higher.\n" +
+                "Botconfig | Gives you the bot configuration incase you want to build your own.\n" + 
+                "Help      | This command.```\n\n" +
+                "These were ordered in the order they are in the code."
+            )
+
             message.channel.send("You have recieved mail!") 
-        } else {
-            message.channel.send("Speak of a real command, fool.")
         }
     } else if (message.channel.type === 'dm' && message.content.startsWith(prefix)) {
         message.channel.send("Sorry! You can't DM me!")
