@@ -204,6 +204,8 @@ client.on('message', async (message) => {
             }
         } else if (message.channel.type === 'dm') {
             message.channel.send("Sorry! You can't DM me!")
+        } else if (message.content.split(" ").includes('@everyone') == true) {
+            message.delete({timeout: 1});
         } else if (message.mentions.members.first() === client.user.id) {
             message.channel.send("Did somebody call for me?")
         } else if (message.channel.id === "685036523317625048"){
@@ -276,7 +278,9 @@ client.on('message', async (message) => {
     let splitCommand = message.content.split(" ");
 
     if (message.channel.id != "685036523317625048" && message.channel.id != "696010902196977784" && message.channel.type != 'dm' && message.content.startsWith(prefix)) {
-        if (command == 'ping') {
+        if (message.content.split(" ").includes('@everyone') == true) {
+            return;
+        } else if (command == 'ping') {
             client.commands.get('ping').execute(message, client);
         } else if (command == 'abt' || command == 'about'){
             not_done_yet(message, command);
