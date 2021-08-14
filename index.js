@@ -266,7 +266,6 @@ client.on('message', async (message) => {
                 }
             } else {
                 message.author.send("\"" + message.content + "\" is an unknown role! Please check you spelt it right!").catch(() => discord_terminal(`Error: Could not send a DM to <@${message.author.id}>.`, 1, message, null));
-                discord_terminal("Couldn't find **\"" + message.content + "\"** in **Role Reciever!**\nThe request was by **" + message.author.tag + ".**");
             }
         }
     }
