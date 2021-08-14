@@ -269,9 +269,7 @@ client.on('message', async (message) => {
 
     if (message.channel.id != "685036523317625048" && message.channel.id != "696010902196977784" && message.channel.type != 'dm' && message.content.startsWith(prefix)) {
         if (command == 'ping') {
-            let msg = await message.channel.send("Pong!");
-            var ping = Math.round(client.ws.ping)
-            msg.edit(`Pong! \`${ping}ms\``)
+            client.commands.get('ping').execute(message, client);
         } else if (command == 'abt' || command == 'about'){
             not_done_yet(message, command);
         } else if (command == 'role') {
