@@ -27,7 +27,7 @@ const StaffRole = "680180666549141588";
 const ModsRoles = "856834038815916052";
 const AdminPerm = "860431100337324062";
 const DefaultMembers = "680397965285654551";
-const AdancedRole = "696001274423803994";
+const AdvancedRole = "696001274423803994";
 const punishChannel = "857336677461655562";
 
 const guildID = '680154842316275834';
@@ -38,6 +38,14 @@ const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith(
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     client.commands.set(command.name, command)
+}
+
+client.updateCommands = new Discord.Collection();
+
+const updateCommandFiles = fs.readdirSync('./commands/update/').filter(file => file.endsWith('.js'));
+for (const file of updateCommandFiles) {
+    const updateCommand = require(`./commands/update/${file}`);
+    client.updateCommands.set(updateCommand.name, updateCommand)
 }
 
 const getApp = (guildID) => {
@@ -273,352 +281,31 @@ client.on('message', async (message) => {
         } else if (command == 'abt' || command == 'about'){
             not_done_yet(message, command);
         } else if (command == 'role') {
-            if (message.member.roles.cache.has("680397530676068365") || message.member.roles.cache.has("680180666549141588")){
-                let role   = message.mentions.roles.first()
-                let member = message.mentions.members.first();
-
-                try {
-                    if (member != null && role != null) {
-                        if (role.id == (AdminPerm || AdminRole) || member.roles.cache.has(AdminRole || AdminPerm)) { 
-                            authorsend(`Sorry! I can't do that! The **${role.name.toUpperCase()}** role has to be given manually.`, message)
-                        } else {
-                            if (role.id == ModsRoles) {
-                                if (message.member.roles.cache.has(ModsRoles || AdminPerm || AdminRole)) {
-                                    if (member.roles.cache.has(ModsRoles && !AdminPerm || !AdminRole)) {
-                                        authorsend("Sorry! I can't do that! If you think they are abusing their role, report it to and admin.", message)
-                                        return
-                                    } else if (message.member.roles.cache.has(AdminRole || AdminPerm)) {
-                                        if (!member.roles.cache.has(ModsRoles)) {
-                                            member.roles.add(ModsRoles);
-                                            member.send(`${message.author.tag} just gave you the **MODERATORS** Role!`).catch()
-                                        } else if (member.roles.cache.has(ModsRoles)) {
-                                            member.roles.remove(ModsRoles)
-                                            member.send(`${message.author.tag} just removed your **MODERATORS** Role!`).catch()
-                                        }
-                                    } else if (!member.roles.cache.has(ModsRoles)) {
-                                        member.roles.add(ModsRoles);
-                                        member.send(`${message.author.tag} just gave you the **MODERATORS** Role!`).catch()
-                                    }
-                                } else {
-                                    authorsend("Sorry! You have to be a Moderator or higher to have this role!", message)
-                                }
-                            } else {
-                                if (member.id == message.author.id) {
-                                    if (!member.roles.cache.has(role.id)) {
-                                        member.roles.add(role.id)
-                                    } else if (member.roles.cache.has(role.id)) {
-                                        member.roles.remove(role.id)
-                                    }
-                                } else if (member.id != message.author.id) {
-                                    if (!member.roles.cache.has(role.id)) {
-                                        member.roles.add(role.id)
-                                        member.send(message.author.tag + " just gave you the " + role.name + " role!").catch()
-                                    } else if (member.roles.cache.has(role.id)) {
-                                        member.roles.remove(role.id)
-                                        member.send(message.author.tag + " just removed your " + role.name + " role!").catch()
-                                    }
-                                }
-                            }
-
-
-                            if (member.user.bot != true) {
-                                if (role.id == ModsRoles) {
-                                    if (!member.roles.cache.has(ModsRoles)) member.setNickname("[Mod] " + member.user.username)
-                                    else if (member.roles.cache.has(ModsRoles)) member.setNickname("[Staff] " + member.user.username);
-                                } else if (role.id == StaffRole) {
-                                    if (!member.roles.cache.has(StaffRole)) member.setNickname("[Staff] " + member.user.username)
-                                    else if (member.roles.cache.has(StaffRole)) member.setNickname("[Advanced] " + member.user.username);
-                                } else if (role.id == AdancedRole) {
-                                    if (!member.roles.cache.has(AdancedRole)) member.setNickname("[Advanced] " + member.user.username)
-                                    else if (member.roles.cache.has(AdancedRole)) member.setNickname(member.user.username);
-                                }
-                            }
-                            
-                            
-                        }
-                    } else if (member == null || role == null) {
-                        message.delete({timeout: 1})
-                        message.author.send("Please specify both the **TAG** and the **ROLE** you'd like to asign/remove from the person.").catch()
-                    }
-                } catch (err) {
-                    message.author.send("Sorry! **There was an error doing that!** Try again.\nIf you were doing it to a admin, that was sadly disabled.").catch();
-                    console.log(err)
-                }
-
-            } else {
-                message.author.send("Sorry but you don't meet the requirements to do that action!").catch();
-            }
-
+            client.commands.get('role').execute(message, AdminPerm, AdminRole, StaffRole, ModsRoles, AdvancedRole);
         } else if (command == "r" || command == "report") {
-        
-            let member = message.mentions.members.first();
-
-            if (member != null) {
-                if (message.author.id != member.id) {
-                    if (!member.user.bot) {
-                        let reason = message.content.split(" ").slice(2).join(" ");
-
-                        if (reason == "" || reason == " ") {
-                            reason = "None";
-                        }
-
-                        let reportID = Date.now().toString();
-
-                        let reportEmbed = new Discord.MessageEmbed()
-                        .setColor("47a9a8")
-                        .setTitle(`${member.user.tag} was reported.`)
-                        .setFooter(`${Time()} ${Day()} • UTC Time Zone`)
-                        .addFields(
-                            {name: "REASON", value: reason, inline: true},
-                            {name: "MEMBER", value: message.author, inline: true}
-                        )
-                        client.channels.cache.get(punishChannel).send(reportEmbed)
-
-                        try {
-                            const reportfileName = './data/json/reporteddata.json'
-                            const reportfile = require('./data/json/reporteddata.json');
-
-                            let count = reportfile.count + 1
-
-                            if (member.id != reportfile.user1.userid) {
-                                reportfile.user1.reportid = reportID;
-                                reportfile.user1.userid = member.id;
-                                reportfile.user1.reason = reason;
-                            } else {
-                                reportfile.user1.reportid = reportID;
-                                reportfile.user1.reason = reason;
-                            }
-
-                            fs.writeFile(reportfileName, JSON.stringify(reportfile, null, 2), function writeJSON(err) {
-                                if (err) return console.log(err);
-                            });
-                            
-                        } catch (err) {console.error(err); process.exit(1)}
-                    } else {
-                        message.channel.send("What did us bots do now??")
-                    }
-                } else {
-                    message.channel.send("You can't report yourself! Surprising?")
-                }
-            } else {
-                message.channel.send("Please specify the person you'd like to report.")
-            }
-
-        } else if (command == "event" || command == "e") {
-
-            let tname;
-            let tterminalembed;
-            let thostid;
-            let thosttag;
-            let tid;
-
-            let tconfiguation = [];
-            
-            const tfile = "./data/json/tournamentdata.json"
-            const tdata = require("./data/json/tournamentdata.json")
-            
-
-            try {
-              tname = message.content.split(" ").slice(2).join(" ")  
-            } catch (err) {console.error(err)};
-
-            let mod = message.content.split(" ").slice(1)
-            
-            if (mod[0] == null) {
-                message.channel.send("please enter in a modfier.")
-            } else {
-                if (mod[0] == "start") {
-                    if (message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(ModsRoles) || message.member.roles.cache.has(StaffRole)) {
-
-                        if (tname != null) {
-                            if (tdata.on == false) {
-                                tname = tname;
-                                thostid = message.author.id;
-                                thosttag = message.author.tag;
-                                tid = createID(1);
-
-                                tdata.on = true
-                                tdata.config.name = tname;
-                                tdata.config.hostid = thostid;
-                                tdata.config.hosttag = thosttag;
-                                tdata.config.id = tid;
-
-                                tconfiguation.push(`NAME: ${tdata.config.name}`);
-                                tconfiguation.push(`HOST-TAG: ${tdata.config.hosttag}`);
-                                tconfiguation.push(`HOST-ID: ${tdata.config.hostid}`);
-                                tconfiguation.push(`EVENT-ID: ${tdata.config.id}`);
-
-                                fs.writeFile(tfile, JSON.stringify(tdata, null, 2), function writeJSON(err) {
-                                    if (err) return console.log(err);
-                                });
-
-                                tterminalembed = new Discord.MessageEmbed()
-                                .setColor("#3b86ff")
-                                .setTitle(`${message.author.tag} just started a tournament!`)
-                                .addFields(
-                                    {name: `**Configuation: **`, value: tconfiguation}
-                                );
-                            } else {
-                                message.channel.send(`A tournament has already been started by <@${tdata.config.hostid}>`)
-                            }
-                        } else {
-                            message.channel.send("Please provide a name for the tournament.")
-                        }   
-                    }
-                } else if (mod[0] == "end") {
-                    if (message.author.id == tdata.config.hostid || message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(ModsRoles)) {
-                        if (tdata.on == true) {
-                            let name = tdata.config.name;
-
-                            tdata.on = false;
-                            tdata.config.name = "";
-                            tdata.config.hostid = "";
-                            tdata.config.hosttag = "";
-                            tdata.config.id = "";
-
-                            JSONwrite(tfile)
-
-                            let tembed = new Discord.MessageEmbed()
-                            .setColor("#3b86ff")
-                            .setTitle(`${message.author.tag} just ended the "${name}" tournament and all of its data has been erased!`)
-                        } else {
-                            message.channel.send("There is currently no tournament already on.");
-                        }
-                    } else {
-                        message.channel.send(`You can't do that since you didn't start the tournament or have <@${ModsRoles} or higher.`)
-                    }
-                } else if (mod[0] == "p" || mod[0] == "participate") {
-                    if (tdata.on == true) {
-                        if (!message.member.roles.cache.has("857529243667005480")) {
-                            message.member.roles.add("857529243667005480")
-                            authorsend(`You have just joined the **${tdata.config.name}** event!`, message)
-                        } else if (message.member.roles.cache.has("857529243667005480")) {
-                            message.member.roles.remove("857529243667005480")
-                            authorsend(`You have just left the **${tdata.config.name}** event!`)
-                        }
-                    } else if (tdata.on == false) {
-                        authorsend("You can't join any event since there aren't any currently on.", message)
-                    }
-                    
-                }
-            }
+            client.commands.get('report').execute(message, client, punishChannel, Discord);
         } else if (command == "update") {
 
             if (args[0] == null) {
                 message.channel.send("Please add the modifier to what you'd want to update.")
             } else if (args[0] == "nick" || args[0] == "nickname") {
                 if (message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(ModsRoles) || message.member.roles.cache.has(StaffRole)) {
-                    let member = message.mentions.members.first()
-
-                    let newargs = args.slice(2).join(" ");
-
-                    console.log((member.user.bot))
-
-                    if (member.user.bot != true) {
-                        if (newargs == (null || "")) {
-                            console.log(member.user.username)
-                            if (member == null) {
-                                if (message.member.roles.cache.has(AdminRole)) {
-                                    message.channel.send("Sorry, I'm not allowed to complete this action.");
-                                } else if (message.member.roles.cache.has(ModsRoles)) {
-                                    message.member.setNickname("[Mod] " + message.member.user.username)
-                                } else if (message.member.roles.cache.has(StaffRole)) {
-                                    message.member.setNickname("[Staff] " + message.member.user.username)
-                                } else if (message.member.roles.cache.has(AdancedRole)) {
-                                    message.member.setNickname("[Advanced] " + message.member.user.username)
-                                } else {
-                                    message.member.setNickname(member.user.username)
-                                }
-                            } else if (member != null) {
-                                if (member.roles.cache.has(AdminRole)) {
-                                    message.channel.send("Sorry, I'm not allowed to complete this action.")
-                                } else if (member.roles.cache.has(ModsRoles)) {
-                                    member.setNickname("[Mod] " + member.user.username)
-                                } else if (member.roles.cache.has(StaffRole)) {
-                                    member.setNickname("[Staff] " + member.user.username)
-                                } else if (member.roles.cache.has(AdancedRole)) {
-                                    member.setNickname("[Advanced] " + member.user.username)
-                                } else {
-                                    member.setNickname(member.user.tag)
-                                }
-                            }
-                        } else if (newargs != "") {
-
-                            if (member == null) {
-                                if (message.member.roles.cache.has(AdminRole)) {
-                                    message.channel.send("Sorry, I'm not allowed to complete this action.");
-                                } else if (message.member.roles.cache.has(ModsRoles)) {
-                                    message.member.setNickname("[Mod] " + newargs)
-                                } else if (message.member.roles.cache.has(StaffRole)) {
-                                    message.member.setNickname("[Staff] " + newargs)
-                                } else if (message.member.roles.cache.has(AdancedRole)) {
-                                    message.member.setNickname("[Advanced] " + newargs)
-                                } else {
-                                    message.member.setNickname(newargs)
-                                }
-                            } else if (member != null) {
-                                if (member.roles.cache.has(AdminRole)) {
-                                    message.channel.send("Sorry, I'm not allowed to complete this action.")
-                                } else if (member.roles.cache.has(ModsRoles)) {
-                                    member.setNickname("[Mod] " + newargs)
-                                } else if (member.roles.cache.has(StaffRole)) {
-                                    member.setNickname("[Staff] " + newargs)
-                                } else if (member.roles.cache.has(AdancedRole)) {
-                                    member.setNickname("[Advanced] " + newargs)
-                                } else {
-                                    member.setNickname(newargs)
-                                }
-                            }
-                        }
-                    } else {
-                        message.channel.send(`Sorry ${message.author}, you can't do that since they're a bot!`)
-                    }
+                    client.updateCommands.get('nickname').execute(message, args, AdminPerm, AdminRole, StaffRole, ModsRoles)
                 }
             } else {
                 message.channel.send("Sorry but that isn't one of the the applicable modifiers.")
             }
 
         } else if (command == "invite") {
-
             message.channel.send("Here's the link for the server! https://discord.gg/EudUY68.")
-        
-        } else if (command == "off") {
-            if (message.member.roles.cache.has("680397530676068365")) {
-                message.channel.send("Turing off the bot.");
-                console.log(`Bot was turned off by: ${message.author.tag}`)
-                process.exit(1);
-            } else {
-                message.delete({timeout: 1})
-                message.channel.send("Sorry. you don't have the required permission to complete that action.")
-            }
-        
         } else if (command == "a") {
-
             message.channel.send("This isn't a real command, fool.")
-        
         } else if (command == "kick") {
 
             client.commands.get('kick').execute(message, args, client, AdminPerm, AdminRole, StaffRole, ModsRoles);
 
         } else if (command == 'botconfig') {
-            let msg = await message.channel.send("Getting `Ping Speed`...");
-            var ping = Math.round(client.ws.ping)
-            msg.edit("Getting `Installed NPM Packages`...")
-            let NPMpackages = ["Discord.js", "Discord.js-Buttons", "dotenv", "env"];
-            msg.delete()
-
-            message.channel.send(
-                new Discord.MessageEmbed()
-                .setTitle("Bot Stats")
-                .addField("Developer(s):", "```Crany#6596```", false)
-                .addFields(
-                    {name: "Ping Speed:", value: "```" + ping + "ms```", inline: true},
-                    {name: "RAM Usage (Rounded):", value: "```" + Math.round(process.memoryUsage().heapUsed / 1024 / 1024) + " MB```", inline: true}
-                )
-                .addField("NPM Packages:", "```" + NPMpackages.join(", ") + "```", false)
-                .setColor("FF3C00")
-            )
-            
+            client.commands.get('botconfig').execute(message, client, Discord);
         } else if (command == 'admin') {
             message.channel.send("Try harder.")
         } else if (command == 'help') {

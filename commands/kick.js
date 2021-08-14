@@ -12,7 +12,6 @@ module.exports = {
             }
 
             if (member == null) {
-                message.channel.send(`Please specify the person you'd like to kick, <@${message.author.id}>`)
                 return
             } else if (member.id == message.author.id) {
                 message.channel.send(`You can't kick yourself, <@${message.author.id}>.`)
@@ -50,4 +49,36 @@ module.exports = {
             message.channel.send(`Sorry but you don't have the required permissions to do that ${message.author}!`)
         }
     }
+}
+
+function Time() {
+    var clock = new Date();
+    var hour = clock.getHours();
+    var min = clock.getMinutes();
+    
+    if (hour < 10) {
+        hour = "0" + hour;
+    }
+    else {
+        hour = hour;
+    }
+
+    if (min < 10) {
+        min = "0" + min;
+    }
+    else {
+        min = min;
+    }
+
+    return hour + ":" + min;
+}
+
+function Day() {
+    var clock = new Date();
+    var day = clock.getDate()
+    var month = clock.getMonth()
+    var year = clock.getFullYear()
+
+    return `${day}/${month}/${year}`
+
 }
