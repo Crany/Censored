@@ -598,7 +598,7 @@ client.on('message', async (message) => {
         
         } else if (command == "kick") {
 
-            client.commands.get('kick').execute(message, args, client);
+            client.commands.get('kick').execute(message, args, client, AdminPerm, AdminRole, StaffRole, ModsRoles);
 
         } else if (command == 'botconfig') {
             let msg = await message.channel.send("Getting `Ping Speed`...");

@@ -1,7 +1,7 @@
 module.exports = {
     name: "kick",
     description: "Allows Advanced People and higher to kick people",
-    execute(message, args, client) {
+    execute(message, args, client, AdminPerm, AdminRole, StaffRole, ModsRoles) {
         let sentenceargs = args.splice(1).join(" ")
 
         if (message.member.roles.cache.has(AdminPerm || AdminRole || StaffRole || ModsRoles)) {
