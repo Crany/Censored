@@ -6,8 +6,6 @@
 // Crany#6596
 // People from stackoverflow
 
-// FF5733
-
 // Discord Declaration //
 const Discord = require('discord.js');
 const client  = new Discord.Client();
@@ -229,8 +227,6 @@ client.on('message', async (message) => {
                     } else message.delete({timeout: 1})
                 } else message.delete({timeout: 1});
             }
-        } else if (message.mentions.members.first() == client.user.id) {
-            message.channel.send("Did you call for me?");
         } else if (message.channel.id === "696010902196977784") {
             if (message.content == "Gamer" || message.content == "gamer") {
                 if(!message.member.roles.cache.has("850008425046999101")) {
@@ -273,9 +269,7 @@ client.on('message', async (message) => {
     const args = message.content.slice(prefix.length).trim().split(" ");
     const command = args.shift().toLowerCase();
 
-    console.log(`${message.author.tag} said "${message.content}"`)
-
-    let splitCommand = message.content.split(" ");
+    console.log(`${message.author.tag} said "${message.content}"`);
 
     if (message.channel.id != "685036523317625048" && message.channel.id != "696010902196977784" && message.channel.type != 'dm' && message.content.startsWith(prefix)) {
         if (message.content.split("@")[1].startsWith('everyone') || message.content.split("@")[0].startsWith('everyone')) {
@@ -326,11 +320,12 @@ client.on('message', async (message) => {
                 "Update    | (Still in dev) Can updates a user's username, for now.\n" +
                 "Invite    | Gives you the invite link for the server.\n" + 
                 "a         | This is not a real command, fool.\n" +
-                "Kick      | Kicks a member. Must have staff or higher.\n" +
+                "Kick      | Kicks a member. You must have staff or higher.\n" +
                 "Botconfig | Gives you the bot configuration.\n" + 
                 "Help      | This command.```\n\n" +
                 "These were ordered in the order they are in the code."
             )
+            .setColor('FF5733');
 
             authorsend(helpEmbed, message);
 
