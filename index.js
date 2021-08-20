@@ -200,8 +200,6 @@ client.on('message', async (message) => {
             } else {
                 return;
             }
-        } else if (message.channel.type === 'dm') {
-            message.channel.send("Sorry! You can't DM me!")
         } else if (message.content.split("@")[1].startsWith('everyone') || message.content.split("@")[0].startsWith('everyone')) {
             message.delete({timeout: 1});
         } else if (message.mentions.members.first() === client.user.id) {
@@ -229,7 +227,7 @@ client.on('message', async (message) => {
             }
         } else if (message.channel.id === "696010902196977784") {
             if (message.content == "Gamer" || message.content == "gamer") {
-                if(!message.member.roles.cache.has("850008425046999101")) {
+                if (!message.member.roles.cache.has("850008425046999101")) {
                     message.member.roles.add("850008425046999101")
                     message.author.send("You have been given the **Gamer** role!").catch();
                 } else if (message.member.roles.cache.has("850008425046999101")) {
@@ -237,7 +235,7 @@ client.on('message', async (message) => {
                     message.author.send("The **Gamer** role has been removed!").catch();
                 }
             } else if (message.content == "Helper" || message.content == "helper") {
-                if(!message.member.roles.cache.has("850029942539419708")) {
+                if (!message.member.roles.cache.has("850029942539419708")) {
                     message.member.roles.add("850029942539419708")
                     message.author.send("Why did you chose the **Helper** role?").catch();
                 } else if (message.member.roles.cache.has("850029942539419708")) {
@@ -245,7 +243,7 @@ client.on('message', async (message) => {
                     message.author.send("Thank god you removed your **Helper** role.", 1).catch();
                 }
             } else if (message.content == "Artist" || message.content == "artist") {
-                if(!message.member.roles.cache.has("850032711908720670")) {
+                if (!message.member.roles.cache.has("850032711908720670")) {
                     message.member.roles.add("850032711908720670")
                     message.author.send("You have been given the **Artist** role!").catch();
                 } else if (message.member.roles.cache.has("850032711908720670")) {
@@ -253,7 +251,7 @@ client.on('message', async (message) => {
                     message.author.send("The **Artist** role has been removed!").catch();
                 }
             } else if (message.content == "Programmer" || message.content == "programmer") {
-                if(!message.member.roles.cache.has("850033986481946724")) {
+                if (!message.member.roles.cache.has("850033986481946724")) {
                     message.member.roles.add("850033986481946724")
                     message.author.send("You have been given the **Programmer** role!").catch();
                 } else if (message.member.roles.cache.has("850033986481946724")) {
@@ -271,11 +269,9 @@ client.on('message', async (message) => {
 
     console.log(`${message.author.tag} said "${message.content}"`);
 
-    try{
+    try {
         if (message.channel.id != "685036523317625048" && message.channel.id != "696010902196977784" && message.channel.type != 'dm' && message.content.startsWith(prefix)) {
-            if (message.content.split("@")[1].startsWith('everyone') || message.content.split("@")[0].startsWith('everyone')) {
-                message.delete({timeout: 1})
-            } else if (command == 'ping') {
+            if (command == 'ping') {
                 client.commands.get('ping').execute(message, client);
             } else if (command == 'abt' || command == 'about'){
                 not_done_yet(message, command);
