@@ -271,70 +271,74 @@ client.on('message', async (message) => {
 
     console.log(`${message.author.tag} said "${message.content}"`);
 
-    if (message.channel.id != "685036523317625048" && message.channel.id != "696010902196977784" && message.channel.type != 'dm' && message.content.startsWith(prefix)) {
-        if (message.content.split("@")[1].startsWith('everyone') || message.content.split("@")[0].startsWith('everyone')) {
-            message.delete({timeout: 1})
-            return;
-        } else if (command == 'ping') {
-            client.commands.get('ping').execute(message, client);
-        } else if (command == 'abt' || command == 'about'){
-            not_done_yet(message, command);
-        } else if (command == 'role') {
-            client.commands.get('role').execute(message, AdminPerm, AdminRole, StaffRole, ModsRoles, AdvancedRole);
-        } else if (command == "r" || command == "report") {
-            client.commands.get('report').execute(message, client, punishChannel, Discord);
-        } else if (command == "update") {
+    try{
+        if (message.channel.id != "685036523317625048" && message.channel.id != "696010902196977784" && message.channel.type != 'dm' && message.content.startsWith(prefix)) {
+            if (message.content.split("@")[1].startsWith('everyone') || message.content.split("@")[0].startsWith('everyone')) {
+                message.delete({timeout: 1})
+                return;
+            } else if (command == 'ping') {
+                client.commands.get('ping').execute(message, client);
+            } else if (command == 'abt' || command == 'about'){
+                not_done_yet(message, command);
+            } else if (command == 'role') {
+                client.commands.get('role').execute(message, AdminPerm, AdminRole, StaffRole, ModsRoles, AdvancedRole);
+            } else if (command == "r" || command == "report") {
+                client.commands.get('report').execute(message, client, punishChannel, Discord);
+            } else if (command == "update") {
 
-            if (args[0] == null) {
-                message.channel.send("Please add the modifier to what you'd want to update.")
-            } else if (args[0] == "nick" || args[0] == "nickname") {
-                if (message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(ModsRoles) || message.member.roles.cache.has(StaffRole)) {
-                    client.updateCommands.get('nickname').execute(message, args, AdminPerm, AdminRole, StaffRole, ModsRoles)
+                if (args[0] == null) {
+                    message.channel.send("Please add the modifier to what you'd want to update.")
+                } else if (args[0] == "nick" || args[0] == "nickname") {
+                    if (message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(ModsRoles) || message.member.roles.cache.has(StaffRole)) {
+                        client.updateCommands.get('nickname').execute(message, args, AdminPerm, AdminRole, StaffRole, ModsRoles)
+                    }
+                } else {
+                    message.channel.send("Sorry but that isn't one of the the applicable modifiers.")
                 }
-            } else {
-                message.channel.send("Sorry but that isn't one of the the applicable modifiers.")
+
+            } else if (command == "invite") {
+                message.channel.send("Here's the link for the server! https://discord.gg/EudUY68.")
+            } else if (command == "a") {
+                message.channel.send("This isn't a real command, fool.")
+            } else if (command == "kick") {
+
+                client.commands.get('kick').execute(message, args, client, AdminPerm, AdminRole, StaffRole, ModsRoles, Discord);
+
+            } else if (command == 'botconfig') {
+                client.commands.get('botconfig').execute(message, client, Discord);
+            } else if (command == 'admin') {
+                message.channel.send("Try harder.")
+            } else if (command == 'help') {
+                let helpEmbed = new Discord.MessageEmbed()
+                .setTitle("Bot Help Panel")
+                .addField(
+                    "Commands:",
+                    "```\n" +
+                    "Ping      | Basic Ping Command.\n" +
+                    "Role      | Giving Role, must have staff or higher.\n" +
+                    "Report    | Reporting a member.\n" +
+                    "Event     | Must have Content Creator or higher, creates an event\n" +
+                    "Update    | (Still in dev) Can updates a user's username, for now.\n" +
+                    "Invite    | Gives you the invite link for the server.\n" + 
+                    "a         | This is not a real command, fool.\n" +
+                    "Kick      | Kicks a member. You must have staff or higher.\n" +
+                    "Botconfig | Gives you the bot configuration.\n" + 
+                    "Help      | This command.```\n\n" +
+                    "These were ordered in the order they are in the code."
+                )
+                .setColor('FF5733');
+
+                authorsend(helpEmbed, message);
+
+                message.channel.send("You have recieved mail!") 
             }
-
-        } else if (command == "invite") {
-            message.channel.send("Here's the link for the server! https://discord.gg/EudUY68.")
-        } else if (command == "a") {
-            message.channel.send("This isn't a real command, fool.")
-        } else if (command == "kick") {
-
-            client.commands.get('kick').execute(message, args, client, AdminPerm, AdminRole, StaffRole, ModsRoles, Discord);
-
-        } else if (command == 'botconfig') {
-            client.commands.get('botconfig').execute(message, client, Discord);
-        } else if (command == 'admin') {
-            message.channel.send("Try harder.")
-        } else if (command == 'help') {
-            let helpEmbed = new Discord.MessageEmbed()
-            .setTitle("Bot Help Panel")
-            .addField(
-                "Commands:",
-                "```\n" +
-                "Ping      | Basic Ping Command.\n" +
-                "Role      | Giving Role, must have staff or higher.\n" +
-                "Report    | Reporting a member.\n" +
-                "Event     | Must have Content Creator or higher, creates an event\n" +
-                "Update    | (Still in dev) Can updates a user's username, for now.\n" +
-                "Invite    | Gives you the invite link for the server.\n" + 
-                "a         | This is not a real command, fool.\n" +
-                "Kick      | Kicks a member. You must have staff or higher.\n" +
-                "Botconfig | Gives you the bot configuration.\n" + 
-                "Help      | This command.```\n\n" +
-                "These were ordered in the order they are in the code."
-            )
-            .setColor('FF5733');
-
-            authorsend(helpEmbed, message);
-
-            message.channel.send("You have recieved mail!") 
+        } else if (message.channel.type === 'dm' && message.content.startsWith(prefix)) {
+            message.channel.send("Sorry! You can't DM me!")
+        } else if (message.content.startsWith(prefix) && message.channel.id == "685036523317625048" || message.channel.id == "696010902196977784") {
+            message.delete({timeout: 1});
         }
-    } else if (message.channel.type === 'dm' && message.content.startsWith(prefix)) {
-        message.channel.send("Sorry! You can't DM me!")
-    } else if (message.content.startsWith(prefix) && message.channel.id == "685036523317625048" || message.channel.id == "696010902196977784") {
-        message.delete({timeout: 1});
+    } catch (err) {
+        console.log(err);
     }
 });
 
