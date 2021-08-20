@@ -323,7 +323,7 @@ client.on('message', async (message) => {
                 )
                 .setColor('FF5733');
 
-                authorsend(helpEmbed, message);
+                message.author.send(helpEmbed).catch(() => message.channel.send(helpEmbed).catch());
 
                 message.channel.send("You have recieved mail!") 
             }
