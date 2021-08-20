@@ -301,7 +301,7 @@ client.on('message', async (message) => {
             message.channel.send("This isn't a real command, fool.")
         } else if (command == "kick") {
 
-            client.commands.get('kick').execute(message, args, client, AdminPerm, AdminRole, StaffRole, ModsRoles);
+            client.commands.get('kick').execute(message, args, client, AdminPerm, AdminRole, StaffRole, ModsRoles, Discord);
 
         } else if (command == 'botconfig') {
             client.commands.get('botconfig').execute(message, client, Discord);
