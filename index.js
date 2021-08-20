@@ -275,7 +275,6 @@ client.on('message', async (message) => {
         if (message.channel.id != "685036523317625048" && message.channel.id != "696010902196977784" && message.channel.type != 'dm' && message.content.startsWith(prefix)) {
             if (message.content.split("@")[1].startsWith('everyone') || message.content.split("@")[0].startsWith('everyone')) {
                 message.delete({timeout: 1})
-                return;
             } else if (command == 'ping') {
                 client.commands.get('ping').execute(message, client);
             } else if (command == 'abt' || command == 'about'){
