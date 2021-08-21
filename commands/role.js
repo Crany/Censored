@@ -63,11 +63,7 @@ module.exports = {
                     
                     
                 }
-            } else if (member == null || role == null) {
-                message.delete({timeout: 1})
-                message.author.send("Please specify both the **TAG** and the **ROLE** you'd like to asign/remove from the person.").catch()
             }
-
         } else {
             message.author.send("Sorry but you don't meet the requirements to do that action!").catch();
         }
