@@ -273,7 +273,7 @@ client.on('message', async (message) => {
         } else if (command == 'abt' || command == 'about'){
             not_done_yet(message, command);
         } else if (command == 'role') {
-            client.commands.get('report').execute(message, AdminPerm, AdminRole, StaffRole, ModsRoles, AdvancedRole);
+            client.commands.get('role').execute(message, AdminPerm, AdminRole, StaffRole, ModsRoles, AdvancedRole);
         } else if (command == "r" || command == "report") {
             client.commands.get('report').execute(message, client, punishChannel, Discord);
         } else if (command == "update") {
