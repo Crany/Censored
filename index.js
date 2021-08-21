@@ -266,142 +266,136 @@ client.on('message', async (message) => {
     const command = args.shift().toLowerCase();
 
     console.log(`${message.author.tag} said "${message.content}"`);
+    if (message.channel.id != "685036523317625048" && message.channel.id != "696010902196977784" && message.channel.type != 'dm' && message.content.startsWith(prefix)) {
+        if (command == 'ping') {
+            client.commands.get('ping').execute(message, client);
+        } else if (command == 'abt' || command == 'about'){
+            not_done_yet(message, command);
+        } else if (command == 'role') {
+            client.commands.get('role').execute(message, AdminPerm, AdminRole, StaffRole, ModsRoles, AdvancedRole);
+        } else if (command == "r" || command == "report") {
+            client.commands.get('report').execute(message, client, punishChannel, Discord);
+        } else if (command == "update") {
 
-    try {
-        if (message.channel.id != "685036523317625048" && message.channel.id != "696010902196977784" && message.channel.type != 'dm' && message.content.startsWith(prefix)) {
-            if (command == 'ping') {
-                client.commands.get('ping').execute(message, client);
-            } else if (command == 'abt' || command == 'about'){
-                not_done_yet(message, command);
-            } else if (command == 'role') {
-                client.commands.get('role').execute(message, AdminPerm, AdminRole, StaffRole, ModsRoles, AdvancedRole);
-            } else if (command == "r" || command == "report") {
-                client.commands.get('report').execute(message, client, punishChannel, Discord);
-            } else if (command == "update") {
-
-                if (args[0] == null) {
-                    message.channel.send("Please add the modifier to what you'd want to update.")
-                } else if (args[0] == "nick" || args[0] == "nickname") {
-                    if (message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(ModsRoles) || message.member.roles.cache.has(StaffRole)) {
-                        client.updateCommands.get('nickname').execute(message, args, AdminPerm, AdminRole, StaffRole, ModsRoles)
-                    }
-                } else {
-                    message.channel.send("Sorry but that isn't one of the the applicable modifiers.")
+            if (args[0] == null) {
+                message.channel.send("Please add the modifier to what you'd want to update.")
+            } else if (args[0] == "nick" || args[0] == "nickname") {
+                if (message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(ModsRoles) || message.member.roles.cache.has(StaffRole)) {
+                    client.updateCommands.get('nickname').execute(message, args, AdminPerm, AdminRole, StaffRole, ModsRoles)
                 }
+            } else {
+                message.channel.send("Sorry but that isn't one of the the applicable modifiers.")
+            }
 
-            } else if (command == "invite") {
-                message.channel.send("Here's the link for the server! https://discord.gg/EudUY68.")
-            } else if (command == "a") {
-                message.channel.send("This isn't a real command, fool.")
-            } else if (command == "kick") {
+        } else if (command == "invite") {
+            message.channel.send("Here's the link for the server! https://discord.gg/EudUY68.")
+        } else if (command == "a") {
+            message.channel.send("This isn't a real command, fool.")
+        } else if (command == "kick") {
 
-                client.commands.get('kick').execute(message, args, client, AdminPerm, AdminRole, StaffRole, ModsRoles, Discord);
+            client.commands.get('kick').execute(message, args, client, AdminPerm, AdminRole, StaffRole, ModsRoles, Discord);
 
-            } else if (command == 'botconfig') {
-                client.commands.get('botconfig').execute(message, client, Discord);
-            } else if (command == 'admin') {
-                message.channel.send("Try harder.")
-            } else if (command == 'help') {
-                let helpEmbed = new Discord.MessageEmbed()
-                .setTitle("Bot Help Panel")
-                .addField(
-                    "Commands:",
-                    "```\n" +
-                    "Ping      | Basic Ping Command.\n" +
-                    "Role      | Giving Role, must have staff or higher.\n" +
-                    "Report    | Reporting a member.\n" +
-                    "Event     | Must have Content Creator or higher, creates an event\n" +
-                    "Update    | (Still in dev) Can updates a user's username, for now.\n" +
-                    "Invite    | Gives you the invite link for the server.\n" + 
-                    "a         | This is not a real command, fool.\n" +
-                    "Kick      | Kicks a member. You must have staff or higher.\n" +
-                    "Botconfig | Gives you the bot configuration.\n" + 
-                    "Help      | This command.```\n\n" +
-                    "These were ordered in the order they are in the code."
-                )
-                .setColor('FF5733');
+        } else if (command == 'botconfig') {
+            client.commands.get('botconfig').execute(message, client, Discord);
+        } else if (command == 'admin') {
+            message.channel.send("Try harder.")
+        } else if (command == 'help') {
+            let helpEmbed = new Discord.MessageEmbed()
+            .setTitle("Bot Help Panel")
+            .addField(
+                "Commands:",
+                "```\n" +
+                "Ping      | Basic Ping Command.\n" +
+                "Role      | Giving Role, must have staff or higher.\n" +
+                "Report    | Reporting a member.\n" +
+                "Event     | Must have Content Creator or higher, creates an event\n" +
+                "Update    | (Still in dev) Can updates a user's username, for now.\n" +
+                "Invite    | Gives you the invite link for the server.\n" + 
+                "a         | This is not a real command, fool.\n" +
+                "Kick      | Kicks a member. You must have staff or higher.\n" +
+                "Botconfig | Gives you the bot configuration.\n" + 
+                "Help      | This command.```\n\n" +
+                "These were ordered in the order they are in the code."
+            )
+            .setColor('FF5733');
 
-                message.author.send(helpEmbed).catch(() => message.channel.send(helpEmbed).catch());
+            message.author.send(helpEmbed).catch(() => message.channel.send(helpEmbed).catch());
 
-                message.channel.send("You have recieved mail!") 
-            } else if (command == 'ban') {
-                let member = message.mentions.members.first();
-                let newargs = args.splice(1).join(" ");
-                let author = message.author;
+            message.channel.send("You have recieved mail!") 
+        } else if (command == 'ban') {
+            let member = message.mentions.members.first();
+            let newargs = args.splice(1).join(" ");
+            let author = message.author;
 
-                if (message.member.roles.cache.has(AdminPerm || AdminRole || ModsRoles)) {
-                    if (newargs != "") {
-                        if (member != null) {
-                            if (member.user.bot != true) {
-                                if (member.roles.cache.has(AdminPerm || AdminRole)) {
-                                    message.channel.send("Sorry, you can't ban this person!");
-                                } else {
-                                    if (message.member.roles.cache.has(AdminPerm || AdminRole)) {
-                                        member.send("You have been ban from **Nymos Cavern** for: " + newargs).catch()
+            if (message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(ModsRoles)) {
+                if (newargs != "") {
+                    if (member != null) {
+                        if (member.user.bot != true) {
+                            if (member.roles.cache.has(message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole))) {
+                                message.channel.send("Sorry, you can't ban this person!");
+                            } else {
+                                if (message.member.roles.cache.has(message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole))) {
+                                    member.send("You have been ban from **Nymos Cavern** for: " + newargs).catch()
 
-                                        let banEmbed = new Discord.MessageEmbed()
-                                        .setTitle(`${member.user.tag} was ban.`)
-                                        .addFields(
-                                            {name: "REASON:", value: newargs, inline: true},
-                                            {name: "LENGTH:", value: ":infinity:", inline: true},
-                                            {name: "MOD:", value: author.tag, inline: true}
-                                        )
-                                        .setColor("FF0000");
-        
-                                        client.channels.cache.get(punishChannel).send(banEmbed);
-                                        //member.ban(newargs)
-                                    } else if (message.member.roles.cache.has(ModsRoles)) {
-                                        if (member.roles.cache.has(ModsRoles)) {
-                                            message.channel.send("Sorry, you can't ban this person since they're a mod.")
-                                        } else {
-                                            member.send(
-                                                new Discord.MessageEmbed()
-                                                .setTitle("You have been ban from **Nymo's Cavern**!")
-                                                .addFields(
-                                                    {name: "REASON:", value: newargs, inline: true},
-                                                    {name: "LENGTH:", value: ":infinity:", inline: true},
-                                                    {name: "MOD:", value: author.tag, inline: true}
-                                                )
-                                                .setColor("FF0000")
-                                            ).catch()
-            
-                                            client.channels.cache.get('878366667506348122').send(
-                                                new Discord.MessageEmbed()
-                                                .setTitle(`${member.user.tag} was ban.`)
-                                                .addFields(
-                                                    {name: "REASON:", value: newargs, inline: true},
-                                                    {name: "LENGTH:", value: ":infinity:", inline: true},
-                                                    {name: "MOD:", value: author.tag, inline: true}
-                                                )
-                                                .setColor("FF0000")
+                                    let banEmbed = new Discord.MessageEmbed()
+                                    .setTitle(`${member.user.tag} was ban.`)
+                                    .addFields(
+                                        {name: "REASON:", value: newargs, inline: true},
+                                        {name: "LENGTH:", value: ":infinity:", inline: true},
+                                        {name: "MOD:", value: author.tag, inline: true}
+                                    )
+                                    .setColor("FF0000");
+    
+                                    client.channels.cache.get(punishChannel).send(banEmbed);
+                                    //member.ban(newargs)
+                                } else if (message.member.roles.cache.has(ModsRoles)) {
+                                    if (member.roles.cache.has(ModsRoles)) {
+                                        message.channel.send("Sorry, you can't ban this person since they're also a mod.")
+                                    } else {
+                                        member.send(
+                                            new Discord.MessageEmbed()
+                                            .setTitle("You have been ban from **Nymo's Cavern**!")
+                                            .addFields(
+                                                {name: "REASON:", value: newargs, inline: true},
+                                                {name: "LENGTH:", value: ":infinity:", inline: true},
+                                                {name: "MOD:", value: author.tag, inline: true}
                                             )
-                                            // member.ban(newargs);
-                                        }
+                                            .setColor("FF0000")
+                                        ).catch()
+        
+                                        client.channels.cache.get('878366667506348122').send(
+                                            new Discord.MessageEmbed()
+                                            .setTitle(`${member.user.tag} was ban.`)
+                                            .addFields(
+                                                {name: "REASON:", value: newargs, inline: true},
+                                                {name: "LENGTH:", value: ":infinity:", inline: true},
+                                                {name: "MOD:", value: author.tag, inline: true}
+                                            )
+                                            .setColor("FF0000")
+                                        )
+                                        // member.ban(newargs);
                                     }
                                 }
-                            } else {
-                                message.channel.send("no.")
                             }
                         } else {
-                            message.channel.send("Please specify the person you want to ban.");
+                            message.channel.send("no.")
                         }
                     } else {
-                        message.channel.send("Please specify a reason to ban this member.");
+                        message.channel.send("Please specify the person you want to ban.");
                     }
-                } else if (message.member.roles.cache.has(StaffRole)) {
-                    message.channel.send("Hey! We're still working on getting a different type of ban for you guys!");
                 } else {
-                    message.channel.send("Sorry, you have to be a Staff member or higher to use this action.");
+                    message.channel.send("Please specify a reason to ban this member.");
                 }
+            } else if (message.member.roles.cache.has(StaffRole)) {
+                message.channel.send("Hey! We're still working on getting a different type of ban for you guys!");
+            } else {
+                message.channel.send("Sorry, you have to be a Staff member or higher to use this action.");
             }
-        } else if (message.channel.type === 'dm' && message.content.startsWith(prefix)) {
-            message.channel.send("Sorry! You can't DM me!")
-        } else if (message.content.startsWith(prefix) && message.channel.id == "685036523317625048" || message.channel.id == "696010902196977784") {
-            message.delete({timeout: 1});
         }
-    } catch (err) {
-        console.log(err);
-        message.author.send("Hmm, seems like there was an error completing your command!");
+    } else if (message.channel.type === 'dm' && message.content.startsWith(prefix)) {
+        message.channel.send("Sorry! You can't DM me!")
+    } else if (message.content.startsWith(prefix) && message.channel.id == "685036523317625048" || message.channel.id == "696010902196977784") {
+        message.delete({timeout: 1});
     }
 });
 

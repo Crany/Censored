@@ -4,7 +4,7 @@ module.exports = {
     execute(message, args, client, AdminPerm, AdminRole, StaffRole, ModsRoles, Discord) {
         let sentenceargs = args.splice(1).join(" ")
 
-        if (message.member.roles.cache.has(AdminPerm || AdminRole || StaffRole || ModsRoles)) {
+        if (message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(StaffRole) || message.member.roles.cache.has(ModsRoles)) {
             let member = message.mentions.members.first()
 
             if (sentenceargs == null) {
@@ -16,7 +16,7 @@ module.exports = {
             } else if (member.id == message.author.id) {
                 message.channel.send(`You can't kick yourself, <@${message.author.id}>.`)
                 return
-            } else if (member.roles.cache.has(AdminPerm || AdminRole || StaffRole || ModsRoles)) {
+            } else if (member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(StaffRole) || message.member.roles.cache.has(ModsRoles)) {
                 message.channel.send("You can't kick these people since they have staff or higher.")
                 return
             } else if (member.user.bot) {
