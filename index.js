@@ -200,8 +200,6 @@ client.on('message', async (message) => {
             } else {
                 return;
             }
-        } else if (message.content.split("@")[1].startsWith('everyone') || message.content.split("@")[0].startsWith('everyone')) {
-            message.delete({timeout: 1});
         } else if (message.mentions.members.first() === client.user.id) {
             message.channel.send("Did somebody call for me?")
         } else if (message.channel.id === "685036523317625048"){
@@ -332,21 +330,72 @@ client.on('message', async (message) => {
                 let author = message.author;
 
                 if (message.member.roles.cache.has(AdminPerm || AdminRole || ModsRoles)) {
-                    if (newargs != "") {
+                    if (newargs != ("" || null)) {
                         if (member != null) {
                             if (member.user.bot != true) {
-                                member.send(
-                                    new Discord.MessageEmbed()
-                                    .addFields(
-                                        {name: "REASON:", value: newargs, inline: true},
-                                        {name: "LENGTH:", value: ":infinity:", inline: true},
-                                        {name: "MOD:", value: author.tag, inline: true}
-                                    )
-                                    .setColor("FF0000")
-                                ).catch()
-                                //member.ban(newargs)
+                                if (member.roles.cache.has(AdminPerm || AdminRole)) {
+                                    message.channel.send("Sorry, you can't ban this person!");
+                                } else {
+                                    if (message.member.roles.cache.has(AdminPerm || AdminRole)) {
+                                        member.send(
+                                            new Discord.MessageEmbed()
+                                            .setTitle("You have been ban from **Nymo's Cavern**!")
+                                            .addFields(
+                                                {name: "REASON:", value: newargs, inline: true},
+                                                {name: "LENGTH:", value: ":infinity:", inline: true},
+                                                {name: "MOD:", value: author.tag, inline: true}
+                                            )
+                                            .setColor("FF0000")
+                                        ).catch()
+        
+                                        client.channels.cache.get('878366667506348122').send(
+                                            new Discord.MessageEmbed()
+                                            .setTitle(`${member.user.tag} was ban.`)
+                                            .addFields(
+                                                {name: "REASON:", value: newargs, inline: true},
+                                                {name: "LENGTH:", value: ":infinity:", inline: true},
+                                                {name: "MOD:", value: author.tag, inline: true}
+                                            )
+                                            .setColor("FF0000")
+                                        )
+                                        //member.ban(newargs)
+                                    } else if (message.member.roles.cache.has(ModsRoles)) {
+                                        if (member.roles.cache.has(ModsRoles)) {
+                                            message.channel.send("Sorry, you can't ban this person since they're a mod.")
+                                        } else {
+                                            member.send(
+                                                new Discord.MessageEmbed()
+                                                .setTitle("You have been ban from **Nymo's Cavern**!")
+                                                .addFields(
+                                                    {name: "REASON:", value: newargs, inline: true},
+                                                    {name: "LENGTH:", value: ":infinity:", inline: true},
+                                                    {name: "MOD:", value: author.tag, inline: true}
+                                                )
+                                                .setColor("FF0000")
+                                            ).catch()
+            
+                                            client.channels.cache.get('878366667506348122').send(
+                                                new Discord.MessageEmbed()
+                                                .setTitle(`${member.user.tag} was ban.`)
+                                                .addFields(
+                                                    {name: "REASON:", value: newargs, inline: true},
+                                                    {name: "LENGTH:", value: ":infinity:", inline: true},
+                                                    {name: "MOD:", value: author.tag, inline: true}
+                                                )
+                                                .setColor("FF0000")
+                                            )
+                                            // member.ban(newargs);
+                                        }
+                                    }
+                                }
+                            } else {
+                                message.channel.send("no.")
                             }
+                        } else {
+                            message.channel.send("Please specify the person you want to ban.");
                         }
+                    } else {
+                        message.channel.send("Please specify a reason to ban this member.");
                     }
                 } else if (message.member.roles.cache.has(StaffRole)) {
                     message.channel.send("Hey! We're still working on getting a different type of ban for you guys!");
@@ -361,6 +410,7 @@ client.on('message', async (message) => {
         }
     } catch (err) {
         console.log(err);
+        message.author.send("Hmm, seems like there was an error completing your command!");
     }
 });
 
