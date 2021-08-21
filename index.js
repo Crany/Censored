@@ -337,18 +337,18 @@ client.on('message', async (message) => {
                                     message.channel.send("Sorry, you can't ban this person!");
                                 } else {
                                     if (message.member.roles.cache.has(AdminPerm || AdminRole)) {
-                                        member.send("You have been ban from **Nymos Cavern** for: ").catch()
-        
-                                        client.channels.cache.get('878366667506348122').send(
-                                            new Discord.MessageEmbed()
-                                            .setTitle(`${member.user.tag} was ban.`)
-                                            .addFields(
-                                                {name: "REASON:", value: newargs, inline: true},
-                                                {name: "LENGTH:", value: ":infinity:", inline: true},
-                                                {name: "MOD:", value: author.tag, inline: true}
-                                            )
-                                            .setColor("FF0000")
+                                        member.send("You have been ban from **Nymos Cavern** for: " + newargs).catch()
+
+                                        let banEmbed = new Discord.MessageEmbed()
+                                        .setTitle(`${member.user.tag} was ban.`)
+                                        .addFields(
+                                            {name: "REASON:", value: newargs, inline: true},
+                                            {name: "LENGTH:", value: ":infinity:", inline: true},
+                                            {name: "MOD:", value: author.tag, inline: true}
                                         )
+                                        .setColor("FF0000");
+        
+                                        client.channels.cache.get('878366667506348122').send(banEmbed);
                                         //member.ban(newargs)
                                     } else if (message.member.roles.cache.has(ModsRoles)) {
                                         if (member.roles.cache.has(ModsRoles)) {
