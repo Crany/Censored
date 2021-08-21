@@ -266,14 +266,14 @@ client.on('message', async (message) => {
     const command = args.shift().toLowerCase();
 
     console.log(`${message.author.tag} said "${message.content}"`);
-    
+
     if (message.channel.id != "685036523317625048" && message.channel.id != "696010902196977784" && message.channel.type != 'dm' && message.content.startsWith(prefix)) {
         if (command == 'ping') {
             client.commands.get('ping').execute(message, client);
         } else if (command == 'abt' || command == 'about'){
             not_done_yet(message, command);
         } else if (command == 'role') {
-            client.commands.get('role').execute(message, AdminPerm, AdminRole, StaffRole, ModsRoles, AdvancedRole);
+            client.commands.get('report').execute(message, AdminPerm, AdminRole, StaffRole, ModsRoles, AdvancedRole);
         } else if (command == "r" || command == "report") {
             client.commands.get('report').execute(message, client, punishChannel, Discord);
         } else if (command == "update") {
