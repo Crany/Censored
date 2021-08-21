@@ -337,16 +337,7 @@ client.on('message', async (message) => {
                                     message.channel.send("Sorry, you can't ban this person!");
                                 } else {
                                     if (message.member.roles.cache.has(AdminPerm || AdminRole)) {
-                                        member.send(
-                                            new Discord.MessageEmbed()
-                                            .setTitle("You have been ban from **Nymo's Cavern**!")
-                                            .addFields(
-                                                {name: "REASON:", value: newargs, inline: true},
-                                                {name: "LENGTH:", value: ":infinity:", inline: true},
-                                                {name: "MOD:", value: author.tag, inline: true}
-                                            )
-                                            .setColor("FF0000")
-                                        ).catch()
+                                        member.send("You have been ban from **Nymos Cavern** for: ").catch()
         
                                         client.channels.cache.get('878366667506348122').send(
                                             new Discord.MessageEmbed()
