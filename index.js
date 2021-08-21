@@ -348,7 +348,7 @@ client.on('message', async (message) => {
                                         )
                                         .setColor("FF0000");
         
-                                        client.channels.cache.get('878366667506348122').send(banEmbed);
+                                        client.channels.cache.get(punishChannel).send(banEmbed);
                                         //member.ban(newargs)
                                     } else if (message.member.roles.cache.has(ModsRoles)) {
                                         if (member.roles.cache.has(ModsRoles)) {
