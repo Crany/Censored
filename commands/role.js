@@ -7,12 +7,12 @@ module.exports = {
 
             if (member != null && role != null) {
                 if (role.id == (AdminPerm || AdminRole) || member.roles.cache.has(AdminRole || AdminPerm)) { 
-                    authorsend(`Sorry! I can't do that! The **${role.name.toUpperCase()}** role has to be given manually.`, message)
+                    message.author.send(`Sorry! I can't do that! The **${role.name.toUpperCase()}** role has to be given manually.`, message).catch();
                 } else {
                     if (role.id == ModsRoles) {
                         if (message.member.roles.cache.has(ModsRoles || AdminPerm || AdminRole)) {
                             if (member.roles.cache.has(ModsRoles && !AdminPerm || !AdminRole)) {
-                                authorsend("Sorry! I can't do that! If you think they are abusing their role, report it to and admin.", message)
+                                message.author.send("Sorry! I can't do that! If you think they are abusing their role, report it to and admin.").catch();
                                 return
                             } else if (message.member.roles.cache.has(AdminRole || AdminPerm)) {
                                 if (!member.roles.cache.has(ModsRoles)) {
@@ -27,7 +27,7 @@ module.exports = {
                                 member.send(`${message.author.tag} just gave you the **MODERATORS** Role!`).catch()
                             }
                         } else {
-                            authorsend("Sorry! You have to be a Moderator or higher to have this role!", message)
+                            message.author.send("Sorry! You have to be a Moderator or higher to have this role!").catch();
                         }
                     } else {
                         if (member.id == message.author.id) {
@@ -47,7 +47,6 @@ module.exports = {
                         }
                     }
 
-
                     if (member.user.bot != true) {
                         if (role.id == ModsRoles) {
                             if (!member.roles.cache.has(ModsRoles)) member.setNickname("[Mod] " + member.user.username)
@@ -60,8 +59,6 @@ module.exports = {
                             else if (member.roles.cache.has(AdvancedRole)) member.setNickname(member.user.username);
                         }
                     }
-                    
-                    
                 }
             }
         } else {
@@ -69,5 +66,3 @@ module.exports = {
         }
     }
 }
-
-function authorsend(send, message) {message.author.send(send).catch()}

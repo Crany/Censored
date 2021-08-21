@@ -266,6 +266,7 @@ client.on('message', async (message) => {
     const command = args.shift().toLowerCase();
 
     console.log(`${message.author.tag} said "${message.content}"`);
+    
     if (message.channel.id != "685036523317625048" && message.channel.id != "696010902196977784" && message.channel.type != 'dm' && message.content.startsWith(prefix)) {
         if (command == 'ping') {
             client.commands.get('ping').execute(message, client);
