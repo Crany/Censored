@@ -330,7 +330,7 @@ client.on('message', async (message) => {
                 let author = message.author;
 
                 if (message.member.roles.cache.has(AdminPerm || AdminRole || ModsRoles)) {
-                    if (newargs != ("" || null)) {
+                    if (newargs != "") {
                         if (member != null) {
                             if (member.user.bot != true) {
                                 if (member.roles.cache.has(AdminPerm || AdminRole)) {
