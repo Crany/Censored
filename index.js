@@ -326,6 +326,33 @@ client.on('message', async (message) => {
                 message.author.send(helpEmbed).catch(() => message.channel.send(helpEmbed).catch());
 
                 message.channel.send("You have recieved mail!") 
+            } else if (command == 'ban') {
+                let member = message.mentions.members.first();
+                let newargs = args.splice(1).join(" ");
+                let author = message.author;
+
+                if (message.member.roles.cache.has(AdminPerm || AdminRole || ModsRoles)) {
+                    if (newargs != "") {
+                        if (member != null) {
+                            if (member.user.bot != true) {
+                                member.send(
+                                    new Discord.MessageEmbed()
+                                    .addFields(
+                                        {name: "REASON:", value: newargs, inline: true},
+                                        {name: "LENGTH:", value: ":infinity:", inline: true},
+                                        {name: "MOD:", value: author.tag, inline: true}
+                                    )
+                                    .setColor("FF0000")
+                                ).catch()
+                                //member.ban(newargs)
+                            }
+                        }
+                    }
+                } else if (message.member.roles.cache.has(StaffRole)) {
+                    message.channel.send("Hey! We're still working on getting a different type of ban for you guys!");
+                } else {
+                    message.channel.send("Sorry, you have to be a Staff member or higher to use this action.");
+                }
             }
         } else if (message.channel.type === 'dm' && message.content.startsWith(prefix)) {
             message.channel.send("Sorry! You can't DM me!")
