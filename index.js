@@ -332,10 +332,10 @@ client.on('message', async (message) => {
                 if (member != null) {
                     if (newargs != "") {
                         if (member.user.bot != true) {
-                            if (message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole)) {
+                            if (member.roles.cache.has(AdminPerm) || member.roles.cache.has(AdminRole)) {
                                 message.channel.send("Sorry, you can't ban this person!");
                             } else {
-                                if (message.member.roles.cache.has(message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole))) {
+                                if (message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole)) {
                                     member.send("You have been ban from **Nymos Cavern** for: " + newargs).catch()
 
                                     let banEmbed = new Discord.MessageEmbed()
@@ -379,7 +379,7 @@ client.on('message', async (message) => {
                                 }
                             }
                         } else {
-                            message.channel.send("no.")
+                            message.channel.send("You can't ban bots!")
                         }
                     } else {
                         message.channel.send("Please specify a reason to ban this member.");
