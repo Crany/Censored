@@ -63,8 +63,6 @@ module.exports = {
                     }
                 }
             }
-        } else {
-            message.author.send("Sorry but you don't meet the requirements to do that action!").catch();
         }
     }
 }
