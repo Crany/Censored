@@ -5,8 +5,6 @@ module.exports = {
             let role   = message.mentions.roles.first()
             let member = message.mentions.members.first();
 
-            message.channel.send("hey");
-
             if (member != null && role != null) {
                 if (role.id == (AdminPerm || AdminRole) || member.roles.cache.has(AdminRole || AdminPerm)) { 
                     message.author.send(`Sorry! I can't do that! The **${role.name.toUpperCase()}** role has to be given manually.`, message).catch();

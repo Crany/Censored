@@ -367,7 +367,7 @@ client.on('message', async (message) => {
                                         member.ban(newargs).catch();
                                     }
                                 } else if (message.member.roles.cache.has(StaffRole)) {
-                                    message.channel.send("Hey! We're still working on getting a different type of ban for you guys!");
+                                    message.channel.send("Hey! We're still working on getting a different type of ban for you guys!").catch();
                                 }
                             }
                         } else {
