@@ -329,10 +329,10 @@ client.on('message', async (message) => {
             let author = message.author;
 
             if (message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole) || message.member.roles.cache.has(ModsRoles)) {
-                if (newargs != "") {
-                    if (member != null) {
+                if (member != null) {
+                    if (newargs != "") {
                         if (member.user.bot != true) {
-                            if (member.roles.cache.has(message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole))) {
+                            if (message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole)) {
                                 message.channel.send("Sorry, you can't ban this person!");
                             } else {
                                 if (message.member.roles.cache.has(message.member.roles.cache.has(AdminPerm) || message.member.roles.cache.has(AdminRole))) {
@@ -382,10 +382,10 @@ client.on('message', async (message) => {
                             message.channel.send("no.")
                         }
                     } else {
-                        message.channel.send("Please specify the person you want to ban.");
+                        message.channel.send("Please specify a reason to ban this member.");
                     }
                 } else {
-                    message.channel.send("Please specify a reason to ban this member.");
+                    message.channel.send("Please specify the person you want to ban.");
                 }
             } else if (message.member.roles.cache.has(StaffRole)) {
                 message.channel.send("Hey! We're still working on getting a different type of ban for you guys!");
