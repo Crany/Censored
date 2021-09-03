@@ -206,7 +206,7 @@ client.on('message', async (message) => {
             if (!message.member.roles.cache.has(AdminRole || AdminPerm || ModsRoles)) {
                 if (message.content === "accept" || message.content === "Accept") {
                     if (!message.member.roles.cache.has(DefaultMembers)) {
-                        message.author.send("Welcome to **Nymo's Community**, " + message.author.username + "!").catch();
+                        try { message.author.send("Welcome to **Nymo's Community**, " + message.author.username + "!") } catch {}
                         message.member.roles.add("680397965285654551");
                         message.delete({timeout: 1})
                         client.channels.cache.get("697426937047678997").send(`Please welcome <@${message.author.id}> to the server!`);
