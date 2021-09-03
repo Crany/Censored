@@ -206,19 +206,10 @@ client.on('message', async (message) => {
             if (!message.member.roles.cache.has(AdminRole || AdminPerm || ModsRoles)) {
                 if (message.content === "accept" || message.content === "Accept") {
                     if (!message.member.roles.cache.has(DefaultMembers)) {
-                        authorsend("Welcome to **Nymo's Community**, " + message.author.username + "!", message);
+                        message.author.send("Welcome to **Nymo's Community**, " + message.author.username + "!").catch();
                         message.member.roles.add("680397965285654551");
                         message.delete({timeout: 1})
                         client.channels.cache.get("697426937047678997").send(`Please welcome <@${message.author.id}> to the server!`);
-
-                        let memberCountFilename = './data/json/members.json'
-                        let memberCountFile = require('./data/json/members.json')
-
-                        memberCountFile.list.push(message.author.id)
-
-                        console.log(memberCountFile.list);
-
-                        JSONwrite(memberCountFilename)
                         return;
                     } else message.delete({timeout: 1})
                 } else message.delete({timeout: 1});
@@ -389,14 +380,6 @@ client.on('message', async (message) => {
         message.delete({timeout: 1});
     }
 });
-
-/**
- * 
- * @param {String} send 
- * @param {Discord} message 
- */
-
-function authorsend(send, message) {message.author.send(send).catch()} 
 
 function not_done_yet(message, command) {
     let random = Math.floor(Math.random() * 4);
