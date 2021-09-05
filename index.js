@@ -171,6 +171,7 @@ client.on('ready', () => {
     })
 });
 
+// When there is a guild member update, this callback will be called //
 client.on('guildMemberUpdate', async (oldMember, newMember) => {
     
 });
@@ -208,7 +209,7 @@ client.on('message', async (message) => {
                 } else message.delete({timeout: 1});
             }
         } else if (message.channel.id === "696010902196977784") {
-            if (message.content == "Gamer" || message.content == "gamer") {
+            if (message.content == "Gamer") {
                 if (!message.member.roles.cache.has("850008425046999101")) {
                     message.member.roles.add("850008425046999101")
                     message.author.send("You have been given the **Gamer** role!").catch();
@@ -216,7 +217,7 @@ client.on('message', async (message) => {
                     message.member.roles.remove("850008425046999101");
                     message.author.send("The **Gamer** role has been removed!").catch();
                 }
-            } else if (message.content == "Helper" || message.content == "helper") {
+            } else if (message.content == "Helper") {
                 if (!message.member.roles.cache.has("850029942539419708")) {
                     message.member.roles.add("850029942539419708")
                     message.author.send("Why did you chose the **Helper** role?").catch();
@@ -224,7 +225,7 @@ client.on('message', async (message) => {
                     message.member.roles.remove("850029942539419708");
                     message.author.send("Thank god you removed your **Helper** role.", 1).catch();
                 }
-            } else if (message.content == "Artist" || message.content == "artist") {
+            } else if (message.content == "Artist") {
                 if (!message.member.roles.cache.has("850032711908720670")) {
                     message.member.roles.add("850032711908720670")
                     message.author.send("You have been given the **Artist** role!").catch();
@@ -232,7 +233,7 @@ client.on('message', async (message) => {
                     message.member.roles.remove("850032711908720670");
                     message.author.send("The **Artist** role has been removed!").catch();
                 }
-            } else if (message.content == "Programmer" || message.content == "programmer") {
+            } else if (message.content == "Programmer") {
                 if (!message.member.roles.cache.has("850033986481946724")) {
                     message.member.roles.add("850033986481946724")
                     message.author.send("You have been given the **Programmer** role!").catch();
@@ -240,6 +241,8 @@ client.on('message', async (message) => {
                     message.member.roles.remove("850033986481946724");
                     message.author.send("The **Programmer** role has been removed!").catch();
                 }
+            } else if (message.content == "Editor") {
+                message.author.send("Sorry! This role hasn't been created yet!").catch();
             } else {
                 message.author.send("\"" + message.content + "\" is an unknown role! Please check you spelt it right!").catch();
             }
