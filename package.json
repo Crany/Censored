@@ -1,6 +1,6 @@
 {
   "name": "censored-bot",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Censored Bot for Nymo's Cavern",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/CranyBrainly/Censored#readme",
   "dependencies": {
-    "discord.js": "^13.2.0"
+    "discord.js": "^13.2.0",
+    "dotenv": "^10.0.0"
   }
 }
