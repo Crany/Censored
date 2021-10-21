@@ -1,0 +1,22 @@
+{
+  "name": "censored-bot",
+  "version": "1.0.0",
+  "description": "Censored Bot for Nymo's Cavern",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CranyBrainly/Censored.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CranyBrainly/Censored/issues"
+  },
+  "homepage": "https://github.com/CranyBrainly/Censored#readme",
+  "dependencies": {
+    "discord.js": "^13.2.0"
+  }
+}
