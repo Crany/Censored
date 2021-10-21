@@ -1,6 +1,7 @@
 'use strict';
 
 const { Client, Intents } = require('discord.js');
+const { Message } = require('discord.js/src/index.js');
 
 require('dotenv').config()
 
@@ -23,7 +24,17 @@ const client = new Client({
 })
 
 client.on("ready", () => {
-    console.log
+    console.log("Ready :)")
+})
+
+client.on('messageCreate', (message) => {
+    if (message.member.user.bot == true) {
+        return;
+    } else {
+        if (message.content == "!ping") {
+            message.reply("pong!");
+        }
+    }
 })
 
 client.login(process.env.TOKEN)
