@@ -1,6 +1,6 @@
 'use strict';
 
-const { Client, Intents, MessageEmbed, Permissions } = require('discord.js');
+const { Client, Intents, MessageEmbed, Permissions, Collection} = require('discord.js');
 
 require('dotenv').config()
 
@@ -26,6 +26,16 @@ const client = new Client({
 
 const modRoles = ["680397530676068365", "856834038815916052", "680180666549141588", "865150729132048396", "876198442014244924"]
 
+client.commands = new Collection();
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	const command = require(`./commands/${file}`);
+	// Set a new item in the Collection
+	// With the key as the command name and the value as the exported module
+	client.commands.set(command.name, command);
+}
+
 client.on("ready", () => {
     console.log("Ready :)")
 })
@@ -35,7 +45,7 @@ client.on("ready", () => {
 client.on('messageCreate', (message) => {
     let prefix = require('./data/json/config.json').prefix;
 
-    const hasModsRole = modRoles.some(role => {
+    const hasModRole = modRoles.some(role => {
         return message.member.roles.cache.has(role);
     });  
 
@@ -59,52 +69,8 @@ client.on('messageCreate', (message) => {
             if (command == "ping") {
                 message.reply("pong!");
             } else if (command == "prefix") {
-                let prefixEmbed = new MessageEmbed();
-                if (hasModsRole || message.member.permissions.has(Permissions.FLAGS.MANAGE_WEBHOOKS)) {
-                    if (args[0] == null) {
-                        prefixEmbed.setTitle("Please add a prefix.")
-                        prefixEmbed.setColor("#FFBF00")
-                        message.channel.send({ embeds: [prefixEmbed] })
-                    } else if (args[0] != "") {
-                        try {
-                            const configRequire = require('./data/json/config.json');
-                            if (args[0] == "default") {
-                                prefixEmbed.setTitle("Succesfully changed Prefix to \`$\`.");
-                                prefixEmbed.setColor("GREEN");
-
-                                configRequire.prefix = "$";
-
-                                client.guilds.cache.get(message.guild.id).members.cache.get(client.user.id).setNickname(`[${configRequire.prefix}] Censored`);
-
-                                JSONwrite("config");
-
-                                message.channel.send({embeds: [prefixEmbed]})
-                            } else if (configRequire.alphabet.includes(args[0].charAt(0))) {
-                                prefixEmbed.setTitle("The prefix can't start with a letter.")
-                                prefixEmbed.setColor("FFBF00")
-                                message.channel.send({ embeds: [prefixEmbed] });
-                            } else {
-                                configRequire.prefix = args[0];
-                                JSONwrite("config")
-
-                                prefixEmbed.setTitle(`Succesfully changed Prefix to \`${configRequire.prefix}\`.`)
-                                prefixEmbed.setColor("GREEN")
-
-                                message.channel.send({ embeds: [prefixEmbed] })
-
-                                client.guilds.cache.get(message.guild.id).members.cache.get(client.user.id).setNickname(`[${configRequire.prefix}] Censored`);
-                            }
-
-                        } catch (e) {
-                            console.log(e)
-                            errorMessage(message, prefixEmbed, "Prefix")
-                        }
-                    }
-                } else {
-                    prefixEmbed.setTitle("You have to be Mod or higher, or have the permission of `Manage Webhooks` to use this command.")
-                    prefixEmbed.setColor("#FFBF00")
-                    message.channel.send({ embeds: [prefixEmbed]});
-                }
+                const configRequire = require('./data/json/config.json');
+                client.commands.get("prefix").execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, hasModRole, args)
             }
         } else {
             message.channel.send("Hello there! We're still working on seperate commands for DM's")
