@@ -1,7 +1,7 @@
 module.exports = {
     name: "prefix",
     description: "Command for changing the prefix",
-    async execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, hasModsRole, args) {
+    async execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, hasModsRole, args, errorMessage) {
         let prefixEmbed = new MessageEmbed();
         if (hasModsRole || message.member.permissions.has(Permissions.FLAGS.MANAGE_WEBHOOKS)) {
             if (args[0] == null) {

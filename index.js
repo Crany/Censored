@@ -31,8 +31,6 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
-	// Set a new item in the Collection
-	// With the key as the command name and the value as the exported module
 	client.commands.set(command.name, command);
 }
 
@@ -67,10 +65,24 @@ client.on('messageCreate', (message) => {
     } else {
         if (message.channel.type != 'DM') {
             if (command == "ping") {
-                message.reply("pong!");
+                var ping = client.ws.ping;
+
+                let pingEmbed = new MessageEmbed()
+                .setTitle(`Pong! \`${ping}ms\``)
+                
+                if (ping >= "500") {
+                    pingEmbed.setColor("RED");
+                    pingEmbed.setDescription("We seem to be experiencing some networking issues.")
+                } else if (ping >= "250") {
+                    pingEmbed.setColor("FFBF00");
+                } else if (ping < "250") {
+                    pingEmbed.setColor("GREEN");
+                }
+
+                message.channel.send({ embeds: [pingEmbed] })
             } else if (command == "prefix") {
                 const configRequire = require('./data/json/config.json');
-                client.commands.get("prefix").execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, hasModRole, args)
+                client.commands.get("prefix").execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, hasModRole, args, errorMessage)
             }
         } else {
             message.channel.send("Hello there! We're still working on seperate commands for DM's")
