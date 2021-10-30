@@ -5,6 +5,7 @@ const { Client, Intents, MessageEmbed, Permissions, Collection} = require('disco
 require('dotenv').config()
 
 const fs = require('fs');
+const mongoose = require('mongoose')
 
 const client = new Client({
     intents: [
@@ -35,7 +36,7 @@ for (const file of commandFiles) {
 }
 
 client.on("ready", () => {
-    console.log("Ready :)")
+    console.log("Connected to Discord.")
 })
 
 // console.log("abcdefghijklmnopqrstuvwxyz".split(""))
@@ -99,5 +100,15 @@ function errorMessage(message, embed, err) {
     embed.setColor("RED")
     message.channel.send({ embeds: [embed] })
 }
+
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => {
+    console.log("Connected to MongoDB Database - CensoredAtlas.")
+}).catch((err) => {
+    console.log("Failed to connect to MongoDB Database - CensoredAtlas.")
+    console.log(err)
+})
 
 client.login(process.env.TOKEN)
