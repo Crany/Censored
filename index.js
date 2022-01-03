@@ -1,11 +1,12 @@
 'use strict';
 
+console.log("Setting up...")
+
 const { Client, Intents, MessageEmbed, Permissions, Collection} = require('discord.js');
-
 require('dotenv').config()
-
 const fs = require('fs');
 const mongoose = require('mongoose')
+const createCaptcha = require('./auto/captcha')
 
 const client = new Client({
     intents: [
@@ -36,20 +37,15 @@ for (const file of commandFiles) {
 }
 
 client.on("ready", () => {
-    console.log("Connected to Discord.")
+    console.log("└──Connected to Discord.")
 })
 
 // console.log("abcdefghijklmnopqrstuvwxyz".split(""))
 
-client.on('messageCreate', (message) => {
+client.on('messageCreate', async (message) => {
     let prefix = require('./data/json/config.json').prefix;
 
-    const hasModRole = modRoles.some(role => {
-        return message.member.roles.cache.has(role);
-    });  
-
-    const args = message.content.slice(prefix.length).trim().split(" ");
-    const command = args.shift().toLowerCase();
+    const configRequire = require('./data/json/config.json');
 
     if (message.author.id == true) return
     else if (message.member.user.bot == true) return
@@ -65,28 +61,39 @@ client.on('messageCreate', (message) => {
         }
     } else {
         if (message.channel.type != 'DM') {
-            if (command == "ping") {
-                var ping = client.ws.ping;
+            if (message.channel.id != '685036523317625048' && message.content.startsWith(prefix)) {
+                const args = message.content.slice(prefix.length).trim().split(" ");
+                const command = args.shift().toLowerCase();
 
-                let pingEmbed = new MessageEmbed()
-                .setTitle(`Pong! \`${ping}ms\``)
-                
-                if (ping >= "500") {
-                    pingEmbed.setColor("RED");
-                    pingEmbed.setDescription("We seem to be experiencing some networking issues.")
-                } else if (ping >= "250") {
-                    pingEmbed.setColor("FFBF00");
-                } else if (ping < "250") {
-                    pingEmbed.setColor("GREEN");
+                if (command == "ping") {
+                    var ping = client.ws.ping;
+    
+                    let pingEmbed = new MessageEmbed()
+                    .setTitle(`Pong! \`${ping}ms\``)
+                    
+                    if (ping >= "500") {
+                        pingEmbed.setColor("RED");
+                        pingEmbed.setDescription("We seem to be experiencing some networking issues.")
+                    } else if (ping >= "250") {
+                        pingEmbed.setColor("FFBF00");
+                    } else if (ping < "250") {
+                        pingEmbed.setColor("GREEN");
+                    }
+    
+                    message.channel.send({ embeds: [pingEmbed] })
+                } else if (command == "prefix") {
+                    client.commands.get("prefix").execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, modRoles.some(roles => message.member.roles.cache.has(roles)), args, errorMessage, prefix)
                 }
 
-                message.channel.send({ embeds: [pingEmbed] })
-            } else if (command == "prefix") {
-                const configRequire = require('./data/json/config.json');
-                client.commands.get("prefix").execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, hasModRole, args, errorMessage)
+                if (message.content.startsWith(prefix) && configRequire.availableCommands.includes(command)) console.log(`${message.author.tag} used the command "${command}"`);
+            } else if (message.channel.id == '685036523317625048') {
+                if (message.content == 'ready') {
+                    message.member.send("hello")
+                    message.delete()
+                } else {
+                    message.delete()
+                }
             }
-        } else {
-            message.channel.send("Hello there! We're still working on seperate commands for DM's")
         }
     }
 })
@@ -101,14 +108,17 @@ function errorMessage(message, embed, err) {
     message.channel.send({ embeds: [embed] })
 }
 
+console.log('Connected...')
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => {
-    console.log("Connected to MongoDB Database - CensoredAtlas.")
+    console.log("├── Connected to the MongoDB Database.")
+    client.login(process.env.TOKEN).catch((err) => {
+        console.log("Failed to connect to Discord.");
+        console.error(err)
+    })
 }).catch((err) => {
-    console.log("Failed to connect to MongoDB Database - CensoredAtlas.")
-    console.log(err)
-})
-
-client.login(process.env.TOKEN)
+    console.log("Failed to connect to the MongoDB Database.")
+    console.error(err)
+});

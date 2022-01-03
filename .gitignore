@@ -1,3 +1,4 @@
 node_modules
 heroku.bat
 npminstall.bat
+configbackup.json

@@ -1,5 +1,5 @@
 {
-  "prefix": "!!",
+  "prefix": "$",
   "alphabet": [
     "a",
     "b",
@@ -27,5 +27,9 @@
     "x",
     "y",
     "z"
+  ],
+  "availableCommands": [
+    "prefix",
+    "ping"
   ]
 }
