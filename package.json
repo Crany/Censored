@@ -1,11 +1,12 @@
 {
   "name": "censored-bot",
-  "version": "1.2.0",
+  "version": "8.1.0",
   "description": "Censored Bot for Nymo's Cavern",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "npm": "8.1.0"
   },
   "repository": {
     "type": "git",
