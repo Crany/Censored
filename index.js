@@ -190,7 +190,3 @@ mongoose.connect(process.env.MONGODB_URI, {
     console.error(err);
     process.exit(1);
 });
-
-console.log(() => {
-    
-})
