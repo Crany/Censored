@@ -163,7 +163,9 @@ client.on('messageCreate', async (message) => {
 })
 
 function JSONwrite(filename) {
-    fs.writeFile(`./data/json/${filename}.json`, JSON.stringify(require(`./data/json/${filename}.json`), null, 2), (err) => {if (err) return console.log(err)});
+    fs.writeFile(`./data/json/${filename}.json`, JSON.stringify(require(`./data/json/${filename}.json`), null, 2), (err) => {
+        if (err) return console.log(err)
+    });
 }
 
 function errorMessage(message, embed, err) {
@@ -188,3 +190,7 @@ mongoose.connect(process.env.MONGODB_URI, {
     console.error(err);
     process.exit(1);
 });
+
+console.log(() => {
+    
+})
