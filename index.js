@@ -131,10 +131,11 @@ client.on('messageCreate', async (message) => {
                             message.author.send({ embeds: [captchaEmbed] })
                             client.guilds.cache.get('680154842316275834').members.cache.get(message.author.id).roles.add('680397965285654551')
                             console.log(doingCaptcha)
-                            for (let i = 0; doingCaptcha[i] != message.author.id; i++) {
+                            for (let i = 0; doingCaptcha[i] == message.author.id; i++) {
                                 if (doingCaptcha[i] == message.author.id) {
                                     doingCaptcha.splice(i+1, i+1)
                                 }
+
                             }
                             console.log(doingCaptcha)
                         }
