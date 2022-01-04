@@ -8,9 +8,9 @@ module.exports = {
         let error = 0;
         let prefixEmbed = new MessageEmbed();
         try {
-            if (hasModsRole) {
+            if (hasModsRole || message.member.permissions.has(Permissions.FLAGS.MANAGE_WEBHOOKS)) {
                 if (args[0] == null) {
-                    prefixEmbed.setTitle("Please add a prefix.")
+                    prefixEmbed.setDescription("**Please add a prefix.**")
                     prefixEmbed.setColor("#FFBF00")
                     message.channel.send({ embeds: [prefixEmbed] })
                     error = 2;
@@ -21,7 +21,7 @@ module.exports = {
 
                     JSONwrite("config");
                 } else if (configRequire.alphabet.includes(args[0].charAt(0))) {
-                    prefixEmbed.setTitle("The prefix can't start with a letter.")
+                    prefixEmbed.setDescription("**The prefix can't start with a letter.**")
                     prefixEmbed.setColor("FFBF00")
                     message.channel.send({ embeds: [prefixEmbed] });
                     error = 2;
@@ -32,7 +32,7 @@ module.exports = {
                     client.guilds.cache.get(message.guild.id).members.cache.get(client.user.id).setNickname(`[${configRequire.prefix}] Censored`);
                 }
             } else {
-                prefixEmbed.setTitle("You have to be Mod or higher, or have the permission of `Manage Webhooks` to use this command.")
+                prefixEmbed.setDescription("**You have to be Mod or higher, or have the permission of `Manage Webhooks` to use this command.**")
                 prefixEmbed.setColor("#FFBF00")
                 message.channel.send({ embeds: [prefixEmbed]});
                 error = 2;
@@ -56,7 +56,7 @@ module.exports = {
         }
 
         if (error == 0) {
-            prefixEmbed.setTitle(`Succesfully changed Prefix to \`${configRequire.prefix}\`.`);
+            prefixEmbed.setDescription(`**Succesfully changed Prefix to \`${configRequire.prefix}\`.**`);
             prefixEmbed.setColor("GREEN");
             message.channel.send({ embeds: [prefixEmbed] })
         }

@@ -2,11 +2,12 @@
 
 console.log("Setting up...")
 
-const { Client, Intents, MessageEmbed, Permissions, Collection} = require('discord.js');
+const { Client, Intents, MessageEmbed, Permissions, Collection, MessageAttachment} = require('discord.js');
 require('dotenv').config()
 const fs = require('fs');
 const mongoose = require('mongoose')
-const createCaptcha = require('./auto/captcha')
+const createCaptcha = require('./auto/captcha/captcha')
+let doingCaptcha = [];
 
 const client = new Client({
     intents: [
@@ -37,7 +38,7 @@ for (const file of commandFiles) {
 }
 
 client.on("ready", () => {
-    console.log("└──Connected to Discord.")
+    console.log("└── Connected to Discord.")
 })
 
 // console.log("abcdefghijklmnopqrstuvwxyz".split(""))
@@ -48,51 +49,116 @@ client.on('messageCreate', async (message) => {
     const configRequire = require('./data/json/config.json');
 
     if (message.author.id == true) return
-    else if (message.member.user.bot == true) return
-    else if (message.mentions.members.size != 0) {
-        if (message.mentions.members.first().user.id == client.user.id) {
-            if (args[0] == "prefix") {
-                const helpPrefixEmbed = new MessageEmbed()
-                .setTitle(`This bot's prefix is \`${prefix}\`.`)
-                .setColor("GREEN")
+    else if (message.author.bot == true) return
+    else {
+        if (message.channel.type != 'DM') {
+            if (message.mentions.members.size != 0) {
+                if (message.mentions.members.first().user.id == client.user.id) {
+                    if (args[0] == "prefix") {
+                        const helpPrefixEmbed = new MessageEmbed()
+                        .setTitle(`This bot's prefix is \`${prefix}\`.`)
+                        .setColor("GREEN")
 
-                message.channel.send({ embeds: [helpPrefixEmbed] })
+                        message.channel.send({ embeds: [helpPrefixEmbed] })
+                    }
+                }
             }
         }
-    } else {
-        if (message.channel.type != 'DM') {
-            if (message.channel.id != '685036523317625048' && message.content.startsWith(prefix)) {
-                const args = message.content.slice(prefix.length).trim().split(" ");
-                const command = args.shift().toLowerCase();
+        
+        if (message.channel.id != '685036523317625048' && message.channel.type != 'DM' && message.content.startsWith(prefix)) {
+            const args = message.content.slice(prefix.length).trim().split(" ");
+            const command = args.shift().toLowerCase();
 
-                if (command == "ping") {
-                    var ping = client.ws.ping;
-    
-                    let pingEmbed = new MessageEmbed()
-                    .setTitle(`Pong! \`${ping}ms\``)
-                    
-                    if (ping >= "500") {
-                        pingEmbed.setColor("RED");
-                        pingEmbed.setDescription("We seem to be experiencing some networking issues.")
-                    } else if (ping >= "250") {
-                        pingEmbed.setColor("FFBF00");
-                    } else if (ping < "250") {
-                        pingEmbed.setColor("GREEN");
+            if (command == "ping") {
+                var ping = client.ws.ping;
+
+                let pingEmbed = new MessageEmbed()
+                .setDescription(`**Pong!** \`${ping}ms\``)
+                
+                if (ping >= "500") {
+                    pingEmbed.setColor("RED");
+                    pingEmbed.setDescription(`**Pong!** \`${ping}ms\`\nWe seem to be experiencing some networking issues.`)
+                } else if (ping >= "250") {
+                    pingEmbed.setColor("FFBF00");
+                } else if (ping < "250") {
+                    pingEmbed.setColor("GREEN");
+                }
+
+                message.channel.send({ embeds: [pingEmbed] })
+            } else if (command == "prefix") {
+                client.commands.get("prefix").execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, modRoles.some(roles => message.member.roles.cache.has(roles)), args, errorMessage, prefix)
+            }
+
+            if (message.content.startsWith(prefix) && configRequire.availableCommands.includes(command)) console.log(`${message.author.tag} used the command "${command}"`);
+        } else if (message.channel.id == '685036523317625048') {
+            if (message.content == 'ready') {
+                message.delete()
+                
+                // Captcha Stuff //
+                
+                doingCaptcha.push(message.author.id);
+                const captcha = await createCaptcha();
+
+                try {
+                    let captchaEmbed = new MessageEmbed();
+                    captchaEmbed.setTitle("You will have 1 minute to complete this captcha. Do this by resending the text you see bellow.")
+                    captchaEmbed.setImage(`attachment://${captcha}.png`)
+                    // Tutorial to get it working by: Anson the Developer (Jimp/Captcha)
+                    captchaEmbed.setColor('BLUE')
+                    setTimeout(() => message.author.send({ embeds: [captchaEmbed], files: [`./auto/captcha/captchas/${captcha}.png`] }), 500)
+                    setTimeout(() => fs.unlink(`./auto/captcha/captchas/${captcha}.png`, (err) => {if (err) throw err}), 1000)
+
+                    try {
+                        const filter = (msg) => {
+                            if (msg.author.bot) return
+                            if (msg.author.id == message.author.id && msg.content === captcha) {
+                                return true
+                            } else {
+                                captchaEmbed.setTitle(`You have answered the captcha incorrectly.`)
+                                captchaEmbed.setColor("RED")
+                                msg.author.send({ embeds: [captchaEmbed] })
+                                return false;
+                            }
+                        }
+
+                        await message.author.createDM();
+                        // const collector = await message.author.dmChannel.createMessageCollector({filter, max: 1, time: 20000, errors: ['time']})
+                        const response = await message.author.dmChannel.awaitMessages({filter, max: 1, time: 60000, errors: ['time']})
+                        if (response) {
+                            captchaEmbed.setTitle(`You have answered the captcha correctly.`)
+                            captchaEmbed.setDescription(`Welcome to the server, ${message.author}!`)
+                            captchaEmbed.setColor("GREEN")
+                            message.author.send({ embeds: [captchaEmbed] })
+                            client.guilds.cache.get('680154842316275834').members.cache.get(message.author.id).roles.add('680397965285654551')
+                            console.log(doingCaptcha)
+                            for (let i = 0; doingCaptcha[i] != message.author.id; i++) {
+                                if (doingCaptcha[i] == message.author.id) {
+                                    doingCaptcha.splice(i+1, i+1)
+                                }
+                            }
+                            console.log(doingCaptcha)
+                        }
+                    } catch (e) {
+                        console.error(e)
+                        captchaEmbed.setTitle(`You did not complete the captcha fast enough.")`)
+                        captchaEmbed.setColor("RED")
+                        if (!modRoles.some(roles => message.member.roles.cache.has(roles))) {
+                            message.member.kick("Failed to verify whether or not they're human.")
+                            await message.author.send({ embeds: [captchaEmbed] })
+                            
+                            // for (let i = 0; doingCaptcha[i] != message.author.id; i++) {
+                            //     if (doingCaptcha[i] == message.author.id) {
+                            //         doingCaptcha.splice(i, i)
+                            //         console.log(doingCaptcha)
+                            //     }
+                            // }
+                        }
                     }
-    
-                    message.channel.send({ embeds: [pingEmbed] })
-                } else if (command == "prefix") {
-                    client.commands.get("prefix").execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, modRoles.some(roles => message.member.roles.cache.has(roles)), args, errorMessage, prefix)
+                } catch (e) {
+                    console.error(e)
                 }
-
-                if (message.content.startsWith(prefix) && configRequire.availableCommands.includes(command)) console.log(`${message.author.tag} used the command "${command}"`);
-            } else if (message.channel.id == '685036523317625048') {
-                if (message.content == 'ready') {
-                    message.member.send("hello")
-                    message.delete()
-                } else {
-                    message.delete()
-                }
+            } else {
+                message.delete()
             }
         }
     }
@@ -108,17 +174,19 @@ function errorMessage(message, embed, err) {
     message.channel.send({ embeds: [embed] })
 }
 
-console.log('Connected...')
+console.log('Connecting...')
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => {
-    console.log("├── Connected to the MongoDB Database.")
+    console.log("├── Connected to the MongoDB Database.");
     client.login(process.env.TOKEN).catch((err) => {
-        console.log("Failed to connect to Discord.");
-        console.error(err)
+        console.log("└── Failed to connect to Discord.");
+        console.error(err);
+        process.exit(1);
     })
 }).catch((err) => {
-    console.log("Failed to connect to the MongoDB Database.")
-    console.error(err)
+    console.log("├── Failed to connect to the MongoDB Database.");
+    console.error(err);
+    process.exit(1);
 });
