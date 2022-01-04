@@ -96,67 +96,60 @@ client.on('messageCreate', async (message) => {
                 
                 // Captcha Stuff //
                 
-                doingCaptcha.push(message.author.id);
-                const captcha = await createCaptcha();
-
-                try {
-                    let captchaEmbed = new MessageEmbed();
-                    captchaEmbed.setTitle("You will have 1 minute to complete this captcha. Do this by resending the text you see bellow.")
-                    captchaEmbed.setImage(`attachment://${captcha}.png`)
-                    // Tutorial to get it working by: Anson the Developer (Jimp/Captcha)
-                    captchaEmbed.setColor('BLUE')
-                    setTimeout(() => message.author.send({ embeds: [captchaEmbed], files: [`./auto/captcha/captchas/${captcha}.png`] }), 500)
-                    setTimeout(() => fs.unlink(`./auto/captcha/captchas/${captcha}.png`, (err) => {if (err) throw err}), 1000)
+                if (!doingCaptcha.includes(message.author.id)) {
+                    doingCaptcha.push(message.author.id);
+                    const captcha = await createCaptcha();
 
                     try {
-                        const filter = (msg) => {
-                            if (msg.author.bot) return
-                            if (msg.author.id == message.author.id && msg.content === captcha) {
-                                return true
-                            } else {
-                                captchaEmbed.setTitle(`You have answered the captcha incorrectly.`)
-                                captchaEmbed.setColor("RED")
-                                msg.author.send({ embeds: [captchaEmbed] })
-                                return false;
-                            }
-                        }
+                        let captchaEmbed = new MessageEmbed();
+                        captchaEmbed.setTitle("You will have 1 minute to complete this captcha. Do this by resending the text you see bellow.")
+                        captchaEmbed.setTitle("Don't forget it's CaSe SeNsItIvE!")
+                        captchaEmbed.setImage(`attachment://${captcha}.png`)
+                        // Tutorial to get it working by: Anson the Developer (Jimp/Captcha)
+                        captchaEmbed.setColor('BLUE')
+                        setTimeout(() => message.author.send({ embeds: [captchaEmbed], files: [`./auto/captcha/captchas/${captcha}.png`] }).then(() => {fs.unlink(`./auto/captcha/captchas/${captcha}.png`, (err) => {if (err) throw err})}), 500)
 
-                        await message.author.createDM();
-                        // const collector = await message.author.dmChannel.createMessageCollector({filter, max: 1, time: 20000, errors: ['time']})
-                        const response = await message.author.dmChannel.awaitMessages({filter, max: 1, time: 60000, errors: ['time']})
-                        if (response) {
-                            captchaEmbed.setTitle(`You have answered the captcha correctly.`)
-                            captchaEmbed.setDescription(`Welcome to the server, ${message.author}!`)
-                            captchaEmbed.setColor("GREEN")
-                            message.author.send({ embeds: [captchaEmbed] })
-                            client.guilds.cache.get('680154842316275834').members.cache.get(message.author.id).roles.add('680397965285654551')
-                            console.log(doingCaptcha)
-                            for (let i = 0; doingCaptcha[i] == message.author.id; i++) {
-                                if (doingCaptcha[i] == message.author.id) {
-                                    doingCaptcha.splice(i+1, i+1)
+
+                        try {
+                            const filter = (msg) => {
+                                if (msg.author.bot) return
+                                if (msg.author.id == message.author.id && msg.content === captcha) {
+                                    return true
+                                } else {
+                                    captchaEmbed.setTitle(`You have answered the captcha incorrectly.`)
+                                    captchaEmbed.setColor("RED")
+                                    msg.author.send({ embeds: [captchaEmbed] })
+                                    return false;
                                 }
-
                             }
-                            console.log(doingCaptcha)
+
+                            await message.author.createDM();
+                            // const collector = await message.author.dmChannel.createMessageCollector({filter, max: 1, time: 20000, errors: ['time']})
+                            const response = await message.author.dmChannel.awaitMessages({filter, max: 1, time: 60000, errors: ['time']})
+                            if (response) {
+                                captchaEmbed.setTitle(`You have answered the captcha correctly.`)
+                                captchaEmbed.setDescription(`Welcome to the server, ${message.author}!`)
+                                captchaEmbed.setColor("GREEN")
+                                message.author.send({ embeds: [captchaEmbed] })
+                                client.guilds.cache.get('680154842316275834').members.cache.get(message.author.id).roles.add('680397965285654551')
+                                doingCaptcha.splice(doingCaptcha.indexOf(message.author.id), 1)
+                            }
+                        } catch (e) {
+                            console.error(e)
+                            captchaEmbed.setTitle(`You did not complete the captcha fast enough.")`)
+                            captchaEmbed.setColor("RED")
+                            if (!modRoles.some(roles => message.member.roles.cache.has(roles))) {
+                                // message.member.kick("Failed to verify whether or not they're human.")
+                                await message.author.send({ embeds: [captchaEmbed] })
+                                
+                                doingCaptcha.splice(doingCaptcha.indexOf(message.author.id), 1)
+                            }
                         }
                     } catch (e) {
                         console.error(e)
-                        captchaEmbed.setTitle(`You did not complete the captcha fast enough.")`)
-                        captchaEmbed.setColor("RED")
-                        if (!modRoles.some(roles => message.member.roles.cache.has(roles))) {
-                            message.member.kick("Failed to verify whether or not they're human.")
-                            await message.author.send({ embeds: [captchaEmbed] })
-                            
-                            // for (let i = 0; doingCaptcha[i] != message.author.id; i++) {
-                            //     if (doingCaptcha[i] == message.author.id) {
-                            //         doingCaptcha.splice(i, i)
-                            //         console.log(doingCaptcha)
-                            //     }
-                            // }
-                        }
                     }
-                } catch (e) {
-                    console.error(e)
+                } else {
+                    message.delete()
                 }
             } else {
                 message.delete()
