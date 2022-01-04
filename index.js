@@ -48,6 +48,8 @@ client.on('messageCreate', async (message) => {
 
     const configRequire = require('./data/json/config.json');
 
+    const hasModRoles = modRoles.some(roles => message.member.roles.cache.has(roles))
+
     if (message.author.id == true) return
     else if (message.author.bot == true) return
     else {
@@ -91,7 +93,7 @@ client.on('messageCreate', async (message) => {
 
             if (message.content.startsWith(prefix) && configRequire.availableCommands.includes(command)) console.log(`${message.author.tag} used the command "${command}"`);
         } else if (message.channel.id == '685036523317625048') {
-            if (message.content == 'ready') {
+            if (message.content == 'ready' && hasModRoles) {
                 message.delete()
                 
                 // Captcha Stuff //
@@ -103,7 +105,7 @@ client.on('messageCreate', async (message) => {
                     try {
                         let captchaEmbed = new MessageEmbed();
                         captchaEmbed.setTitle("You will have 1 minute to complete this captcha. Do this by resending the text you see bellow.")
-                        captchaEmbed.setTitle("Don't forget it's CaSe SeNsItIvE!")
+                        captchaEmbed.setDescription("Don't forget it's CaSe SeNsItIvE!")
                         captchaEmbed.setImage(`attachment://${captcha}.png`)
                         // Tutorial to get it working by: Anson the Developer (Jimp/Captcha)
                         captchaEmbed.setColor('BLUE')
@@ -124,7 +126,6 @@ client.on('messageCreate', async (message) => {
                             }
 
                             await message.author.createDM();
-                            // const collector = await message.author.dmChannel.createMessageCollector({filter, max: 1, time: 20000, errors: ['time']})
                             const response = await message.author.dmChannel.awaitMessages({filter, max: 1, time: 60000, errors: ['time']})
                             if (response) {
                                 captchaEmbed.setTitle(`You have answered the captcha correctly.`)
@@ -148,8 +149,6 @@ client.on('messageCreate', async (message) => {
                     } catch (e) {
                         console.error(e)
                     }
-                } else {
-                    message.delete()
                 }
             } else {
                 message.delete()
