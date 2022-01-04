@@ -2,6 +2,9 @@
   "name": "censored-bot",
   "version": "1.0.0",
   "description": "Main Automation bot for Nymo's Cavern",
+  "engines": {
+    "node": "16.x"
+  },
   "main": "index.js",
   "scripts": {
     "test": "node index.js"
