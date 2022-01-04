@@ -134,6 +134,11 @@ client.on('messageCreate', async (message) => {
                                 message.author.send({ embeds: [captchaEmbed] })
                                 client.guilds.cache.get('680154842316275834').members.cache.get(message.author.id).roles.add('680397965285654551')
                                 doingCaptcha.splice(doingCaptcha.indexOf(message.author.id), 1)
+
+                                // let welcomeEmbed = new MessageEmbed();
+                                // welcomeEmbed.setDescription(`Please welcome ${message.author} to the server!`)
+                                // welcomeEmbed.setColor('GREEN')
+                                // client.guilds.cache.get('680154842316275834').channels.cache.get('927991039946555422').send({ embeds: [welcomeEmbed] })
                             }
                         } catch (e) {
                             console.error(e)
