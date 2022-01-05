@@ -47,8 +47,13 @@ client.on('messageCreate', async (message) => {
     let prefix = require('./data/json/config.json').prefix;
 
     const configRequire = require('./data/json/config.json');
-
-    const hasModRoles = modRoles.some(roles => message.member.roles.cache.has(roles))
+    
+    const hasModRoles = modRoles.some(roles => {
+        if (message.channel.type != 'DM') {
+            client.guilds.cache.get('680154842316275834').members.cache.get(message.author.id).roles.cache.has(roles)
+        }
+    })
+    // message.member.roles.cache.has(roles)
 
     if (message.author.id == true) return
     else if (message.author.bot == true) return
@@ -68,6 +73,7 @@ client.on('messageCreate', async (message) => {
         }
         
         if (message.channel.id != '685036523317625048' && message.channel.type != 'DM' && message.content.startsWith(prefix)) {
+            
             const args = message.content.slice(prefix.length).trim().split(" ");
             const command = args.shift().toLowerCase();
 
@@ -88,12 +94,12 @@ client.on('messageCreate', async (message) => {
 
                 message.channel.send({ embeds: [pingEmbed] })
             } else if (command == "prefix") {
-                client.commands.get("prefix").execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, modRoles.some(roles => message.member.roles.cache.has(roles)), args, errorMessage, prefix)
+                client.commands.get("prefix").execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, hasModRoles, args, errorMessage, prefix)
             }
 
             if (message.content.startsWith(prefix) && configRequire.availableCommands.includes(command)) console.log(`${message.author.tag} used the command "${command}"`);
         } else if (message.channel.id == '685036523317625048') {
-            if (message.content == 'ready' && hasModRoles) {
+            if (message.content == 'ready') {
                 message.delete()
                 
                 // Captcha Stuff //
@@ -109,8 +115,8 @@ client.on('messageCreate', async (message) => {
                         captchaEmbed.setImage(`attachment://${captcha}.png`)
                         // Tutorial to get it working by: Anson the Developer (Jimp/Captcha)
                         captchaEmbed.setColor('BLUE')
-                        setTimeout(() => message.author.send({ embeds: [captchaEmbed], files: [`./auto/captcha/captchas/${captcha}.png`] }).then(() => {fs.unlink(`./auto/captcha/captchas/${captcha}.png`, (err) => {if (err) throw err})}), 500)
-
+                        setTimeout(() => message.author.send({ embeds: [captchaEmbed], files: [`./auto/captcha/captchas/${captcha}.png`] }), 500)
+                        setTimeout(() => fs.unlink(`./auto/captcha/captchas/${captcha}.png`, (err) => {if (err) throw err}), 1000)
 
                         try {
                             const filter = (msg) => {
@@ -142,14 +148,10 @@ client.on('messageCreate', async (message) => {
                             }
                         } catch (e) {
                             console.error(e)
-                            captchaEmbed.setTitle(`You did not complete the captcha fast enough.")`)
+                            captchaEmbed.setTitle(`You did not complete the captcha fast enough.`)
                             captchaEmbed.setColor("RED")
-                            if (!modRoles.some(roles => message.member.roles.cache.has(roles))) {
-                                // message.member.kick("Failed to verify whether or not they're human.")
-                                await message.author.send({ embeds: [captchaEmbed] })
-                                
-                                doingCaptcha.splice(doingCaptcha.indexOf(message.author.id), 1)
-                            }
+                            await message.author.send({ embeds: [captchaEmbed] })
+                            doingCaptcha.splice(doingCaptcha.indexOf(message.author.id), 1)
                         }
                     } catch (e) {
                         console.error(e)
