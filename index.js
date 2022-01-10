@@ -115,7 +115,7 @@ client.on('messageCreate', async (message) => {
                         captchaEmbed.setImage(`attachment://${captcha}.png`)
                         // Tutorial to get it working by: Anson the Developer (Jimp/Captcha)
                         captchaEmbed.setColor('BLUE')
-                        setTimeout(() => message.author.send({ embeds: [captchaEmbed], files: [`./auto/captcha/captchas/${captcha}.png`] }).catch((e) => console.error(e)), 500)
+                        setTimeout(() => message.author.send({ embeds: [captchaEmbed], files: [`./auto/captcha/captchas/${captcha}.png`] }).catch((e) => {console.log(`${message.author.tag} forgot to allow DM's.`)}), 500)
                         setTimeout(() => fs.unlink(`./auto/captcha/captchas/${captcha}.png`, (err) => {if (err) throw err}), 1000)
 
                         try {
