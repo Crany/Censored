@@ -109,50 +109,67 @@ client.on('messageCreate', async (message) => {
                     const captcha = await createCaptcha();
 
                     try {
+                        let doCaptcha = true
                         let captchaEmbed = new MessageEmbed();
                         captchaEmbed.setTitle("You will have 1 minute to complete this captcha. Do this by resending the text you see bellow.")
                         captchaEmbed.setDescription("Don't forget it's CaSe SeNsItIvE!")
                         captchaEmbed.setImage(`attachment://${captcha}.png`)
                         // Tutorial to get it working by: Anson the Developer (Jimp/Captcha)
                         captchaEmbed.setColor('BLUE')
-                        setTimeout(() => message.author.send({ embeds: [captchaEmbed], files: [`./auto/captcha/captchas/${captcha}.png`] }).catch((e) => {console.log(`${message.author.tag} forgot to allow DM's.`)}), 500)
-                        setTimeout(() => fs.unlink(`./auto/captcha/captchas/${captcha}.png`, (err) => {if (err) throw err}), 1000)
+                        setTimeout(() => message.author.send({ embeds: [captchaEmbed], files: [`./auto/captcha/captchas/${captcha}.png`] }).catch((e) => {
+                            console.log(`${message.author.tag} forgot to allow DM's`)
+                            fs.unlink(`./auto/captcha/captchas/${captcha}.png`, (err) => {if (err) throw err})
+                            doCaptcha = false
+                        }).then(async () => {
+                            if (doCaptcha == true) {
+                                console.log(`${message.author.tag} is doing the CAPTCHA.`)
+                                try {
+                                    const filter = (msg) => {
+                                        if (msg.author.bot) return
+                                        if (msg.author.id == message.author.id && msg.content === captcha) {
+                                            return true
+                                        } else {
+                                            captchaEmbed.setTitle(`You have answered the captcha incorrectly.`)
+                                            captchaEmbed.setColor("RED")
+                                            msg.author.send({ embeds: [captchaEmbed] })
+                                            return false;
+                                        }
+                                    }
 
-                        try {
-                            const filter = (msg) => {
-                                if (msg.author.bot) return
-                                if (msg.author.id == message.author.id && msg.content === captcha) {
-                                    return true
-                                } else {
-                                    captchaEmbed.setTitle(`You have answered the captcha incorrectly.`)
+                                    await message.author.createDM();
+                                    const response = await message.author.dmChannel.awaitMessages({filter, max: 1, time: 60000, errors: ['time']})
+                                    if (response) {
+                                        captchaEmbed.setTitle(`You have answered the captcha correctly.`)
+                                        captchaEmbed.setDescription(`Welcome to the server, ${message.author}!`)
+                                        captchaEmbed.setColor("GREEN")
+                                        message.author.send({ embeds: [captchaEmbed] })
+                                        client.guilds.cache.get('680154842316275834').members.cache.get(message.author.id).roles.add('680397965285654551')
+                                        doingCaptcha.splice(doingCaptcha.indexOf(message.author.id), 1)
+                                        console.log(`${message.author.tag} successfully completed the CAPTCHA`)
+
+                                        // let welcomeEmbed = new MessageEmbed();
+                                        // welcomeEmbed.setDescription(`Please welcome ${message.author} to the server!`)
+                                        // welcomeEmbed.setColor('GREEN')
+                                        // client.guilds.cache.get('680154842316275834').channels.cache.get('927991039946555422').send({ embeds: [welcomeEmbed] })
+                                    }
+                                } catch (e) {
+                                    // console.error(e)
+                                    captchaEmbed.setTitle(`You did not complete the captcha fast enough.`)
                                     captchaEmbed.setColor("RED")
-                                    msg.author.send({ embeds: [captchaEmbed] })
-                                    return false;
+                                    await message.author.send({ embeds: [captchaEmbed] })
+                                    doingCaptcha.splice(doingCaptcha.indexOf(message.author.id), 1)
+                                    await console.log(`${message.author.tag} failed the CAPTCHA`)
                                 }
-                            }
-
-                            await message.author.createDM();
-                            const response = await message.author.dmChannel.awaitMessages({filter, max: 1, time: 60000, errors: ['time']})
-                            if (response) {
-                                captchaEmbed.setTitle(`You have answered the captcha correctly.`)
-                                captchaEmbed.setDescription(`Welcome to the server, ${message.author}!`)
-                                captchaEmbed.setColor("GREEN")
-                                message.author.send({ embeds: [captchaEmbed] })
-                                client.guilds.cache.get('680154842316275834').members.cache.get(message.author.id).roles.add('680397965285654551')
+                            } else {
                                 doingCaptcha.splice(doingCaptcha.indexOf(message.author.id), 1)
-
-                                // let welcomeEmbed = new MessageEmbed();
-                                // welcomeEmbed.setDescription(`Please welcome ${message.author} to the server!`)
-                                // welcomeEmbed.setColor('GREEN')
-                                // client.guilds.cache.get('680154842316275834').channels.cache.get('927991039946555422').send({ embeds: [welcomeEmbed] })
                             }
-                        } catch (e) {
-                            console.error(e)
-                            captchaEmbed.setTitle(`You did not complete the captcha fast enough.`)
-                            captchaEmbed.setColor("RED")
-                            await message.author.send({ embeds: [captchaEmbed] })
-                            doingCaptcha.splice(doingCaptcha.indexOf(message.author.id), 1)
+                        }), 500)
+
+                        
+                        if (doCaptcha == true) {
+                            
                         }
+                        
                     } catch (e) {
                         console.error(e)
                     }
