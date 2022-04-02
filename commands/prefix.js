@@ -44,7 +44,6 @@ module.exports = {
                 message.channel.send({ embeds: [prefixEmbed]});
                 error = 2;
             }
-
             prefixdb.save().catch();
         } catch (e) {
             console.log(e)
