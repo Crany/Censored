@@ -31,8 +31,11 @@ const client = new Client({
         'USER'
     ]
 })
-
-const modRoles = ["935986707529105428", "936767317872889917"]
+// Roles Notes:
+const modRoles = [
+    "935986707529105428", // Admin Role
+    "936767317872889917", // Mod Role
+]
 
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
