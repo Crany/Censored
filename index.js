@@ -31,9 +31,10 @@ const client = new Client({
         'USER'
     ]
 })
-// Roles Notes:
+
 const modRoles = [
     "935986707529105428", // Admin Role
+    "959881249751699527", // Admin Permissions Role
     "936767317872889917", // Mod Role
 ]
 
@@ -77,9 +78,6 @@ client.on('messageCreate', async (message) => {
                 }
             }
         } else return;
-
-
-        
         
         const hasModRoles = modRoles.some(roles => {
             if (message.channel.type != 'DM') {
@@ -104,17 +102,17 @@ client.on('messageCreate', async (message) => {
                 }
             }
             
-            if (message.channel.id != '685036523317625048' && message.channel.type != 'DM' && message.content.startsWith(prefix)) {
+            if (message.channel.id != '936768644531249192' && message.channel.type != 'DM' && message.content.startsWith(prefix)) {
 
                 if (command == "ping") {
                     var ping = client.ws.ping;
 
                     let pingEmbed = new MessageEmbed()
-                    .setDescription(`**Pong!** \`${ping}ms\``)
+                    .setDescription(`Pong! \`${ping}ms\``)
                     
                     if (ping >= "500") {
                         pingEmbed.setColor("RED");
-                        pingEmbed.setDescription(`**Pong!** \`${ping}ms\`\nWe seem to be experiencing some networking issues.`)
+                        pingEmbed.setDescription(`Pong! \`${ping}ms\`\nWe seem to be experiencing some networking issues.`)
                     } else if (ping >= "250") {
                         pingEmbed.setColor("FFBF00");
                     } else if (ping < "250") {
@@ -124,11 +122,13 @@ client.on('messageCreate', async (message) => {
                     message.channel.send({ embeds: [pingEmbed] })
                 } else if (command == "prefix") {
                     client.commands.get("prefix").execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, hasModRoles, args, errorMessage, prefix)
+                } else if (command == "report") {
+                    client.commands.get("report").exexute(client, message, args, MessageEmbed)
                 }
 
                 if (message.content.startsWith(prefix) && configRequire.availableCommands.includes(command)) console.log(`${message.author.tag} used the command "${command}"`);
 
-            } else if (message.channel.id == '685036523317625048') {
+            } else if (message.channel.id == '936768644531249192') {
                 if (message.content == 'ready') {
                     message.delete()
                     
@@ -195,7 +195,6 @@ client.on('messageCreate', async (message) => {
                                 }
                             }), 500)
 
-                            
                             if (doCaptcha == true) {
                                 
                             }

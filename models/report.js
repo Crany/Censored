@@ -5,6 +5,8 @@ const reportSchema = new mongoose.Schema({
     reason: String,
     reportedID: String,
     informantID: String,
+    reportID: String,
+    identifier: String,
 });
 
 module.exports = mongoose.model("Report", reportSchema);
