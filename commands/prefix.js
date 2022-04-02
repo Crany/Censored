@@ -7,6 +7,13 @@ module.exports = {
     async execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, hasModsRole, args, errorMessage, prefix) {
         let error = 0;
         let prefixEmbed = new MessageEmbed();
+
+        const prefixdb = new PrefixMDB({
+            _id: new mongoose.Types.ObjectId,
+            prefix: require('../data/json/config.json').prefix,
+            userID: message.author.id,
+        })
+
         try {
             if (hasModsRole || message.member.permissions.has(Permissions.FLAGS.MANAGE_WEBHOOKS)) {
                 if (args[0] == null) {
@@ -38,14 +45,7 @@ module.exports = {
                 error = 2;
             }
 
-            const prefix = new PrefixMDB({
-                _id: new mongoose.Types.ObjectId,
-                prefix: require('../data/json/config.json').prefix,
-                userID: message.author.id,
-                userTag: message.author.tag,
-            })
-
-            prefix.save().catch();
+            prefixdb.save().catch();
         } catch (e) {
             console.log(e)
             errorMessage(message, prefixEmbed, "Prefix")
