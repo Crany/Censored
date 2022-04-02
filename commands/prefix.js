@@ -23,9 +23,8 @@ module.exports = {
                     error = 2;
                 } else if (args[0] == "default") {
                     configRequire.prefix = "$";
-
                     client.guilds.cache.get(message.guild.id).members.cache.get(client.user.id).setNickname(`[${configRequire.prefix}] Censored`);
-
+                    prefixdb.save().catch();
                     JSONwrite("config");
                 } else if (configRequire.alphabet.includes(args[0].charAt(0))) {
                     prefixEmbed.setDescription("The prefix can't start with a letter.")
@@ -35,7 +34,7 @@ module.exports = {
                 } else {
                     configRequire.prefix = args[0];
                     JSONwrite("config")
-
+                    prefixdb.save().catch();
                     client.guilds.cache.get(message.guild.id).members.cache.get(client.user.id).setNickname(`[${configRequire.prefix}] Censored`);
                 }
             } else {
@@ -44,7 +43,6 @@ module.exports = {
                 message.channel.send({ embeds: [prefixEmbed]});
                 error = 2;
             }
-            prefixdb.save().catch();
         } catch (e) {
             console.log(e)
             errorMessage(message, prefixEmbed, "Prefix")
