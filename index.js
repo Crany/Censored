@@ -173,14 +173,14 @@ client.on('messageCreate', async (message) => {
                                             captchaEmbed.setDescription(`Welcome to the server, ${message.author}!`)
                                             captchaEmbed.setColor("GREEN")
                                             message.author.send({ embeds: [captchaEmbed] })
-                                            client.guilds.cache.get('680154842316275834').members.cache.get(message.author.id).roles.add('680397965285654551')
+                                            client.guilds.cache.get('934525684775260180').members.cache.get(message.author.id).roles.add('936769767363182662')
                                             doingCaptcha.splice(doingCaptcha.indexOf(message.author.id), 1)
                                             console.log(`${message.author.tag} successfully completed the CAPTCHA.`)
 
-                                            // let welcomeEmbed = new MessageEmbed();
-                                            // welcomeEmbed.setDescription(`Please welcome ${message.author} to the server!`)
-                                            // welcomeEmbed.setColor('GREEN')
-                                            // client.guilds.cache.get('680154842316275834').channels.cache.get('927991039946555422').send({ embeds: [welcomeEmbed] })
+                                            let welcomeEmbed = new MessageEmbed();
+                                            welcomeEmbed.setDescription(`Please welcome ${message.author} to the server!`)
+                                            welcomeEmbed.setColor('GREEN')
+                                            client.guilds.cache.get('934525684775260180').channels.cache.get('936768644531249192').send({ embeds: [welcomeEmbed] })
                                         }
                                     } catch (e) {
                                         // console.error(e)
