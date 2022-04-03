@@ -68,10 +68,10 @@ module.exports = {
                         reportdb.save().catch();
                     }
                 }
-            } catch (e) {
+            } catch (err) {
                 error = true;
 
-                errorMessage()
+                errorMessage(message, new MessageEmbed(), err)
             }
         } else {
             reportEmbed.setDescription("Please mention who you're reporting.");
