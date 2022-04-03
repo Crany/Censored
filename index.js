@@ -65,13 +65,12 @@ JSONwrite("config") // Updates JSON configuration file //
 client.on('messageCreate', async (message) => { // Main part - When a message has been sent //
     let prefix = configRequire.prefix;
 
-    /**
-     * Gets the Argments of an command:
-     *  - For example, !!hello there mate, how are you?.. becomes:
-     *    - args = ['there', 'mate,', 'how', 'are', 'you?']
-     *  - and !!hello.. becomes
-     *    - command = 'hello';
-     */
+    
+    // * Gets the Argments of an command:
+    // *  - For example, !!hello there mate, how are you?.. becomes:
+    // *    - args = ['there', 'mate,', 'how', 'are', 'you?'];
+    // *  - and !!hello.. becomes
+    // *    - command = 'hello';
     const args = message.content.slice(prefix.length).trim().split(" ");
     const command = args.shift().toLowerCase();
 
@@ -114,12 +113,12 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
                     let pingEmbed = new MessageEmbed()
                     .setDescription(`Pong! \`${ping}ms\``)
                     
-                    if (ping >= "500") {
+                    if (ping >= "500") { // Terrible Connection //
                         pingEmbed.setColor("RED");
                         pingEmbed.setDescription(`Pong! \`${ping}ms\`\nSeems like we're experiencing some networking issues.`)
-                    } else if (ping >= "250") {
+                    } else if (ping >= "250") { // Degraded Connection //
                         pingEmbed.setColor("FFBF00");
-                    } else if (ping < "250") {
+                    } else if (ping < "250") { // Good Connection //
                         pingEmbed.setColor("GREEN");
                     }
 
