@@ -2,20 +2,19 @@
 
 console.log("Setting up...")
 
-const { Client, Intents, MessageEmbed, Permissions, Collection, MessageAttachment} = require('discord.js');
-require('dotenv').config()
-const fs = require('fs');
-const mongoose = require('mongoose')
-const createCaptcha = require('./auto/captcha/captcha')
+const { Client, Intents, MessageEmbed, Permissions, Collection, MessageAttachment, Message} = require('discord.js'); // Discord.js //
+require('dotenv').config() // .env parser //
+const fs = require('fs'); // File reading //
+const mongoose = require('mongoose') // MongoDB/mongoose reading //
+const createCaptcha = require('./auto/captcha/captcha') // Captcha //
 
 // Mongoose Models //
-const prefixModel = require('./models/prefix.js');
-
+const prefixModel = require('./models/prefix.js'); // Prefix
 
 let doingCaptcha = [];
 
-const client = new Client({
-    intents: [
+const client = new Client({ // Discord.js Client //
+    intents: [ // Uses for the bot //
         Intents.FLAGS.DIRECT_MESSAGES,
         Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
         Intents.FLAGS.DIRECT_MESSAGE_TYPING,
@@ -23,7 +22,7 @@ const client = new Client({
         Intents.FLAGS.GUILD_MESSAGES,
         Intents.FLAGS.GUILD_MESSAGE_REACTIONS
     ],
-    partials: [
+    partials: [ // Places where the bot can reach/read //
         'CHANNEL',
         'GUILD_MEMBER',
         'MESSAGE',
@@ -41,12 +40,12 @@ const modRoles = [
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-for (const file of commandFiles) {
+for (const file of commandFiles) { // Command Files //
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.name, command);
 }
 
-client.on("ready", () => {
+client.on("ready", () => { // On ready... //
     console.log("└── Connected to Discord.")
 
     prefixModel.find({}, (err, result) => {
@@ -57,41 +56,46 @@ client.on("ready", () => {
     })
 })
 
-const configRequire = require('./data/json/config.json');
+const configRequire = require('./data/json/config.json'); // Configuration JSON file //
 
-JSONwrite("config")
+JSONwrite("config") // Updates JSON configuration file //
 
-// console.log("abcdefghijklmnopqrstuvwxyz".split(""))
+// console.log("abcdefghijklmnopqrstuvwxyz".split("")) // Get every letter in the alphabet in a list //
 
-client.on('messageCreate', async (message) => {
+client.on('messageCreate', async (message) => { // Main part - When a message has been sent //
     let prefix = configRequire.prefix;
 
+    /**
+     * Gets the Argments of an command:
+     *  - For example, !!hello there mate, how are you?.. becomes:
+     *    - args = ['there', 'mate,', 'how', 'are', 'you?']
+     *  - and !!hello.. becomes
+     *    - command = 'hello';
+     */
     const args = message.content.slice(prefix.length).trim().split(" ");
     const command = args.shift().toLowerCase();
 
-    if (!message.author.bot) {
-        if (!message.author.bot) {
-            if (message.channel.id == "934535120357048320") {
-                if (!(message.attachments.size > 0)) {
-                    message.delete()
-                    message.author.send("The law of the meme discord channel says you may only post memes in this channel.").catch();
-                }
+    if (!message.author.bot) { // Checks if the message author is a bot //
+        if (message.channel.id == "934535120357048320") { // Checks if the channel is the meme channel //
+            if (!(message.attachments.size > 0)) {
+                message.delete()
+                message.author.send("The law of the meme discord channel says you may only post memes in this channel.").catch();
             }
-        } else return;
+        }
         
-        const hasModRoles = modRoles.some(roles => {
+        const hasModRoles = modRoles.some(roles => { // Checks if the message author has any Moderation roles //
             if (message.channel.type != 'DM') {
-                client.guilds.cache.get('934525684775260180').members.cache.get(message.author.id).roles.cache.has(roles)
+                client.guilds.cache.get(process.env.SERVER_ID).members.cache.get(message.author.id).roles.cache.has(roles)
             }
         })
 
-        if (message.author.id == true) return
-        else if (message.author.bot == true) return
+        if (message.author.id == true) return       // I have no idea what these
+        else if (message.author.bot == true) return // 2 lines of code does
         else {
             if (message.channel.type != 'DM') {
                 if (message.mentions.members.size != 0) {
-                    if (message.mentions.members.first().user.id == client.user.id) {
-                        if (args[0] == "prefix") {
+                    if (message.mentions.members.first().user.id == client.user.id) { // Checks if the bot has been mentioned //
+                        if (args[0] == "prefix") { // Checks if the message author is asking for the bots prefix //
                             const helpPrefixEmbed = new MessageEmbed()
                             .setTitle(`This bot's prefix is \`${prefix}\`.`)
                             .setColor("GREEN")
@@ -102,17 +106,17 @@ client.on('messageCreate', async (message) => {
                 }
             }
             
-            if (message.channel.id != '936768644531249192' && message.channel.type != 'DM' && message.content.startsWith(prefix)) {
+            if (message.channel.id != '936768644531249192' && message.channel.type != 'DM' && message.content.startsWith(prefix)) { // I don't know how to explain this line of code //
 
-                if (command == "ping") {
-                    var ping = client.ws.ping;
+                if (command == "ping") { // Checks the bots internet speed //
+                    var ping = client.ws.ping; // Gets the ping of the bot //
 
                     let pingEmbed = new MessageEmbed()
                     .setDescription(`Pong! \`${ping}ms\``)
                     
                     if (ping >= "500") {
                         pingEmbed.setColor("RED");
-                        pingEmbed.setDescription(`Pong! \`${ping}ms\`\nWe seem to be experiencing some networking issues.`)
+                        pingEmbed.setDescription(`Pong! \`${ping}ms\`\nSeems like we're experiencing some networking issues.`)
                     } else if (ping >= "250") {
                         pingEmbed.setColor("FFBF00");
                     } else if (ping < "250") {
@@ -120,10 +124,10 @@ client.on('messageCreate', async (message) => {
                     }
 
                     message.channel.send({ embeds: [pingEmbed] })
-                } else if (command == "prefix") {
+                } else if (command == "prefix") { // Changes the bots prefix //
                     client.commands.get("prefix").execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, hasModRoles, args, errorMessage, prefix)
-                } else if (command == "report") {
-                    client.commands.get("report").exexute(client, message, args, MessageEmbed)
+                } else if (command == "report") { // Reports an user //
+                    client.commands.get("report").exexute(client, message, args, MessageEmbed, errorMessage)
                 }
 
                 if (message.content.startsWith(prefix) && configRequire.availableCommands.includes(command)) console.log(`${message.author.tag} used the command "${command}"`);
@@ -132,7 +136,16 @@ client.on('messageCreate', async (message) => {
                 if (message.content == 'ready') {
                     message.delete()
                     
-                    // Captcha Stuff //
+                    // * // Captcha Stuff //
+                    // * Tutorial to get it working by: Anson the Developer (Jimp/Captcha)
+                    // * With help from people from the Discord.js Server
+                    // * 
+                    // * If you want to fully understand how this code works,
+                    // * I would recommend watching the video Anson The
+                    // * Developer made when they made this code.
+                    // * 
+                    // * I only messed around with part of the code for it to
+                    // * fit the needs of my server.
                     
                     if (!doingCaptcha.includes(message.author.id)) {
                         doingCaptcha.push(message.author.id);
@@ -144,7 +157,6 @@ client.on('messageCreate', async (message) => {
                             captchaEmbed.setTitle("You will have 1 minute to complete this captcha. Do this by resending the text you see bellow.")
                             captchaEmbed.setDescription("Don't forget it's CaSe SeNsItIvE!")
                             captchaEmbed.setImage(`attachment://${captcha}.png`)
-                            // Tutorial to get it working by: Anson the Developer (Jimp/Captcha)
                             captchaEmbed.setColor('BLUE')
                             setTimeout(() => message.author.send({ embeds: [captchaEmbed], files: [`./auto/captcha/captchas/${captcha}.png`] }).catch((e) => {
                                 console.log(`${message.author.tag} forgot to allow DM's`)
@@ -173,14 +185,14 @@ client.on('messageCreate', async (message) => {
                                             captchaEmbed.setDescription(`Welcome to the server, ${message.author}!`)
                                             captchaEmbed.setColor("GREEN")
                                             message.author.send({ embeds: [captchaEmbed] })
-                                            client.guilds.cache.get('934525684775260180').members.cache.get(message.author.id).roles.add('936769767363182662')
+                                            client.guilds.cache.get(process.env.SERVER_ID).members.cache.get(message.author.id).roles.add(process.env.MEMBERS_ROLE)
                                             doingCaptcha.splice(doingCaptcha.indexOf(message.author.id), 1)
                                             console.log(`${message.author.tag} successfully completed the CAPTCHA.`)
 
                                             let welcomeEmbed = new MessageEmbed();
                                             welcomeEmbed.setDescription(`Please welcome ${message.author} to the server!`)
                                             welcomeEmbed.setColor('GREEN')
-                                            client.guilds.cache.get('934525684775260180').channels.cache.get('936768644531249192').send({ embeds: [welcomeEmbed] })
+                                            client.guilds.cache.get(process.env.SERVER_ID).channels.cache.get('936768644531249192').send({ embeds: [welcomeEmbed] })
                                         }
                                     } catch (e) {
                                         // console.error(e)
@@ -194,11 +206,6 @@ client.on('messageCreate', async (message) => {
                                     doingCaptcha.splice(doingCaptcha.indexOf(message.author.id), 1)
                                 }
                             }), 500)
-
-                            if (doCaptcha == true) {
-                                
-                            }
-                            
                         } catch (e) {
                             console.error(e)
                         }
@@ -211,16 +218,26 @@ client.on('messageCreate', async (message) => {
     } else return;
 })
 
+/**
+ * @param {String} filename The filename (without the json) that updates. 
+ */
 function JSONwrite(filename) {
     fs.writeFile(`./data/json/${filename}.json`, JSON.stringify(require(`./data/json/${filename}.json`), null, 2), (err) => {
         if (err) return console.log(err)
     });
 }
 
+/**
+ * 
+ * @param {Message} message 
+ * @param {MessageEmbed} embed 
+ * @param {String} err 
+ */
 function errorMessage(message, embed, err) {
     embed.setTitle(`There was an error with the \`${err}\` command. Please try again.`)
     embed.setColor("RED")
     message.channel.send({ embeds: [embed] })
+    console.log(err);
 }
 
 console.log('Connecting...')
@@ -235,7 +252,7 @@ mongoose.connect(process.env.MONGODB_URI, {
         process.exit(1);
     })
 }).catch((err) => {
-    console.log("├── Failed to connect to the MongoDB Database.");
+    console.log("└── Failed to connect to the MongoDB Database.");
     console.error(err);
     process.exit(1);
 });
