@@ -74,6 +74,8 @@ module.exports = {
                 error = true;
                 errorMessage(message, new MessageEmbed(), 'Report', err)
             }
+
+            message.delete();
         } else { 
             reportEmbed.setTitle("Please mention who you're reporting.");
             reportEmbed.setColor("FFBF00");
