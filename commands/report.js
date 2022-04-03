@@ -54,8 +54,8 @@ module.exports = {
                         reportChannelEmbed.setColor("GREEN");
                         reportChannelEmbed.setTimestamp(new Date())
                         reportChannelEmbed.addFields(
-                            {name: "Reported by: ", value: informant},
-                            {name: "Reason:", value: reason},
+                            {inline: true, value: informant, name: "Reported by: "},
+                            {     inline: true, value: reason, name: "Reason:"    },
                         )
                         reportChannelEmbed.setFooter(`ID: ${identifier}`);
                         client.channels.cache.get('959889696606003320').send({ embeds: [reportChannelEmbed] })
