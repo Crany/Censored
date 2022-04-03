@@ -36,15 +36,15 @@ module.exports = {
                 } else {
                     // Reports //
                     if (reported == informant) { // Removes ability to report yourself //
-                        reportEmbed.setDescription("You can't report yourself, dummy!");
+                        reportEmbed.setTitle("You can't report yourself, dummy!");
                         reportEmbed.setColor("FFBF00");
                         message.channel.send({ embeds: [reportEmbed] });
                     } else if (reported.user.bot) { // Removes ability to report bots //
-                        reportEmbed.setDescription("**Hell no.**");
+                        reportEmbed.setTitle("**Hell no.**");
                         reportEmbed.setColor("RED");
                         message.channel.send({ embeds: [reportEmbed] });
                     } else if (args.slice(1).join("") == "" || reason == null) { // Removes ability to report somebody without a reason //
-                        reportEmbed.setDescription("Please provide a reason.");
+                        reportEmbed.setTitle("Please provide a reason.");
                         reportEmbed.setColor("FFBF00");
                         message.channel.send({ embeds: [reportEmbed] });
                     } else {
@@ -54,14 +54,16 @@ module.exports = {
                         reportChannelEmbed.setColor("GREEN");
                         reportChannelEmbed.setTimestamp(new Date())
                         reportChannelEmbed.addFields(
-                            {inline: true, value: informant, name: "Reported by: "},
-                            {     inline: true, value: reason, name: "Reason:"    },
+                            {name: "Reported by: ", value: informant.tag, inline: true},
+                            {name: "Reason:", value: reason, inline: true},
                         )
                         reportChannelEmbed.setFooter(`ID: ${identifier}`);
-                        client.channels.cache.get('959889696606003320').send({ embeds: [reportChannelEmbed] })
+                        client.channels.cache.get('959889696606003320').send({ embeds: [reportChannelEmbed] });
 
-                        reportEmbed.setDescription(`${reported.user} was reported.`);
-                        reportEmbed.setColor("FFBF00");
+                        reportEmbed.setTitle(`${reported.user.tag} was reported.`);
+                        reportEmbed.setColor("GREEN");
+                        reportEmbed.setTimestamp(new Date())
+                        reportEmbed.setFooter(`Remember this ID: ${identifier}`)
                         message.channel.send({ embeds: [reportEmbed] })
 
                         // Saves report to MongoDB //
@@ -73,8 +75,8 @@ module.exports = {
                 errorMessage(message, new MessageEmbed(), 'Report', err)
             }
         } else { 
-            reportEmbed.setDescription("Please mention who you're reporting.");
-            reportEmbed.setColort("FFBF00");
+            reportEmbed.setTitle("Please mention who you're reporting.");
+            reportEmbed.setColor("FFBF00");
             message.channel.send({ embeds: [reportEmbed] });
         }
     }
