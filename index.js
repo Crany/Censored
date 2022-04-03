@@ -232,8 +232,8 @@ function JSONwrite(filename) {
  * @param {MessageEmbed} embed 
  * @param {String} err 
  */
-function errorMessage(message, embed, err) {
-    embed.setTitle(`There was an error with the \`${err}\` command. Please try again.`)
+function errorMessage(message, embed, command, err) {
+    embed.setTitle(`There was an error with the \`${command}\` command. Please try again.`)
     embed.setColor("RED")
     message.channel.send({ embeds: [embed] })
     console.log(err);

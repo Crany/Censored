@@ -43,9 +43,9 @@ module.exports = {
                 message.channel.send({ embeds: [prefixEmbed]});
                 error = 2;
             }
-        } catch (e) { // Error Catching //
-            console.log(e)
-            errorMessage(message, prefixEmbed, "Prefix")
+        } catch (err) { // Error Catching //
+            console.log(err)
+            errorMessage(message, prefixEmbed, "Prefix", err)
 
             configRequire.prefix = prefix;
             error = 1

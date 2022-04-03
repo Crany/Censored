@@ -68,12 +68,11 @@ module.exports = {
                         reportdb.save().catch();
                     }
                 }
-            } catch (err) {
+            } catch (err) { // Error Catching //
                 error = true;
-
-                errorMessage(message, new MessageEmbed(), err)
+                errorMessage(message, new MessageEmbed(), 'Report', err)
             }
-        } else {
+        } else { 
             reportEmbed.setDescription("Please mention who you're reporting.");
             reportEmbed.setColort("FFBF00");
             message.channel.send({ embeds: [reportEmbed] });
