@@ -192,7 +192,7 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
                                             let welcomeEmbed = new MessageEmbed();
                                             welcomeEmbed.setDescription(`Please welcome ${message.author} to the server!`)
                                             welcomeEmbed.setColor('GREEN')
-                                            client.guilds.cache.get(process.env.SERVER_ID).channels.cache.get('936768644531249192').send({ embeds: [welcomeEmbed] })
+                                            client.guilds.cache.get(process.env.SERVER_ID).channels.cache.get('934525684775260183').send({ embeds: [welcomeEmbed] })
                                         }
                                     } catch (e) {
                                         // console.error(e)
