@@ -153,11 +153,12 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
                         try {
                             let doCaptcha = true
                             let captchaEmbed = new MessageEmbed();
-                            captchaEmbed.setTitle("You will have 1 minute to complete this captcha. Do this by resending the text you see bellow.")
-                            captchaEmbed.setDescription("Don't forget it's CaSe SeNsItIvE!")
-                            captchaEmbed.setImage(`attachment://${captcha}.png`)
-                            captchaEmbed.setColor('BLUE')
-                            setTimeout(() => message.author.send({ embeds: [captchaEmbed], files: [`./auto/captcha/captchas/${captcha}.png`] }).catch((e) => {
+                            let beginningEmbed = new MessageEmmbed()
+                            beginningEmbed.setTitle("You will have 1 minute to complete this captcha. Do this by resending the text you see bellow.")
+                            beginningEmbed.setDescription("Don't forget it's CaSe SeNsItIvE!")
+                            beginningEmbed.setImage(`attachment://${captcha}.png`)
+                            beginningEmbed.setColor('BLUE')
+                            setTimeout(() => message.author.send({ embeds: [beginningEmbed], files: [`./auto/captcha/captchas/${captcha}.png`] }).catch((e) => {
                                 console.log(`${message.author.tag} forgot to allow DM's`)
                                 fs.unlink(`./auto/captcha/captchas/${captcha}.png`, (err) => {if (err) throw err})
                                 doCaptcha = false
