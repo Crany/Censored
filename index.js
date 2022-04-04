@@ -50,7 +50,7 @@ client.on("ready", () => { // On ready... //
 
     prefixModel.find({}, (err, result) => {
         if (err) return
-        else configRequire.prefix = result[0]['prefix']
+        else configRequire.prefix = result[result.length - 1]['prefix']
 
         JSONwrite("config")
     })

@@ -1,5 +1,14 @@
 const mongoose = require('mongoose');
 const prefixDB = require('../models/prefix.js');
+
+function update(prefix) {
+    let prefixdb = new prefixDB({ // Adds ability to update to MongoDB //
+        _id: new mongoose.Types.ObjectId,
+        prefix: prefix,
+    })
+
+    prefixdb.save().catch();
+}
  
 module.exports = {
     name: "prefix", // Identifying the command in index.js //
@@ -7,12 +16,6 @@ module.exports = {
     async execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, hasModsRole, args, errorMessage, prefix) {
         let error = 0;
         let prefixEmbed = new MessageEmbed();
-
-        const prefixdb = new prefixDB({ // Adds ability to update to MongoDB //
-            _id: new mongoose.Types.ObjectId,
-            prefix: require('../data/json/config.json').prefix,
-            userID: message.author.id,
-        })
 
         try {
             if (hasModsRole || message.member.permissions.has(Permissions.FLAGS.MANAGE_WEBHOOKS)) { // Checks if the person has the needed roles //
@@ -23,18 +26,18 @@ module.exports = {
                     error = 2;
                 } else if (args[0] == "default") { // Sets to the default prefix //
                     configRequire.prefix = "$";
-                    client.guilds.cache.get(message.guild.id).members.cache.get(client.user.id).setNickname(`[${configRequire.prefix}] Censored`);
-                    prefixdb.save().catch();
                     JSONwrite("config");
+                    update(configRequire.prefix);
+                    client.guilds.cache.get(message.guild.id).members.cache.get(client.user.id).setNickname(`[${configRequire.prefix}] Censored`);
                 } else if (configRequire.alphabet.includes(args[0].charAt(0))) { // Checks if the prefix starts with a letter.
                     prefixEmbed.setTitle("The prefix can't start with a letter.")
                     prefixEmbed.setColor("FFBF00")
                     message.channel.send({ embeds: [prefixEmbed] });
                     error = 2;
                 } else { // Sets and updates the prefix on the bot and MongoDB //
-                    configRequire.prefix = args[0];  // Both this line and this
-                    JSONwrite("config");             // line updates the prefix.
-                    prefixdb.save().catch();         // This line updates it to MongoDB.
+                    configRequire.prefix = args[0]; // Both this line and this
+                    JSONwrite("config");            // line updates the prefix.
+                    update(configRequire.prefix);   // This line updates it to MongoDB.
                     client.guilds.cache.get(message.guild.id).members.cache.get(client.user.id).setNickname(`[${configRequire.prefix}] Censored`);
                 }
             } else { // If they don't have the needed roles //
