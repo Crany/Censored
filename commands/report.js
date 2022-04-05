@@ -74,8 +74,10 @@ module.exports = {
                         }
                     }
                 } else {
-                    illegalEmbed = new MessageEmbed()
+                    const illegalEmbed = new MessageEmbed()
                     .setTitle("You have to be Mod or higher to use this command.")
+                    .setColor('FFBF00')
+                    message.channel.send({ embeds: [illegalEmbed] })
                 }
 
             } else {
