@@ -73,6 +73,9 @@ module.exports = {
                             
                         }
                     }
+                } else {
+                    illegalEmbed = new MessageEmbed()
+                    .setTitle("You have to be Mod or higher to use this command.")
                 }
 
             } else {
