@@ -3,8 +3,8 @@ const mongoose = require('mongoose') // Optional
 const reportSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     reason: String,
-    reportedID: String,
-    informantID: String,
+    reportedTag: String,
+    informantTag: String,
     reportID: String,
     identifier: String,
 });

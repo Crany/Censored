@@ -129,7 +129,7 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
                     client.commands.get("report").exexute(client, message, args, MessageEmbed, errorMessage)
                 }
 
-                if (message.content.startsWith(prefix) && configRequire.availableCommands.includes(command)) console.log(`${message.author.tag} used the command "${command}"`);
+                if (message.content.startsWith(prefix) && configRequire.availableCommands.includes(command)) console.log(`${message.author.tag} used the command "${command} along with the arguements ${args}"`);
 
             } else if (message.channel.id == '936768644531249192') {
                 if (message.content == 'ready') {
