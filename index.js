@@ -32,6 +32,7 @@ const client = new Client({ // Discord.js Client //
 })
 
 const modRoles = [
+    "960204476885635152", // Owners Role
     "935986707529105428", // Admin Role
     "959881249751699527", // Admin Permissions Role
     "936767317872889917", // Mod Role
@@ -84,9 +85,11 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
         
         const hasModRoles = modRoles.some(roles => { // Checks if the message author has any Moderation roles //
             if (message.channel.type != 'DM') {
-                client.guilds.cache.get(process.env.SERVER_ID).members.cache.get(message.author.id).roles.cache.has(roles)
+                return message.member.roles.cache.has(roles)
             }
         })
+
+        console.log(hasModRoles);
 
         if (message.author.id == true) return       // I have no idea what these
         else if (message.author.bot == true) return // 2 lines of code does

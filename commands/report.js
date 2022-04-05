@@ -52,15 +52,15 @@ module.exports = {
                             })
                         }
 
-                        if (reportFetch == []) {
-                            fetchEmbed.setTitle("No result were returned.");
-                            fetchEmbed.setColor("FFBF00");
-                            message.channel.send({ embeds: [fetchEmbed] })
-                        } else {
-                            let fetchedEmbed = new MessageEmbed()
-                            .setTitle("This is what was found.")
-                            .setColor("GREEN");
-                            setTimeout(() => {
+                        setTimeout(() => {
+                            if (reportFetch.length == 0) {
+                                fetchEmbed.setTitle("No result were returned.");
+                                fetchEmbed.setColor("FFBF00");
+                                message.channel.send({ embeds: [fetchEmbed] })
+                            } else {
+                                let fetchedEmbed = new MessageEmbed()
+                                .setTitle("This is what was returned.")
+                                .setColor("GREEN");
                                 for (let i = 0; i != reportFetch.length; i++) {
                                     fetchedEmbed.addFields(
                                         {name: "`Reported:`", value: reportFetch[i]["reportedTag"], inline: true},
@@ -68,10 +68,10 @@ module.exports = {
                                         {name: "`Reason:`", value: reportFetch[i]["reason"], inline: true},
                                     );
                                 }
-                            message.channel.send({ embeds: [fetchedEmbed] })
-                            }, 1500)
-                            
-                        }
+                                message.channel.send({ embeds: [fetchedEmbed] })
+                                
+                            }
+                        }, 1500)
                     }
                 } else {
                     const illegalEmbed = new MessageEmbed()
