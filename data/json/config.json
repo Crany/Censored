@@ -1,5 +1,5 @@
 {
-  "prefix": ">",
+  "prefix": "",
   "alphabet": [
     "a",
     "b",
@@ -33,5 +33,6 @@
     "prefix",
     "ping",
     "report"
-  ]
+  ],
+  "maintenance": false
 }
