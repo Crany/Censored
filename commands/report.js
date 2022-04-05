@@ -6,70 +6,72 @@ require('dotenv').config();
 module.exports = {
     name: "report",
     description: "Ability to report people.",
-    exexute(client, message, args, MessageEmbed, errorMessage) {
+    exexute(client, message, args, MessageEmbed, errorMessage, hasModRoles) {
         let reportEmbed = new MessageEmbed();
         // Error Identifier //
         let error = false;
 
         try {
             if (args[0] == "fetch") { // Checks for data about user or through and ID (Identifier) //
-                let fetchEmbed = new MessageEmbed();
-                let fetchEmbedResults = new MessageEmbed();
+                if (hasModRoles) {
+                    let fetchEmbed = new MessageEmbed();
+                    let fetchEmbedResults = new MessageEmbed();
 
-                if (args[1] == "" || args[1] == null) { // Checks if they provided the ID or user of the report //
-                    fetchEmbed.setTitle("Please provide the ID or User of the report.")
-                    fetchEmbed.setColor("FFBF00");
-                    message.channel.send({ embeds: [fetchEmbed] });
-                } else {
-                    let reportFetchResult = [];
-                    let reportFetch = [];
-
-                    if (message.mentions.members.size > 0) { // Checks if they provided the User //
-                        reportDB.find({}, (err, result) => {
-                            reportFetchResult = result;
-                        }).clone().then(() => {
-                            setTimeout(() => {
-                                for (let i = 0; i != reportFetchResult.length; i++) {
-                                    if (reportFetchResult[i]["reportedID"] == message.mentions.members.first().user.id) {
-                                        reportFetch.push(reportFetchResult[i])
-                                    }
-                                }
-                            }, 1000)
-                        });
-                    } else { // If they provided an ID //
-                        reportDB.find({}, (err, result) => {
-                            reportFetchResult = result;
-                        }).clone().then(() => {
-                            setTimeout(() => {
-                                for (let i = 0; i != reportFetchResult.length; i++) {
-                                    if (reportFetchResult[i]["identifier"] == args[1]) {
-                                        reportFetch.push(reportFetchResult[i])
-                                    }
-                                }
-
-                            }, 1000)
-                        })
-                    }
-
-                    if (reportFetch == []) {
-                        fetchEmbed.setTitle("No result were returned.");
+                    if (args[1] == "" || args[1] == null) { // Checks if they provided the ID or user of the report //
+                        fetchEmbed.setTitle("Please provide the ID or User of the report.")
                         fetchEmbed.setColor("FFBF00");
-                        message.channel.send({ embeds: [fetchEmbed] })
+                        message.channel.send({ embeds: [fetchEmbed] });
                     } else {
-                        let fetchedEmbed = new MessageEmbed()
-                        .setTitle("This is what was found.")
-                        .setColor("GREEN");
-                        setTimeout(() => {
-                            for (let i = 0; i != reportFetch.length; i++) {
-                                fetchedEmbed.addFields(
-                                    {name: "`Reported:`", value: reportFetch[i]["reportedTag"], inline: true},
-                                    {name: "`Reported By:`", value: reportFetch[i]["informantTag"], inline: true},
-                                    {name: "`Reason:`", value: reportFetch[i]["reason"], inline: true},
-                                );
-                            }
-                        message.channel.send({ embeds: [fetchedEmbed] })
-                        }, 1500)
-                        
+                        let reportFetchResult = [];
+                        let reportFetch = [];
+
+                        if (message.mentions.members.size > 0) { // Checks if they provided the User //
+                            reportDB.find({}, (err, result) => {
+                                reportFetchResult = result;
+                            }).clone().then(() => {
+                                setTimeout(() => {
+                                    for (let i = 0; i != reportFetchResult.length; i++) {
+                                        if (reportFetchResult[i]["reportedID"] == message.mentions.members.first().user.id) {
+                                            reportFetch.push(reportFetchResult[i])
+                                        }
+                                    }
+                                }, 1000)
+                            });
+                        } else { // If they provided an ID //
+                            reportDB.find({}, (err, result) => {
+                                reportFetchResult = result;
+                            }).clone().then(() => {
+                                setTimeout(() => {
+                                    for (let i = 0; i != reportFetchResult.length; i++) {
+                                        if (reportFetchResult[i]["identifier"] == args[1]) {
+                                            reportFetch.push(reportFetchResult[i])
+                                        }
+                                    }
+
+                                }, 1000)
+                            })
+                        }
+
+                        if (reportFetch == []) {
+                            fetchEmbed.setTitle("No result were returned.");
+                            fetchEmbed.setColor("FFBF00");
+                            message.channel.send({ embeds: [fetchEmbed] })
+                        } else {
+                            let fetchedEmbed = new MessageEmbed()
+                            .setTitle("This is what was found.")
+                            .setColor("GREEN");
+                            setTimeout(() => {
+                                for (let i = 0; i != reportFetch.length; i++) {
+                                    fetchedEmbed.addFields(
+                                        {name: "`Reported:`", value: reportFetch[i]["reportedTag"], inline: true},
+                                        {name: "`Reported By:`", value: reportFetch[i]["informantTag"], inline: true},
+                                        {name: "`Reason:`", value: reportFetch[i]["reason"], inline: true},
+                                    );
+                                }
+                            message.channel.send({ embeds: [fetchedEmbed] })
+                            }, 1500)
+                            
+                        }
                     }
                 }
 

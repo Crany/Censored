@@ -126,7 +126,7 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
                 } else if (command == "prefix") { // Changes the bots prefix //
                     client.commands.get("prefix").execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, hasModRoles, args, errorMessage, prefix)
                 } else if (command == "report") { // Reports an user //
-                    client.commands.get("report").exexute(client, message, args, MessageEmbed, errorMessage)
+                    client.commands.get("report").exexute(client, message, args, MessageEmbed, errorMessage, hasModRoles)
                 }
 
                 if (message.content.startsWith(prefix) && configRequire.availableCommands.includes(command)) console.log(`${message.author.tag} used the command "${command} along with the arguements ${args}"`);
