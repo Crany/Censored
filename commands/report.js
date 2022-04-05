@@ -52,7 +52,7 @@ module.exports = {
                             })
                         }
 
-                        setTimeout(() => {
+                        setTimeout(() => { // Visulises what results were returned //
                             if (reportFetch.length == 0) {
                                 fetchEmbed.setTitle("No result were returned.");
                                 fetchEmbed.setColor("FFBF00");
@@ -62,10 +62,10 @@ module.exports = {
                                 .setTitle("This is what was returned.")
                                 .setColor("GREEN");
                                 for (let i = 0; i != reportFetch.length; i++) {
-                                    fetchedEmbed.addFields(
-                                        {name: "`Reported:`", value: reportFetch[i]["reportedTag"], inline: true},
-                                        {name: "`Reported By:`", value: reportFetch[i]["informantTag"], inline: true},
-                                        {name: "`Reason:`", value: reportFetch[i]["reason"], inline: true},
+                                    fetchedEmbed.addFields( // Rows of 3
+                                        {name: "Reported:", value: reportFetch[i]["reportedTag"], inline: true},
+                                        {name: "Reported By:", value: reportFetch[i]["informantTag"], inline: true},
+                                        {name: "Reason:", value: reportFetch[i]["reason"], inline: true},
                                     );
                                 }
                                 message.channel.send({ embeds: [fetchedEmbed] })
@@ -95,7 +95,6 @@ module.exports = {
                         reason: reason,
                         reportedTag: reported.user.tag,
                         informantTag: informant.tag,
-                        reportID: new Date().getTime(),
                         identifier: identifier,
                     })
 

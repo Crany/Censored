@@ -5,7 +5,6 @@ const reportSchema = new mongoose.Schema({
     reason: String,
     reportedTag: String,
     informantTag: String,
-    reportID: String,
     identifier: String,
 });
 
