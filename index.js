@@ -89,8 +89,6 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
             }
         })
 
-        console.log(hasModRoles);
-
         if (message.author.id == true) return       // I have no idea what these
         else if (message.author.bot == true) return // 2 lines of code does
         else {
