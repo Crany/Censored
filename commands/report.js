@@ -12,8 +12,8 @@ module.exports = {
         let error = false;
 
         try {
-            if (args[0] == "fetch") { // Checks for data about user or through and ID (Identifier) //
-                if (hasModRoles) {
+            if (args[0] == "fetch") {
+                if (hasModRoles) { 
                     let fetchEmbed = new MessageEmbed();
                     let fetchEmbedResults = new MessageEmbed();
 
@@ -31,7 +31,7 @@ module.exports = {
                             }).clone().then(() => {
                                 setTimeout(() => {
                                     for (let i = 0; i != reportFetchResult.length; i++) {
-                                        if (reportFetchResult[i]["reportedID"] == message.mentions.members.first().user.id) {
+                                        if (reportFetchResult[i]["reportedTag"] == message.mentions.members.first().user.tag) {
                                             reportFetch.push(reportFetchResult[i])
                                         }
                                     }
@@ -79,7 +79,35 @@ module.exports = {
                     .setColor('FFBF00')
                     message.channel.send({ embeds: [illegalEmbed] })
                 }
+                
+            } else if (args[0] == "test") { // Test Report //
+                let reportChannelEmbed = new MessageEmbed()
+                reportChannelEmbed.setTitle(`'TEST_USER2' was reported.`);
+                reportChannelEmbed.setColor("GREEN");
+                reportChannelEmbed.setTimestamp(new Date())
+                reportChannelEmbed.addFields(
+                    {name: "Reported by: ", value: "TEST_USER1", inline: true},
+                    {name: "Reason:", value: "TEST_USER2", inline: true},
+                )
+                reportChannelEmbed.setFooter(`ID: test.test.test`);
+                client.channels.cache.get('959889696606003320').send({ embeds: [reportChannelEmbed] });
 
+                reportEmbed.setTitle(`TEST_USER2 was reported.`);
+                reportEmbed.setColor("GREEN");
+                reportEmbed.setTimestamp(new Date())
+                reportEmbed.setFooter(`Remember this ID: test.test.test`)
+                message.channel.send({ embeds: [reportEmbed] })
+
+                const reportdb = new reportDB({
+                    _id: new mongoose.Types.ObjectId,
+                    reason: "Test reason.",
+                    reportedTag: "TEST_USER1",
+                    reportedID: "",
+                    informantTag: "TEST_USER2",
+                    identifier: "test.test.test",
+                })
+
+                reportdb.save().catch();
             } else {
 
                 if (message.mentions.members.size > 0) { // Check if there's a mention in the message //
@@ -94,6 +122,7 @@ module.exports = {
                         _id: new mongoose.Types.ObjectId,
                         reason: reason,
                         reportedTag: reported.user.tag,
+                        reportedID: reported.user.id,
                         informantTag: informant.tag,
                         identifier: identifier,
                     })
