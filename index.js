@@ -132,7 +132,7 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
                     client.commands.get("report").exexute(client, message, args, MessageEmbed, errorMessage, hasModRoles)
                 }
 
-                if (message.content.startsWith(prefix) && configRequire.availableCommands.includes(command)) console.log(`${message.author.tag} used the command "${command} along with the arguements [${args.join(", ")}]"`);
+                if (message.content.startsWith(prefix) && configRequire.availableCommands.includes(command)) console.log(`${message.author.tag} used the command "${command}" along with the arguements [${args.join(", ")}]`);
 
             } else if (message.channel.id == '936768644531249192') {
                 if (message.content == 'ready') {
