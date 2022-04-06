@@ -122,7 +122,7 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
                     var ping = client.ws.ping; // Gets the ping of the bot //
 
                     let pingEmbed = new MessageEmbed()
-                    .setDescription(`Pong! \`${ping}ms\``)
+                    .setTitle(`Pong! \`${ping}ms\``)
                     
                     if (ping >= "500") { // Terrible Connection //
                         pingEmbed.setColor("RED");
