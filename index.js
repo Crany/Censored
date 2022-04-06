@@ -2,7 +2,17 @@
 
 console.log("Setting up...")
 
-const { Client, Intents, MessageEmbed, Permissions, Collection, MessageAttachment, Message} = require('discord.js'); // Discord.js //
+const { 
+    Client,
+    Intents,
+    MessageEmbed,
+    Permissions,
+    Collection,
+    MessageAttachment,
+    Message,
+    MessageActionRow,
+    MessageButton,
+} = require('discord.js'); // Discord.js //
 require('dotenv').config() // .env parser //
 const fs = require('fs'); // File reading //
 const mongoose = require('mongoose') // MongoDB/mongoose reading //
@@ -125,9 +135,17 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
 
                     message.channel.send({ embeds: [pingEmbed] })
                 } else if (command == "prefix") { // Changes the bots prefix //
-                    client.commands.get("prefix").execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, hasModRoles, args, errorMessage, prefix)
+                    if (configRequire.maintenance == false) {
+                        client.commands.get("prefix").execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, hasModRoles, args, errorMessage, prefix)
+                    }
                 } else if (command == "report") { // Reports an user //
-                    client.commands.get("report").exexute(client, message, args, MessageEmbed, errorMessage, hasModRoles)
+                    if (configRequire.maintenance == false) {
+                        client.commands.get("report").execute(client, message, args, MessageEmbed, errorMessage, hasModRoles)
+                    }
+                } else if (command == "dice") { // Rolls a dice //
+                    if (configRequire.maintenance == false) {
+                        client.commands.get('dice').execute(client, message, args, MessageEmbed);
+                    }
                 }
 
                 if (message.content.startsWith(prefix) && configRequire.availableCommands.includes(command)) console.log(`${message.author.tag} used the command "${command}" along with the arguements [${args.join(", ")}]`);

@@ -6,7 +6,7 @@ require('dotenv').config();
 module.exports = {
     name: "report",
     description: "Ability to report people.",
-    exexute(client, message, args, MessageEmbed, errorMessage, hasModRoles) {
+    execute(client, message, args, MessageEmbed, errorMessage, hasModRoles) {
         let reportEmbed = new MessageEmbed();
         // Error Identifier //
         let error = false;
