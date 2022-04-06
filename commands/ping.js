@@ -1,7 +1,7 @@
 module.exports = {
     name: "ping",
     description: "Returns the network speed of the bot",
-    execute(client, message, args) {
+    execute(client, message, args, MessageEmbed) {
         var ping = client.ws.ping; // Gets the ping of the bot //
 
         let pingEmbed = new MessageEmbed()

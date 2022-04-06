@@ -120,7 +120,7 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
 
                 if (command == "ping") { // Checks the bots internet speed //
                     if (configRequire.maintenance == false) {
-                        client.commands.get('ping').execute(client, message, args);
+                        client.commands.get('ping').execute(client, message, args, MessageEmbed);
                     }
                 } else if (command == "prefix") { // Changes the bots prefix //
                     if (configRequire.maintenance == false) {
