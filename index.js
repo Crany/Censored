@@ -119,21 +119,9 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
             if (message.channel.id != '936768644531249192' && message.channel.type != 'DM' && message.content.startsWith(prefix)) { // I don't know how to explain this line of code //
 
                 if (command == "ping") { // Checks the bots internet speed //
-                    var ping = client.ws.ping; // Gets the ping of the bot //
-
-                    let pingEmbed = new MessageEmbed()
-                    .setTitle(`Pong! \`${ping}ms\``)
-                    
-                    if (ping >= "500") { // Terrible Connection //
-                        pingEmbed.setColor("RED");
-                        pingEmbed.setDescription(`Pong! \`${ping}ms\`\nSeems like we're experiencing some networking issues.`)
-                    } else if (ping >= "250") { // Degraded Connection //
-                        pingEmbed.setColor("FFBF00");
-                    } else if (ping < "250") { // Good Connection //
-                        pingEmbed.setColor("GREEN");
+                    if (configRequire.maintenance == false) {
+                        client.commands.get('ping').execute(client, message, args);
                     }
-
-                    message.channel.send({ embeds: [pingEmbed] })
                 } else if (command == "prefix") { // Changes the bots prefix //
                     if (configRequire.maintenance == false) {
                         client.commands.get("prefix").execute(client, message, configRequire, JSONwrite, MessageEmbed, Permissions, hasModRoles, args, errorMessage, prefix)
