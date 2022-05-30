@@ -2,7 +2,7 @@
 
 console.log("Setting up...")
 
-const { 
+const {
     Client,
     Intents,
     MessageEmbed,
@@ -52,8 +52,8 @@ client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) { // Command Files //
-	const command = require(`./commands/${file}`);
-	client.commands.set(command.name, command);
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.name, command);
 }
 
 client.on("ready", () => { // On ready... //
@@ -76,7 +76,7 @@ JSONwrite("config") // Updates JSON configuration file //
 client.on('messageCreate', async (message) => { // Main part - When a message has been sent //
     let prefix = configRequire.prefix;
 
-    
+
     // * Gets the Argments of an command:
     // *  - For example, !!hello there mate, how are you?.. becomes:
     // *    - args = ['there', 'mate,', 'how', 'are', 'you?'];
@@ -92,7 +92,7 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
                 message.author.send("The law of the meme discord channel says you may only post memes in this channel.").catch();
             }
         }
-        
+
         const hasModRoles = modRoles.some(roles => { // Checks if the message author has any Moderation roles //
             if (message.channel.type != 'DM') {
                 return message.member.roles.cache.has(roles)
@@ -107,15 +107,15 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
                     if (message.mentions.members.first().user.id == client.user.id) { // Checks if the bot has been mentioned //
                         if (args[0] == "prefix") { // Checks if the message author is asking for the bots prefix //
                             const helpPrefixEmbed = new MessageEmbed()
-                            .setTitle(`This bot's prefix is \`${prefix}\`.`)
-                            .setColor("GREEN")
+                                .setTitle(`This bot's prefix is \`${prefix}\`.`)
+                                .setColor("GREEN")
 
                             message.channel.send({ embeds: [helpPrefixEmbed] })
                         }
                     }
                 }
             }
-            
+
             if (message.channel.id != '936768644531249192' && message.channel.type != 'DM' && message.content.startsWith(prefix)) { // I don't know how to explain this line of code //
 
                 if (command == "ping") { // Checks the bots internet speed //
@@ -134,6 +134,8 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
                     if (configRequire.maintenance == false) {
                         client.commands.get('dice').execute(client, message, args, MessageEmbed);
                     }
+                } else if (command == "media") { // Sends media //
+                    client.commands.get('media').execute(client, message, args, MessageEmbed);
                 }
 
                 if (message.content.startsWith(prefix) && configRequire.availableCommands.includes(command)) console.log(`${message.author.tag} used the command "${command}" along with the arguements [${args.join(", ")}]`);
@@ -141,7 +143,7 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
             } else if (message.channel.id == '936768644531249192') {
                 if (message.content == 'ready') {
                     message.delete()
-                    
+
                     // * // Captcha Stuff //
                     // * Tutorial to get it working by: Anson the Developer (Jimp/Captcha)
                     // * With help from people from the Discord.js Server
@@ -152,7 +154,7 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
                     // * 
                     // * I only messed around with part of the code for it to
                     // * fit the needs of my server.
-                    
+
                     if (!doingCaptcha.includes(message.author.id)) {
                         doingCaptcha.push(message.author.id);
                         const captcha = await createCaptcha();
@@ -167,7 +169,7 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
                             beginningEmbed.setColor('BLUE')
                             setTimeout(() => message.author.send({ embeds: [beginningEmbed], files: [`./auto/captcha/captchas/${captcha}.png`] }).catch((e) => {
                                 console.log(`${message.author.tag} forgot to allow DM's`)
-                                fs.unlink(`./auto/captcha/captchas/${captcha}.png`, (err) => {if (err) throw err})
+                                fs.unlink(`./auto/captcha/captchas/${captcha}.png`, (err) => { if (err) throw err })
                                 doCaptcha = false
                             }).then(async () => {
                                 if (doCaptcha == true) {
@@ -186,7 +188,7 @@ client.on('messageCreate', async (message) => { // Main part - When a message ha
                                         }
 
                                         await message.author.createDM();
-                                        const response = await message.author.dmChannel.awaitMessages({filter, max: 1, time: 60000, errors: ['time']})
+                                        const response = await message.author.dmChannel.awaitMessages({ filter, max: 1, time: 60000, errors: ['time'] })
                                         if (response) {
                                             captchaEmbed.setTitle(`You have answered the captcha correctly.`)
                                             captchaEmbed.setDescription(`Welcome to the server, ${message.author}!`)

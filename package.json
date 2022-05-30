@@ -24,6 +24,7 @@
     "dotenv": "^10.0.0",
     "jimp": "^0.16.1",
     "mongoose": "^6.1.5",
+    "node-tenor": "^1.0.5",
     "nodemon": "^2.0.15",
     "random-words": "^1.1.2"
   }
